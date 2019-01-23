@@ -5,4 +5,4 @@ Guide d'utilisation du contrôleur PCA9685:
 https://learn.adafruit.com/16-channel-pwm-servo-driver/overview
 
 Guide d'utilisateur de la carte OpenCR:
-http://emanual.robotis.com/docs/en/parts/controller/opencr10/#install-on-windows
+http://emanual.robotis.com/docs/en/parts/controller/opencr10/
