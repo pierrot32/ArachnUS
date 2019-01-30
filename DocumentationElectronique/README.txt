@@ -9,4 +9,6 @@ http://emanual.robotis.com/docs/en/parts/controller/opencr10/
 
 Pour l'installation: 
 1) Fichier -> préférence -> URL de gestionnaire des cartes suppl. -> https://raw.githubusercontent.com/ROBOTIS-GIT/OpenCR/master/arduino/opencr_release/package_opencr_index.json
-2) Croquis -> inclure des bibliothèques -> gestionnaire des bibliothèques -> "opencr" dans la barre de recherche -> installer
+2) Tools -> board -> board manager -> "opencr" dans la barre de recherche -> install
+3) Tools -> board -> "OpenCR Board"
+4) Tools -> port -> COM1 *une fois connecter
