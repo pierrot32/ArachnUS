@@ -14,7 +14,7 @@ void loop() {
     Serial.print("Hello for the ");
     Serial.print(x);
     Serial.println(" time"); 
-    
+    delay(1000);
     while(Serial.available() > 0){
       reponsePycharm = Serial.read();
     }
