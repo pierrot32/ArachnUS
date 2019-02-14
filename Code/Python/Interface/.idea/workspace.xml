@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8618113f-b0cf-4987-95f8-dc737b0f5cc2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Comm/Communication.py" beforeDir="false" afterPath="$PROJECT_DIR$/Comm/Communication.py" afterDir="false" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,23 +16,35 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/Interface$Essais.coverage" NAME="Essais Coverage Results" MODIFIED="1550162662438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Interface$Interface.coverage" NAME="Interface Coverage Results" MODIFIED="1550175213100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+=======
+    <SUITE FILE_PATH="coverage/Interface$Interface.coverage" NAME="Interface Coverage Results" MODIFIED="1550159718605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Interface$Essais.coverage" NAME="Essais Coverage Results" MODIFIED="1550170939155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Interface$Communication.coverage" NAME="Communication Coverage Results" MODIFIED="1550172818336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Comm" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Interface.py">
+        <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-561">
               <caret line="9" selection-start-line="9" selection-end-line="9" />
+=======
+            <state relative-caret-position="357">
+              <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -38,6 +54,8 @@
           </provider>
         </entry>
       </file>
+=======
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -53,8 +71,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Comm/Communication.py" />
         <option value="$PROJECT_DIR$/Interface.py" />
+        <option value="$PROJECT_DIR$/Comm/Communication.py" />
       </list>
     </option>
   </component>
@@ -90,7 +108,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Interface.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Comm/Communication.py" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -107,7 +125,33 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Python.Interface">
+=======
+  <component name="RunManager" selected="Python.Communication">
+    <configuration name="Communication" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Interface" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Comm" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Comm/Communication.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     <configuration name="Essais" type="PythonConfigurationType" factoryName="Python">
       <module name="Interface" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -174,11 +218,18 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< HEAD
     <recent_temporary>
       <list>
         <item itemvalue="Python.Interface" />
       </list>
     </recent_temporary>
+=======
+    <list>
+      <item itemvalue="Python.Essais" />
+      <item itemvalue="Python.Communication" />
+    </list>
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -192,13 +243,21 @@
       <updated>1550157542445</updated>
       <workItem from="1550157557922" duration="2233000" />
       <workItem from="1550161667236" duration="172000" />
+<<<<<<< HEAD
       <workItem from="1550162148032" duration="567000" />
       <workItem from="1550162862794" duration="8307000" />
+=======
+      <workItem from="1550162148032" duration="6132000" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="11279000" />
+=======
+    <option name="totallyTimeSpent" value="8537000" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
   </component>
   <component name="ToolWindowManager">
     <frame x="967" y="0" width="960" height="1047" extended-state="0" />
@@ -218,7 +277,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -230,6 +289,7 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -237,12 +297,24 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     <entry file="file://$PROJECT_DIR$/Interface.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-561">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
