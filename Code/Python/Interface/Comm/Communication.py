@@ -5,6 +5,7 @@ import serial
 
 def manuel(moteur1, moteur2):
     print("manuel")
+    print(moteur1,moteur2)
     #arduino.write(b'manuel')
     #arduino.write(moteur1)
     #arduino.write(moteur2)
