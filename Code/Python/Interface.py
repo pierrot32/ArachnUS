@@ -9,12 +9,12 @@ fenetre.config(background = "#FFFFFF") #sets background color to white
 
 #put widgets here
 
-# Les frames contenue dans fenetre
+# Frame moteur
 frameMoteur = Frame(fenetre, width=400, height = 600)
 frameMoteur.grid(row=0, column=0, padx=10, pady=2)
 
-# Label des frames
-firstLabel = Label(frameMoteur, text="This is my first label")
+# Label du frame moteur
+firstLabel = Label(frameMoteur, text="Moteur 0")
 firstLabel.grid(row=0, column=0, padx=10, pady=2)
 
 
