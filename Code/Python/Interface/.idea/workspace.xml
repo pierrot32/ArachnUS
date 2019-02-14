@@ -3,7 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="8618113f-b0cf-4987-95f8-dc737b0f5cc2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/Interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interface.py" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/Comm/Communication.py" beforeDir="false" afterPath="$PROJECT_DIR$/Comm/Communication.py" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/../../../DocumentationElectronique/testOpenCR_IMU_Read_GyroRAW/testOpenCR_IMU_Read_GyroRAW.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../../DocumentationElectronique/testOpenCR_IMU_Read_GyroRAW/testOpenCR_IMU_Read_GyroRAW.ino" afterDir="false" />
+=======
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,17 +20,36 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+<<<<<<< HEAD
+    <SUITE FILE_PATH="coverage/Interface$Essais.coverage" NAME="Essais Coverage Results" MODIFIED="1550162662438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Interface$Interface.coverage" NAME="Interface Coverage Results" MODIFIED="1550175213100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+=======
     <SUITE FILE_PATH="coverage/Interface$Interface.coverage" NAME="Interface Coverage Results" MODIFIED="1550159718605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Interface$Essais.coverage" NAME="Essais Coverage Results" MODIFIED="1550170939155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+<<<<<<< HEAD
+    <SUITE FILE_PATH="coverage/Interface$Communication.coverage" NAME="Communication Coverage Results" MODIFIED="1550175378314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Comm" />
+=======
     <SUITE FILE_PATH="coverage/Interface$Communication.coverage" NAME="Communication Coverage Results" MODIFIED="1550172818336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Comm" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="552">
+              <caret line="66" column="13" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
+=======
+<<<<<<< HEAD
+            <state relative-caret-position="-561">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
+=======
             <state relative-caret-position="357">
               <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -30,6 +57,18 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+=======
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -50,10 +89,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="941" />
-    <option name="y" value="4" />
-    <option name="width" value="974" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="789" />
+    <option name="width" value="1138" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -62,6 +100,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -78,7 +117,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -100,6 +138,9 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
+  <component name="RunManager" selected="Python.Interface">
+=======
   <component name="RunManager" selected="Python.Communication">
     <configuration name="Communication" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Interface" />
@@ -123,6 +164,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     <configuration name="Essais" type="PythonConfigurationType" factoryName="Python">
       <module name="Interface" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,6 +183,28 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Interface" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Interface" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Interface.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
@@ -167,10 +231,18 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< HEAD
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Interface" />
+      </list>
+    </recent_temporary>
+=======
     <list>
-      <item itemvalue="Python.Essais" />
       <item itemvalue="Python.Communication" />
+      <item itemvalue="Python.Essais" />
     </list>
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -184,23 +256,46 @@
       <updated>1550157542445</updated>
       <workItem from="1550157557922" duration="2233000" />
       <workItem from="1550161667236" duration="172000" />
+<<<<<<< HEAD
+      <workItem from="1550162148032" duration="7610000" />
+=======
+<<<<<<< HEAD
+      <workItem from="1550162148032" duration="567000" />
+      <workItem from="1550162862794" duration="8307000" />
+=======
       <workItem from="1550162148032" duration="6132000" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8537000" />
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="10015000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="11279000" />
+=======
+    <option name="totallyTimeSpent" value="8537000" />
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="967" y="0" width="960" height="1047" extended-state="0" />
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12526652" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12444445" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32827735" />
+<<<<<<< HEAD
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32827735" />
+=======
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33150986" />
+>>>>>>> 89b7a8a42e10ba60c8d14cff44e788f4f246d412
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -222,10 +317,20 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+=======
+>>>>>>> 7f5556d2d0179b756035372ca92c9d762f444a17
     <entry file="file://$PROJECT_DIR$/Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="-561">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -234,8 +339,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Comm/Communication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+        <state relative-caret-position="552">
+          <caret line="66" column="13" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

@@ -64,6 +64,7 @@ class ReadFromArduino(object):
             print(data)
             new_values = struct.unpack('iii', data)
             print(new_values)
+            #read = True
 
     def envoieVersArduinoEtat1(self,moteur):
         struct.pack('iii', etat, moteur(0), moteur(1))
