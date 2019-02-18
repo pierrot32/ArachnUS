@@ -73,7 +73,7 @@ class ReadFromArduino(object):
 
 
 
-arduino = serial.Serial('COM3', 9600)
+#arduino = serial.Serial('COM3', 9600)
 
-Arduino = ReadFromArduino(arduino)
-Arduino.read_one_value()
+#Arduino = ReadFromArduino(arduino)
+#Arduino.read_one_value()

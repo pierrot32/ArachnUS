@@ -29,16 +29,12 @@ void loop()
 {
   static uint32_t tTime[3];
   static uint32_t imu_time = 0;
-
-
   if( (millis()-tTime[0]) >= 500 )
   {
     tTime[0] = millis();
-
     digitalWrite( led_pin, led_tog );
     led_tog ^= 1;
   }
-
   tTime[2] = micros();
   if( IMU.update() > 0 ) imu_time = micros()-tTime[2];
 
