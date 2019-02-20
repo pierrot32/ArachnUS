@@ -1,4 +1,4 @@
-# Python Interface v.0.7
+# Python Interface v.0.8
 
 
 from tkinter import *
@@ -12,7 +12,7 @@ def Increment(numMoteur):
     # Incrément +5 degrés
     #print(com.moteur[numMoteur])
     com.moteur[numMoteur] = com.moteur[numMoteur] + 5
-    print("Moteur #", numMoteur,"\t\t\tValeur:", com.moteur[numMoteur])
+    #print("Moteur #", numMoteur,"\t\t\tValeur:", com.moteur[numMoteur])
 
 
 
@@ -20,21 +20,26 @@ def Decrement(numMoteur):
     # Décrément -5 degrés
     #print(com.moteur[numMoteur])
     com.moteur[numMoteur] = com.moteur[numMoteur] - 5
-    print("Moteur #", numMoteur, "\t\t\tValeur:", com.moteur[numMoteur])
-
-
-
-
+    #print("Moteur #", numMoteur, "\t\t\tValeur:", com.moteur[numMoteur])
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
 class interface_test(threading.Thread):
     CurrentValue1 = None
+    CurrentValue2 = None
+    CurrentValue3 = None
+    CurrentValue4 = None
+    CurrentValue5 = None
+    CurrentValue6 = None
+    CurrentValue7 = None
+    CurrentValue8 = None
+    CurrentValue9 = None
 
     def __init__(self):
         threading.Thread.__init__(self)
         self.start()
+
 
     def run(self):
         self.fenetre = Tk() # Créé la fenêtre
@@ -56,14 +61,19 @@ class interface_test(threading.Thread):
         Label(framePatte1, text="Moteur 2").grid(row=2, column=1, padx=10, pady=2)
         Label(framePatte1, text="Moteur 3").grid(row=3, column=1, padx=10, pady=2)
 
+        self.CurrentValue1 = Label(framePatte1, text=com.moteur[0])
+        self.CurrentValue1.grid(row=1, column=4, padx=10, pady=2)
+
+        self.CurrentValue2 = Label(framePatte1, text=com.moteur[1])
+        self.CurrentValue2.grid(row=2, column=4, padx=10, pady=2)
+
+        self.CurrentValue3 = Label(framePatte1, text=com.moteur[2])
+        self.CurrentValue3.grid(row=3, column=4, padx=10, pady=2)
+
         AngleMoteur1u = Button(framePatte1, text="+5", command=lambda: Increment(0))  # moteur[0]
         AngleMoteur1u.grid(row=1, column=2, padx=10, pady=2)
         AngleMoteur1d = Button(framePatte1, text="-5", command=lambda: Decrement(0)) # moteur[0]
         AngleMoteur1d.grid(row=1, column=3, padx=10, pady=2)
-
-
-        self.CurrentValue1 = Label(framePatte1, text=com.moteur[0])  # Il faut refresh cette valeur tout le temps
-        self.CurrentValue1.grid(row=1, column=4, padx=10, pady=2)
 
 
         AngleMoteur2u = Button(framePatte1, text="+5", command=lambda: Increment(1))  # moteur[1]
@@ -99,6 +109,16 @@ class interface_test(threading.Thread):
         AngleMoteur6u.grid(row=3, column=2, padx=10, pady=2)
         AngleMoteur6d = Button(framePatte2, text="-5", command=lambda: Decrement(5)) # moteur[5]
         AngleMoteur6d.grid(row=3, column=3, padx=10, pady=2)
+
+        self.CurrentValue4 = Label(framePatte2, text=com.moteur[3])
+        self.CurrentValue4.grid(row=1, column=4, padx=10, pady=2)
+
+        self.CurrentValue5 = Label(framePatte2, text=com.moteur[4])
+        self.CurrentValue5.grid(row=2, column=4, padx=10, pady=2)
+
+        self.CurrentValue6 = Label(framePatte2, text=com.moteur[5])
+        self.CurrentValue6.grid(row=3, column=4, padx=10, pady=2)
+
         # -------------------------------------------------------------------------------------------------------------------- #
 
         # Frame Patte 3
@@ -124,6 +144,15 @@ class interface_test(threading.Thread):
         AngleMoteur9d = Button(framePatte3, text="-5", command=lambda: Decrement(8)) # moteur[8]
         AngleMoteur9d.grid(row=3, column=3, padx=10, pady=2)
 
+        self.CurrentValue7 = Label(framePatte3, text=com.moteur[6])
+        self.CurrentValue7.grid(row=1, column=4, padx=10, pady=2)
+
+        self.CurrentValue8 = Label(framePatte3, text=com.moteur[7])
+        self.CurrentValue8.grid(row=2, column=4, padx=10, pady=2)
+
+        self.CurrentValue9 = Label(framePatte3, text=com.moteur[8])
+        self.CurrentValue9.grid(row=3, column=4, padx=10, pady=2)
+
 
         BoutonUpdate = Button(frameMoteur, text="Update", command=com.btnUpdate)
         BoutonUpdate.grid(row=1, column=2, padx=10, pady=2)
@@ -146,15 +175,28 @@ class interface_test(threading.Thread):
         frameQuit.grid(row=0, column=2, padx=10, pady=2)
         BoutonQuit = Button(frameQuit, text="Quitter l'application", command=com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
-        self.fenetre.mainloop() # Start monitoring and updating the GUI
-# -------------------------------------------------------------------------------------------------------------------- #
 
         def Refresher():
             self.CurrentValue1.configure(text=com.moteur[0])
-            print("test")
-            self.fenetre.after(1000, Refresher)
+            self.CurrentValue2.configure(text=com.moteur[1])
+            self.CurrentValue3.configure(text=com.moteur[2])
+            self.CurrentValue4.configure(text=com.moteur[3])
+            self.CurrentValue5.configure(text=com.moteur[4])
+            self.CurrentValue6.configure(text=com.moteur[5])
+            self.CurrentValue7.configure(text=com.moteur[6])
+            self.CurrentValue8.configure(text=com.moteur[7])
+            self.CurrentValue9.configure(text=com.moteur[8])
+            self.fenetre.after(250, Refresher)
+
+        Refresher()
+
+        self.fenetre.mainloop() # Start monitoring and updating the GUI
+# -------------------------------------------------------------------------------------------------------------------- #
+
+
 
 appTest = interface_test()
+
 
 i=0
 while(True):
