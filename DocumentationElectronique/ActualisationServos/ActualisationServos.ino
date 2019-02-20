@@ -19,7 +19,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 int numServo = NBR_DE_SERVO;
 int angleVoulu = 0;
 String commande = String(NULL);
-int valeurMoy = (SERVOMAX-SERVOMIN)/2;
+int valeurMoy = ((SERVOMAX-SERVOMIN)/2)+SERVOMIN;
 int valeursAngle[NBR_DE_SERVO];
 
 
@@ -83,12 +83,3 @@ void loop() {
   delay(100);   
 
 }
-
-
-
-
-
-
-
-
-

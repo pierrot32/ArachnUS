@@ -11,7 +11,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 //À valider:
 #define SERVOMINg  250 // this is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAXg  450 // this is the 'maximum' pulse length count (out of 4096)
-#define SERVOMINd  180
+#define SERVOMINd  250
 #define SERVOMAXd  450
 
 // Compteur de servo
@@ -88,12 +88,3 @@ void loop() {
     
 
 }
-
-
-
-
-
-
-
-
-
