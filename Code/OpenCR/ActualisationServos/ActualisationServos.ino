@@ -27,7 +27,7 @@ int valeursAngle[NBR_DE_SERVO];
 int angleAPulse(int angle) {
   if(angle<ANGLEMIN){
     angle = ANGLEMIN;
-  } else {
+  } else if (angle>ANGlEMAX) {
     angle = ANGlEMAX;
   }
   return map(angle, ANGLEMIN, ANGlEMAX, SERVOMIN, SERVOMAX);
@@ -35,9 +35,9 @@ int angleAPulse(int angle) {
 
 // Convertie une consigne de pulse au moteur en une valeur d'angle
 int pulseAAngle(int pulse) {
-  if(pulse<ANGLEMIN){
+  if(pulse<SERVOMIN){
     pulse = SERVOMIN;
-  } else {
+  } else if (pulse>SERVOMAX){
     pulse = SERVOMAX;
   }
   return map(pulse, SERVOMIN, SERVOMAX, ANGLEMIN, ANGlEMAX);
