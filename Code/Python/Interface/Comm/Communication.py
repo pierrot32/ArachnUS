@@ -8,8 +8,8 @@ import numpy as np
 
 
 
-moteur = [2, 9, 0, 0, 0, 0, 0]
-etat = 1
+moteur = [20,20,20,20,20,20,20,20]
+etat = 2
 
 
 def manuel(moteur1, moteur2):
@@ -80,7 +80,7 @@ class communicationOpenCr(object):
     """A class to read the serial messages from Arduino. The code running on Arduino
     can for example be the ArduinoSide_LSM9DS0 sketch."""
 
-    def __init__(self, port, SIZE_STRUCT=12, verbose=0):
+    def __init__(self, port, SIZE_STRUCT=52, verbose=0):
         self.port = port
         self.SIZE_STRUCT = SIZE_STRUCT
         self.verbose = verbose
@@ -88,25 +88,30 @@ class communicationOpenCr(object):
         self.t = 0
         self.port.flushInput()
 
-    def read_one_value(self):
-            data = self.port.read(self.SIZE_STRUCT)
-            print(data)
-            new_values = struct.unpack('iii', data)
-            print(new_values);
+    #def read_one_value(self):
+    #        data = self.port.read(self.SIZE_STRUCT)
+    #        print(data)
+    #        new_values = struct.unpack('iii', data)
+    #        print(new_values);
 
     def envoieVersArduino(self, port, moteur):
         #print("Envoie des donnees")
-        value = struct.pack('iii', etat, moteur[0], moteur[1])
+        value = struct.pack('iiiiiiiiiiiii', etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7], 0,0,0,0)
+        print(value)
         self.port.write(value)
 
 
 
 
 
-#portArduino = serial.Serial('COM3', 9600)
-#Arduino = communicationOpenCr(portArduino)
+portArduino = serial.Serial('COM3', 115200)
+Arduino = communicationOpenCr(portArduino)
 
 #Arduino.read_one_value()
-#Arduino.envoieVersArduino(arduino, moteur)
+Arduino.envoieVersArduino(portArduino, moteur)
 
+#while(True):
+#    if portArduino.readable():
+#        print("allo")
+#        Arduino.read_one_value()
 
