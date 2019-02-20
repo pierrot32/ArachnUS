@@ -5,10 +5,11 @@ import struct
 import time
 import numpy as np
 
-#arduino = serial.Serial('COM3', 9600)
 
-moteur = [0,0,0,0,0,0,0]
-etat = 0
+
+
+moteur = [2, 9, 0, 0, 0, 0, 0]
+etat = 1
 
 
 def manuel(moteur1, moteur2):
@@ -34,6 +35,11 @@ def lectureArduino():
     #confirmationEtat = arduino.readline()
     #commandeMoteur0 = arduino.readline()
 
+
+
+
+
+
 #-----------------------------------------------------------------------------------------
 
 
@@ -41,6 +47,7 @@ def btnHauteurUp():
     # Update les commandes lorsque bouton clické
     #com.manuel(90,90)
     print("Hauteur augmente...")
+
 
 def btnHauteurDown():
     ## Update les commandes lorsque bouton clické
@@ -59,6 +66,11 @@ def btnUpdate():
     ## Update les commandes lorsque bouton clické
     ##com.manuel(90,90)
     print("Update des commandes...")
+    Arduino.envoieVersArduino(portArduino, moteur)
+
+
+
+
 
 
 
