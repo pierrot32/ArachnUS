@@ -1,9 +1,9 @@
+# Python Interface v.0.7
+
+
 from tkinter import *
 import threading
 import Comm.Communication as com
-
-
-
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
