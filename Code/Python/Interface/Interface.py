@@ -92,7 +92,7 @@ AngleMoteur9 = Entry(framePatte3, width=6, textvariable=StringVar(framePatte3, v
 AngleMoteur9.grid(row=3, column=2, padx=10, pady=2)
 
 
-BoutonUpdate = Button(frameMoteur, text="Update", command=btnUpdate)
+BoutonUpdate = Button(frameMoteur, text="Update", command=com.btnUpdate)
 BoutonUpdate.grid(row=1, column=2, padx=10, pady=2)
 # -------------------------------------------------------------------------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -102,16 +102,16 @@ BoutonUpdate.grid(row=1, column=2, padx=10, pady=2)
 frameStable = Frame(fenetre, width=100, height=150)
 frameStable.grid(row=0, column=1, padx=10, pady=2)
 Label(frameStable, text = "Stabilisation:").grid(row=0, column=0, padx=10, pady=2)
-BoutonHauteurUp = Button(frameStable, text="Hauteur +", command=btnHauteurUp)
+BoutonHauteurUp = Button(frameStable, text="Hauteur +", command=com.btnHauteurUp)
 BoutonHauteurUp.grid(row=1, column=0, padx=10, pady=2)
-BoutonHauteurDown = Button(frameStable, text="Hauteur -", command=btnHauteurDown)
+BoutonHauteurDown = Button(frameStable, text="Hauteur -", command=com.btnHauteurDown)
 BoutonHauteurDown.grid(row=2, column=0, padx=10, pady=2)
 # -------------------------------------------------------------------------------------------------------------------- #
 
  # Frame Quit
 frameQuit = Frame(fenetre, width=50, height=50)
 frameQuit.grid(row=0, column=2, padx=10, pady=2)
-BoutonQuit = Button(frameQuit, text="Quitter l'application", command=btnQuit)
+BoutonQuit = Button(frameQuit, text="Quitter l'application", command=com.btnQuit)
 BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
 # -------------------------------------------------------------------------------------------------------------------- #
 
