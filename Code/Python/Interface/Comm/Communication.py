@@ -37,6 +37,28 @@ def lectureArduino():
 #-----------------------------------------------------------------------------------------
 
 
+def btnHauteurUp():
+    # Update les commandes lorsque bouton clické
+    #com.manuel(90,90)
+    print("Hauteur augmente...")
+
+def btnHauteurDown():
+    ## Update les commandes lorsque bouton clické
+    ##com.manuel(90,90)
+    print("Hauteur descent...")
+
+def btnQuit():
+    ## Pour quitter l'application
+    exit()
+
+def btnMoteur():
+   ## Pour entrer des commandes moteurs
+    print("...")
+
+def btnUpdate():
+    ## Update les commandes lorsque bouton clické
+    ##com.manuel(90,90)
+    print("Update des commandes...")
 
 
 
@@ -69,8 +91,8 @@ class communicationOpenCr(object):
 
 
 
-portArduino = serial.Serial('COM3', 9600)
-Arduino = communicationOpenCr(portArduino)
+#portArduino = serial.Serial('COM3', 9600)
+#Arduino = communicationOpenCr(portArduino)
 
 #Arduino.read_one_value()
 #Arduino.envoieVersArduino(arduino, moteur)
