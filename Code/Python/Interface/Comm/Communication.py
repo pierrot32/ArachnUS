@@ -42,7 +42,7 @@ def lectureArduino():
 
 
 
-class ReadFromArduino(object):
+class communicationOpenCr(object):
     """A class to read the serial messages from Arduino. The code running on Arduino
     can for example be the ArduinoSide_LSM9DS0 sketch."""
 
@@ -55,25 +55,24 @@ class ReadFromArduino(object):
         self.port.flushInput()
 
     def read_one_value(self):
-        """Wait for next serial message from the Arduino, and read the whole
-        message as a structure."""
-        read = False
-
-        while not read:
             data = self.port.read(self.SIZE_STRUCT)
             print(data)
             new_values = struct.unpack('iii', data)
-            print(new_values)
-            #read = True
+            print(new_values);
 
-    def envoieVersArduinoEtat1(self,moteur):
-        struct.pack('iii', etat, moteur(0), moteur(1))
-
-
-
+    def envoieVersArduino(self, port, moteur):
+        #print("Envoie des donnees")
+        value = struct.pack('iii', etat, moteur[0], moteur[1])
+        self.port.write(value)
 
 
-#arduino = serial.Serial('COM3', 9600)
 
-#Arduino = ReadFromArduino(arduino)
+
+
+portArduino = serial.Serial('COM3', 9600)
+Arduino = communicationOpenCr(portArduino)
+
 #Arduino.read_one_value()
+#Arduino.envoieVersArduino(arduino, moteur)
+
+
