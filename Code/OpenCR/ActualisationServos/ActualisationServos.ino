@@ -11,6 +11,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 //À valider:
 #define SERVOMIN  200 // this is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAX  450 // this is the 'maximum' pulse length count (out of 4096)
+#define ANGLEMIN  0
+#define ANGlEMAX  145
 #define NBR_DE_SERVO 8
 
 // Compteur de servo
@@ -23,7 +25,22 @@ int valeursAngle[NBR_DE_SERVO];
 
 // Convertie une consigne d'angle au moteur en une longueur de pulse pour le pwm
 int angleAPulse(int angle) {
-  return map(angle, 0, 145, SERVOMIN, SERVOMAX);
+  if(angle<ANGLEMIN){
+    angle = ANGLEMIN;
+  } else {
+    angle = ANGlEMAX;
+  }
+  return map(angle, ANGLEMIN, ANGlEMAX, SERVOMIN, SERVOMAX);
+}
+
+// Convertie une consigne de pulse au moteur en une valeur d'angle
+int pulseAAngle(int pulse) {
+  if(pulse<ANGLEMIN){
+    pulse = SERVOMIN;
+  } else {
+    pulse = SERVOMAX;
+  }
+  return map(pulse, SERVOMIN, SERVOMAX, ANGLEMIN, ANGlEMAX);
 }
 
 // Actualise l'ensemble des servos un après l'autre
@@ -41,7 +58,7 @@ void setup() {
   pwm.setPWMFreq(60);  // Frequence de raffraichissement des servo est ~60 Hz
 
   for (int i=0; i<NBR_DE_SERVO; i++){
-    valeursAngle[i] = valeurMoy; 
+    valeursAngle[i] = pulseAAngle(valeurMoy); 
   }
   updateServos(valeursAngle);
 }
