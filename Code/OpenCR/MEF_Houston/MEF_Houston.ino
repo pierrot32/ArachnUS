@@ -1,59 +1,53 @@
 // variables globales
 int initDone = 0;
-typedef enum{
-  arret,
-  initial,
-  manuel
-}etat;
-etat etat_voulu = arret;
 typedef struct message{
-  long etat=0;
-  long moteur0=1;
-  long moteur1=2;
-/*  long moteur2;
+  long etat;
+  long moteur0;
+  long moteur1;
+  long moteur2;
   long moteur3;
   long moteur4;
   long moteur5;
   long moteur6;
-  long moteur7;*/
+  long moteur7;
+  long angx;
+  long angy;
+  long angz;
+  long hauteur;
 };
-message MSG;
+message MSG_Envoi;
+message MSG_Recu;
+int long_msg_envoi = sizeof(MSG_Envoi);
+int long_msg_recu = sizeof(MSG_Recu);
+byte buff[sizeof(MSG_Recu)];
 
-int long_msg = sizeof(MSG);
-int state = 0;
 void setup() {
-Serial.begin(9600);
+Serial.begin(115200);
 }
 
 void loop() {
   while(Serial.available() > 0){
-   state = Serial.parseInt();
-    /*if (etat == "arret"){
-      etat_switch = 0;
-    }
-    else if (etat == "init"){
-      etat_switch = 1;
-    }
-    else if (etat == "manuel"){
-      etat_switch = 2;
-    }*/
   }
-  switch(state){
+  switch(MSG_Recu.etat){
     case 0:
+      MSG_Envoi.etat = 0;
+      initDone = 0;
       //etat arret fait rien
       break;
     case 1:
+      MSG_Envoi.etat = 1;
       //etat à venir
       initDone = 1;
       break;
     case 2:
       //etat à venir
       if (initDone == 0){
-        state = 0;
+        MSG_Envoi.etat = 0;
         break;
         //init n'a pas été fait donc on ne peut entrer en mode manuel
       }
       else{
+        MSG_Envoi.etat = 2;
         //opération demandée
         break;        
       }
@@ -70,17 +64,25 @@ void loop() {
       //etat à venir
 
       break;*/
-  } 
-//  Serial.println("Debut de l'envoi par Arduino");
-  long_msg = sizeof(MSG);
-//  Serial.write("S");
-  Serial.write((uint8_t*)&MSG, long_msg);
-//  Serial.write("E");
-//  Serial.println(state);
-//  Serial.println(long_msg);
-/*  Serial.print("etat_switch : ");
-  Serial.println(etat_switch);*/
-//envoie commande moteur pour debug et confirmation
-
+  }
+//  bool x;
+//  x = lecture(buff);
+//  copie_array_struc(&MSG_Recu, buff);
+  
+  
   delay(2000);
+}
+//fonction de lecture
+bool lecture(byte *buf){
+  return(Serial.readBytes((char*)buf, sizeof(message))==sizeof(message)); 
+}
+
+//fonction de copie array dans struc
+void copie_array_struc(message *MSG, byte *buf){
+  memcpy(&MSG, buf, sizeof(MSG));
+}
+
+//fontion d'envoi
+void envoi_serie(message MSG){
+  Serial.write((uint8_t*)&MSG_Recu, long_msg_recu);
 }
