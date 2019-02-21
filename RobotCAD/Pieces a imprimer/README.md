@@ -2,11 +2,10 @@
 
 Voici la liste des pieces à imprimer et leur quantitée
 
-### 
 Barre_Bleu1           -> x3
-### 
+
 Barre_Bleu2           -> x3
-### 
+
 Barre_Bleu3           -> x3
 ### 
 Barre_Rouge1          -> x3
