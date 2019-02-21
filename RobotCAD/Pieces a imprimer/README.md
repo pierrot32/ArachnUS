@@ -1,23 +1,20 @@
-# ArachnUS
-Projet de conception d'un robot araignée à 3 pattes.
+# Pieces à imprimer:
 
+Voici la liste des pieces à imprimer et leur quantitée
 
-## CAD:
-
-
-## OpenCR et PCA9685:
-Pour utiliser la carte OpenCR dans notre appliquation, il faut:
-1. Télécharger arduinoIDE
-2. Télécharger la carte "OpenCR" dans arduinoIDE (voir documentationElectronique)
-3. Télécharger la librairie "adafruit servo" dans arduinoIDE
-4. Assembler la carte PCA9685 (https://learn.adafruit.com/16-channel-pwm-servo-driver/assembly)
-5. Faire les connections électriques entre le PCA9685, le OpenCR et les servos moteur (https://learn.adafruit.com/16-channel-pwm-servo-driver/hooking-it-up)
-6. Connecter l'alimentation externe
-7. Connecter la prise USB et téléverser les codes
-
-*NOTE*: Toujours brancher l'alimentation externe avant de brancher le cable USB
-
-## Python:
-
-
-
+Barre_Bleu1           -> x3
+Barre_Bleu2           -> x3
+Barre_Bleu3           -> x3
+Barre_Rouge1          -> x3
+Barre_Rouge2          -> x3
+Barre_Rouge3          -> x3
+Barre_Vert            -> x3
+Base_Moteur           -> x3
+Espaceur_Plaques      -> x4
+Joint_RB              -> x3
+Pied_de_patte         -> x3
+Plaque_Bas            -> x1
+Plaque_Top            -> x1
+Porteur_moteur        -> x2
+Protecteur_de_Cartes  -> x1
+Support_de_Cartes     -> x1
