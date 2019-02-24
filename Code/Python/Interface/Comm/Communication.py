@@ -8,8 +8,10 @@ import numpy as np
 
 
 
-moteur = [20,20,20,20,20,20,20,20]
+moteur = [20,20,20,20,20,20,20,20,0]
 etat = 2
+hauteur = 0
+debutStructure = 0;
 
 
 def manuel(moteur1, moteur2):
@@ -34,10 +36,6 @@ def lectureArduino():
 
     #confirmationEtat = arduino.readline()
     #commandeMoteur0 = arduino.readline()
-
-
-
-
 
 
 #-----------------------------------------------------------------------------------------
@@ -70,12 +68,6 @@ def btnUpdate():
 
 
 
-
-
-
-
-
-
 class communicationOpenCr(object):
     """A class to read the serial messages from Arduino. The code running on Arduino
     can for example be the ArduinoSide_LSM9DS0 sketch."""
@@ -88,15 +80,16 @@ class communicationOpenCr(object):
         self.t = 0
         self.port.flushInput()
 
-    #def read_one_value(self):
-    #        data = self.port.read(self.SIZE_STRUCT)
-    #        print(data)
-    #        new_values = struct.unpack('iii', data)
-    #        print(new_values);
+    def read_one_value(self):
+            data = self.port.read(self.SIZE_STRUCT)
+            print(data)
+            new_values = struct.unpack('iiiiiiiiiiiii', data)
+            print(new_values);
 
     def envoieVersArduino(self, port, moteur):
         #print("Envoie des donnees")
-        value = struct.pack('iiiiiiiiiiiii', etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7], 0,0,0,0)
+        print("etat=", etat)
+        value = struct.pack('iiiiiiiiii', etat,moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
         print(value)
         self.port.write(value)
 
@@ -107,8 +100,12 @@ class communicationOpenCr(object):
 portArduino = serial.Serial('COM3', 115200)
 Arduino = communicationOpenCr(portArduino)
 
-#Arduino.read_one_value()
-Arduino.envoieVersArduino(portArduino, moteur)
+#while(True):
+    #Arduino.read_one_value()
+    #Arduino.envoieVersArduino(portArduino, moteur, etat)
+    #Arduino.read_one_value()
+    #print("allo")
+    #time.sleep(5)
 
 #while(True):
 #    if portArduino.readable():

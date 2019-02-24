@@ -25,7 +25,7 @@ def Decrement(numMoteur):
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
-class interface_test(threading.Thread):
+class application(threading.Thread):
     CurrentValue1 = None
     CurrentValue2 = None
     CurrentValue3 = None
@@ -195,12 +195,7 @@ class interface_test(threading.Thread):
 
 
 
-appTest = interface_test()
 
-
-i=0
-while(True):
-    i = i+1
 
 
 
