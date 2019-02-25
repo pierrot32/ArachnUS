@@ -19,9 +19,11 @@ Pour utiliser la carte OpenCR dans notre appliquation, il faut:
 
 ## Python:
 Pour utiliser la communication entre l'interface et l'openCR, il faut
-1.Télécharger python 3.7
-2.Télécharger Pycharm
-3. Ajouter les package suivant: pip, numpy et pyserial
+1.  Télécharger python 3.7
+2.  Télécharger Pycharm
+3.  Ajouter les package suivant: pip, numpy et pyserial
+4.  Veuillez vérifier que le code utilise le bon port USB de votre ordinateur ('COM3')
+
 
 
 
