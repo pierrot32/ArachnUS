@@ -3,7 +3,9 @@ Projet de conception d'un robot araignée à 3 pattes.
 
 
 ## CAD:
+Fichier RobotCAD contient toutes les informations pour imprimer ou modifier les pièces du robot avec le logiciel Solidworks.
 
+Plus d'informations sont données dans le fichier.
 
 ## OpenCR et PCA9685:
 Pour utiliser la carte OpenCR dans notre appliquation, il faut:
