@@ -3,7 +3,10 @@ Projet de conception d'un robot araignée à 3 pattes.
 
 ## Assemblage
 
-Pour assembler notre robot, il faut :
-1. Imprimer toutes les pièces nécessaires pour le robot qui sont dans le dossier "Pièces à imprimer" (https://github.com/pierrot32/ArachnUS/tree/master/RobotCAD/Pieces%20a%20imprimer)
-2. Assembler chacune des pattes du robot en suivant ces recommendations :
-  2.1 Utiliser des vis 6-32 3/4"
+Pour assembler notre robot, il faut imprimer toutes les pièces nécessaires pour le robot qui sont dans le dossier "Pièces à imprimer" (https://github.com/pierrot32/ArachnUS/tree/master/RobotCAD/Pieces%20a%20imprimer).
+
+Assembler chacune des pattes du robot en se basant sur le modèle 3D et en suivant ces recommendations :
+1. Utiliser des boulons 6-32 3/4" pour assembler le robot, sauf pour la jonction entre les pièces bleu3, rouge2 et verte où un boulon de 1" est requis.
+2. Utiliser des écrous autobloquant pour éviter qu'ils ne se desserrent durant l'utilisation du robot.
+3. Placer une rondelle entre chaque pièce de plastique pour éviter le frottement plastique/plastique
+4. Placer les moteurs en dernier et utiliser les séparateurs de caoutchouc pour qu'ils soient bien alligner avec l'arbre de rotation
