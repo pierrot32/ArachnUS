@@ -10,3 +10,8 @@ Assembler chacune des pattes du robot en se basant sur le modèle 3D et en suiva
 2. Utiliser des écrous autobloquant pour éviter qu'ils ne se desserrent durant l'utilisation du robot.
 3. Placer une rondelle entre chaque pièce de plastique pour éviter le frottement plastique/plastique
 4. Placer les moteurs en dernier et utiliser les séparateurs de caoutchouc pour qu'ils soient bien alligner avec l'arbre de rotation
+5. S'assurer que chaque moteur peut atteindre les 2 maximums de leur axe de rotation
+
+Assembler le robot en se basant sur le modèle 3D de l'assemblage complet et en suivant ces recommendations :
+1. Utiliser des boulons 1/4-20 de 1 1/4"
+2. Faire passer les câbles des différents moteurs dans la cavité centrale avant de placer le support à cartes
