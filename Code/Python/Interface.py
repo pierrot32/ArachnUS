@@ -3,7 +3,7 @@
 
 from tkinter import *
 import threading
-import Comm.Communication as com
+import Communication as com
 
 # -------------------------------------------------------------------------------------------------------------------- #
 

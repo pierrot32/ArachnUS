@@ -1,7 +1,7 @@
 
 
 import Interface as interface
-import Comm.Communication as com
+import Communication as com
 import time
 import serial
 
