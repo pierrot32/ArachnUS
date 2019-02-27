@@ -27,7 +27,7 @@ Pour utiliser la communication entre l'interface et l'openCR, il faut
 4.  Veuillez vérifier que le code utilise le bon port USB de votre ordinateur ('COM3')
 
 Pour utiliser l'interface utilisateur, il faut
-1. Ouvrir le fichier Interface.py
+1. Ouvrir le fichier Main.py
 2. Exécuter le code
 
 
