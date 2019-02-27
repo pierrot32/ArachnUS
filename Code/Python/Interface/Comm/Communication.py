@@ -97,8 +97,8 @@ class communicationOpenCr(object):
 
 
 
-portArduino = serial.Serial('COM3', 115200)
-Arduino = communicationOpenCr(portArduino)
+#portArduino = serial.Serial('COM3', 115200)
+#Arduino = communicationOpenCr(portArduino)
 
 #while(True):
     #Arduino.read_one_value()
