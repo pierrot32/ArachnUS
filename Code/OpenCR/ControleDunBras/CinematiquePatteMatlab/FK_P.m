@@ -1,0 +1,1 @@
+% Fonction retournant la cinématique directe d'une patte du robot
