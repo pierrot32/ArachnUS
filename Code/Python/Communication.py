@@ -8,10 +8,13 @@ import numpy as np
 
 
 
+
 moteur = [20,20,20,20,20,20,20,20,0]
+buf_moteur = moteur.copy()
 etat = 2
 hauteur = 0
-debutStructure = 0;
+debutStructure = 0
+angle = [100, 250]
 
 
 def manuel(moteur1, moteur2):
@@ -63,8 +66,11 @@ def btnMoteur():
 def btnUpdate():
     ## Update les commandes lorsque bouton clické
     ##com.manuel(90,90)
+    global moteur
     print("Update des commandes...")
-    Arduino.envoieVersArduino(portArduino, moteur)
+    #Arduino.envoieVersArduino(portArduino, moteur)
+    moteur = buf_moteur.copy()
+    print(moteur)
 
 
 
