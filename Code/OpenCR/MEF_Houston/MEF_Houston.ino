@@ -1,5 +1,7 @@
 
 #define NBR_DE_SERVO 8
+#define trigPin 12 // define TrigPin 
+#define echoPin 11 // define EchoPin.
 #include <IMU.h>
 
 // variables globales
@@ -44,10 +46,19 @@ uint8_t   led_pin = 13;
 static uint32_t tTime[3];
 static uint32_t imu_time = 0;
 
+typedef struct deltaAngleMoteurHauteur{
+  float deltaAngleMoteur1 = 0;
+  float deltaAngleMoteur2 = 0;
+  float deltaAngleMoteur3 = 0; 
+};
+deltaAngleMoteurHauteur dMAngle;
+
 void setup() {
   Serial.begin(115200);
   IMU.begin();
   pinMode( led_pin, OUTPUT );
+  pinMode(trigPin,OUTPUT);// set trigPin to output mode   
+  pinMode(echoPin,INPUT); // set echoPin to input mode
   initFctServo(valeurs_Angles_moteurs);
 }
 
@@ -58,7 +69,7 @@ void loop() {
     copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
   }
 
-  switch(3/*state[0]*/){
+  switch(state[0]){
     case 0:
       initDone = 0;
       //etat arret fait rien
@@ -84,15 +95,32 @@ void loop() {
     case 3:
       //etat stabilisation appel des fonctions de calcul d'angle du robot
       msg_Envoi.etat = 3;
-      aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
+      if( (millis()-tTime[1]) >= 10 ){
+        tTime[1] = millis();
+
+        aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
+        dMAngle = stabilisationRobot(aRobot);
+        if( valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1>=0 && valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1<= 90){
+          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1;
+        }
+        if( valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2>=0 && valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2<= 90){
+          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + dMAngle.deltaAngleMoteur2;
+        }
+        if( valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3>=0 && valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3<= 90){
+          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + dMAngle.deltaAngleMoteur3;
+        }
+
+        updateServos(valeurs_Angles_moteurs);
+        
+  }
 
       break;
     case 4:
       //etat modulation de la hauteur
-
+      height[0] = int(getSonar());
       break;
   }
-  //envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+  envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
 
   delay(100);
 }

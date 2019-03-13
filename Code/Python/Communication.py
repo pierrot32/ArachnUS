@@ -9,9 +9,13 @@ import numpy as np
 
 
 
-moteur = [20,20,20,20,20,20,20,20,0]
+moteur = [45,45,45,45,45,45,45,45,0]
 buf_moteur = moteur.copy()
-etat = 2
+<<<<<<< HEAD
+etat = [0,1,2]
+=======
+etat = 3
+>>>>>>> 1031648fa6bd7efb40fa08eda5f8a385d9bcd472
 hauteur = 0
 debutStructure = 0
 angle = [100, 250]
@@ -46,14 +50,20 @@ def lectureArduino():
 
 def btnHauteurUp():
     # Update les commandes lorsque bouton clické
+    global hauteur
     #com.manuel(90,90)
-    print("Hauteur augmente...")
+    hauteur += 1
+    print("Hauteur augmente...\t", hauteur)
+
 
 
 def btnHauteurDown():
     ## Update les commandes lorsque bouton clické
+    global hauteur
     ##com.manuel(90,90)
-    print("Hauteur descent...")
+    hauteur -= 1
+    print("Hauteur descent...\t", hauteur)
+
 
 def btnQuit():
     ## Pour quitter l'application
@@ -68,8 +78,9 @@ def btnUpdate():
     ##com.manuel(90,90)
     global moteur
     print("Update des commandes...")
-    #Arduino.envoieVersArduino(portArduino, moteur)
+
     moteur = buf_moteur.copy()
+    Arduino.envoieVersArduino(portArduino, moteur)
     print(moteur)
 
 
@@ -78,7 +89,7 @@ class communicationOpenCr(object):
     """A class to read the serial messages from Arduino. The code running on Arduino
     can for example be the ArduinoSide_LSM9DS0 sketch."""
 
-    def __init__(self, port, SIZE_STRUCT=52, verbose=0):
+    def __init__(self, port, SIZE_STRUCT=48, verbose=0):
         self.port = port
         self.SIZE_STRUCT = SIZE_STRUCT
         self.verbose = verbose
@@ -88,14 +99,14 @@ class communicationOpenCr(object):
 
     def read_one_value(self):
             data = self.port.read(self.SIZE_STRUCT)
-            print(data)
+            #print(data)
             new_values = struct.unpack('iiiiiiiiiiii', data)
-            print(new_values);
+            print(new_values)
 
     def envoieVersArduino(self, port, moteur):
         #print("Envoie des donnees")
         print("etat=", etat)
-        value = struct.pack('iiiiiiiiii', etat,moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
+        value = struct.pack('iiiiiiiiii', etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
         print(value)
         self.port.write(value)
 
@@ -106,15 +117,4 @@ class communicationOpenCr(object):
 portArduino = serial.Serial('COM3', 115200)
 Arduino = communicationOpenCr(portArduino)
 
-#while(True):
-    #Arduino.read_one_value()
-    #Arduino.envoieVersArduino(portArduino, moteur, etat)
-    #Arduino.read_one_value()
-    #print("allo")
-    #time.sleep(5)
-
-#while(True):
-#    if portArduino.readable():
-#        print("allo")
-#        Arduino.read_one_value()
 

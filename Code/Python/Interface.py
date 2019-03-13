@@ -1,4 +1,4 @@
-# Python Interface v.0.10
+# Python Interface v.0.11
 
 
 from tkinter import *
@@ -31,6 +31,8 @@ class application(threading.Thread):
     eM9 = None
     CurrentAngleX = None
     CurrentAngleY = None
+    CurrentEtat = None
+    CurrentHauteur = None
 
 
     def __init__(self):
@@ -41,28 +43,30 @@ class application(threading.Thread):
     def run(self):
         self.fenetre = Tk() # Créé la fenêtre
         self.fenetre.wm_title("Interface ArachnUS") # Titre de la fenêtre
-        self.fenetre.config(background = "#FFFFFF") # Background color = blanc
+        self.fenetre.config(bg = "gray35")
 
         # Frame Moteur
         frameMoteur = Frame(self.fenetre, width=600, height =600)
-        frameMoteur.grid(row=0, column=0, padx=10, pady=2)
-        Label(frameMoteur, text = "Mode manuel moteurs:").grid(row=0, column=0, padx=10, pady=2)
+        frameMoteur.grid(row=0, column=0, padx=15, pady=15)
+        Label(frameMoteur, text = "Mode manuel moteurs:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        frameMoteur.config(bg="gray55")
 
         # Patte 1
         framePatte = Frame(frameMoteur, width=400, height=400)
         framePatte.grid(row=1, column=0, padx=10, pady=2)
+        framePatte.config(bg="gray75")
         Label(framePatte, text = "Patte 1").grid(row=1, column=0, padx=10, pady=2)
         Label(framePatte, text="Moteur 1").grid(row=1, column=1, padx=10, pady=2)
         Label(framePatte, text="Moteur 2").grid(row=2, column=1, padx=10, pady=2)
         Label(framePatte, text="Moteur 3").grid(row=3, column=1, padx=10, pady=2)
 
-        self.CurrentValue1 = Label(framePatte, text=com.buf_moteur[0])
+        self.CurrentValue1 = Label(framePatte, text=com.buf_moteur[0], font=("Helvetica", 10, "bold"))
         self.CurrentValue1.grid(row=1, column=5, padx=10, pady=2)
 
-        self.CurrentValue2 = Label(framePatte, text=com.buf_moteur[1])
+        self.CurrentValue2 = Label(framePatte, text=com.buf_moteur[1], font=("Helvetica", 10, "bold"))
         self.CurrentValue2.grid(row=2, column=5, padx=10, pady=2)
 
-        self.CurrentValue3 = Label(framePatte, text=com.buf_moteur[2])
+        self.CurrentValue3 = Label(framePatte, text=com.buf_moteur[2], font=("Helvetica", 10, "bold"))
         self.CurrentValue3.grid(row=3, column=5, padx=10, pady=2)
 
         #AngleMoteur1u = Button(framePatte1, text="+5", command=lambda: Increment(0))  # moteur[0]
@@ -123,13 +127,13 @@ class application(threading.Thread):
         self.eM6.grid(row=6, column=4)
         self.eM6.insert(3, com.buf_moteur[5])
 
-        self.CurrentValue4 = Label(framePatte, text=com.buf_moteur[3])
+        self.CurrentValue4 = Label(framePatte, text=com.buf_moteur[3], font=("Helvetica", 10, "bold"))
         self.CurrentValue4.grid(row=4, column=5, padx=10, pady=2)
 
-        self.CurrentValue5 = Label(framePatte, text=com.buf_moteur[4])
+        self.CurrentValue5 = Label(framePatte, text=com.buf_moteur[4], font=("Helvetica", 10, "bold"))
         self.CurrentValue5.grid(row=5, column=5, padx=10, pady=2)
 
-        self.CurrentValue6 = Label(framePatte, text=com.buf_moteur[5])
+        self.CurrentValue6 = Label(framePatte, text=com.buf_moteur[5], font=("Helvetica", 10, "bold"))
         self.CurrentValue6.grid(row=6, column=5, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
@@ -165,55 +169,85 @@ class application(threading.Thread):
         self.eM9.grid(row=9, column=4)
         self.eM9.insert(3, com.buf_moteur[8])
 
-        self.CurrentValue7 = Label(framePatte, text=com.buf_moteur[6])
+        self.CurrentValue7 = Label(framePatte, text=com.buf_moteur[6], font=("Helvetica", 10, "bold"))
         self.CurrentValue7.grid(row=7, column=5, padx=10, pady=2)
 
-        self.CurrentValue8 = Label(framePatte, text=com.buf_moteur[7])
+        self.CurrentValue8 = Label(framePatte, text=com.buf_moteur[7], font=("Helvetica", 10, "bold"))
         self.CurrentValue8.grid(row=8, column=5, padx=10, pady=2)
 
-        self.CurrentValue9 = Label(framePatte, text=com.buf_moteur[8])
+        self.CurrentValue9 = Label(framePatte, text=com.buf_moteur[8], font=("Helvetica", 10, "bold"))
         self.CurrentValue9.grid(row=9, column=5, padx=10, pady=2)
 
 
-        BoutonUpdate = Button(frameMoteur, text="Update", command=com.btnUpdate)
+        BoutonUpdate = Button(frameMoteur, text="Update", font=("Helvetica", 12, "bold"), fg="blue", bg="gray75", command=com.btnUpdate)
         BoutonUpdate.grid(row=0, column=2, padx=10, pady=2)
-        # -------------------------------------------------------------------------------------------------------------------- #
         # -------------------------------------------------------------------------------------------------------------------- #
 
 
          # Frame Mode Stabilisation
         frameStable = Frame(self.fenetre, width=100, height=150)
         frameStable.grid(row=0, column=2, padx=10, pady=2)
-        Label(frameStable, text = "Stabilisation:").grid(row=0, column=0, padx=10, pady=2)
-        BoutonHauteurUp = Button(frameStable, text="Hauteur +", command=com.btnHauteurUp)
-        BoutonHauteurUp.grid(row=1, column=0, padx=10, pady=2)
-        BoutonHauteurDown = Button(frameStable, text="Hauteur -", command=com.btnHauteurDown)
-        BoutonHauteurDown.grid(row=2, column=0, padx=10, pady=2)
+        frameStable.config(bg="gray55")
+        Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp)
+        BoutonHauteurUp.grid(row=2, column=0, padx=10, pady=2)
+        BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=com.btnHauteurDown)
+        BoutonHauteurDown.grid(row=3, column=0, padx=10, pady=2)
 
+        Label(frameStable, text="Hauteur actuelle:", bg="gray75").grid(row=1, column=0,padx=10, pady=2)
+        self.CurrentHauteur = Label(frameStable, text=com.hauteur, bg="gray75", font=("Helvetica", 10, "bold"))
+        self.CurrentHauteur.grid(row=1, column=1, padx=10, pady=2)
+
+        # -------------------------------------------------------------------------------------------------------------------- #
 
         # Frame Angle robot
-        frameAngle = Frame(self.fenetre, width=100, height=150)
-        frameAngle.grid(row=0, column=1, padx=10, pady=2)
-        Label(frameAngle, text = "Angle du robot:").grid(row=0, column=0, padx=10, pady=2)
-        self.CurrentAngleX = Label(frameAngle, text=com.buf_moteur[0])
-        self.CurrentAngleX.grid(row=1, column=0, padx=10, pady=2)
-        self.CurrentAngleY = Label(frameAngle, text=com.buf_moteur[0])
-        self.CurrentAngleY.grid(row=1, column=1, padx=10, pady=2)
+        frameAngleTitre = Frame(self.fenetre, width=100, height=150)
+        frameAngleTitre.grid(row=0, column=1, padx=10, pady=2)
+        frameAngleTitre.config(bg="gray55")
+        Label(frameAngleTitre, text = "Angle du robot:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
 
+        frameAngle = Frame(frameAngleTitre, width=100, height=150)
+        frameAngle.grid(row=1, column=0, padx=10, pady=2)
+        frameAngle.config(bg="gray75")
+        Label(frameAngle, text="x:", bg="gray75").grid(row=0, column=0, padx=0, pady=2)
+        self.CurrentAngleX = Label(frameAngle, text=com.buf_moteur[0], bg="gray75", font=("Helvetica", 10, "bold"))
+        self.CurrentAngleX.grid(row=0, column=1, padx=10, pady=2)
+        Label(frameAngle, text="y:", bg="gray75").grid(row=1, column=0, padx=0, pady=2)
+        self.CurrentAngleY = Label(frameAngle, text=com.buf_moteur[0], bg="gray75", font=("Helvetica", 10, "bold"))
+        self.CurrentAngleY.grid(row=1, column=1, padx=10, pady=2)
+        # -------------------------------------------------------------------------------------------------------------------- #
+
+        # Frame OpenCR
+        frameOpen = Frame(frameAngleTitre, width=50, height=100)
+        frameOpen.grid(row=2, column=0, padx=10, pady=2)
+        frameOpen.config(bg="gray55")
+        Label(frameOpen, text="État du OpenCR:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        self.CurrentEtat = Label(frameOpen, text=com.etat, bg="gray75", font=("Helvetica", 10, "bold"))
+        self.CurrentEtat.grid(row=1, column=0, padx=10, pady=2)
+
+        switch_variable = StringVar(value="off")
+
+
+
+
+
+        BoutonInit = Radiobutton(frameOpen, text="Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.initalisation(), width=8, value="init")
+        BoutonInit.grid(row=2, column=0, padx=10, pady=2)
+        BoutonStable = Radiobutton(frameOpen, text="Stable", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.btnHauteurUp, width=8, value="stable")
+        BoutonStable.grid(row=4, column=0, padx=10, pady=2)
+        BoutonManuel = Radiobutton(frameOpen, text="Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.btnHauteurDown, width=8, value="manuel")
+        BoutonManuel.grid(row=3, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
 
          # Frame Quit
         frameQuit = Frame(self.fenetre, width=50, height=50)
         frameQuit.grid(row=0, column=3, padx=10, pady=2)
-        BoutonQuit = Button(frameQuit, text="Quitter l'application", command=com.btnQuit)
+        frameQuit.config(bg="gray35")
+        BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
-        # -------------------------------------------------------------------------------------------------------------------- #
 
-        # Frame OpenCR
-        frameOpen = Frame(frameQuit, width=50, height=100)
-        frameOpen.grid(row=1, column=0, padx=10, pady=2)
-        Label(frameOpen, text="États du OpenCR:").grid(row=0, column=0, padx=10, pady=20)
+
 
 
 
@@ -271,6 +305,10 @@ class application(threading.Thread):
 
             self.CurrentAngleX.configure(text=com.angle[0])
             self.CurrentAngleY.configure(text=com.angle[1])
+
+            self.CurrentEtat.configure(text=com.etat)
+
+            self.CurrentHauteur.configure(text=com.hauteur)
 
             self.fenetre.after(250, Refresher)
 
