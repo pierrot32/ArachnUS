@@ -23,6 +23,10 @@
     *
     */
 
+/*****************************************************************************
+  Le code ci-dessous a été modifier de l'original (référence ci-dessus) dans le cadre du projet ArachnUS (S4-GRO)
+******************************************************************************/
+
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>

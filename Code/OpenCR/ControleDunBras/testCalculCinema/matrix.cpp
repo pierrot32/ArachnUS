@@ -19,6 +19,9 @@
       along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/*****************************************************************************
+  Le code ci-dessous a été modifier de l'original (référence ci-dessus) dans le cadre du projet ArachnUS (S4-GRO)
+******************************************************************************/
 
 #include "matrix.h"
 
@@ -230,9 +233,9 @@ void matrix_printf(const matrix_obj * obj) {
 
   for (iRow = 0; iRow < obj->nRows; iRow++) {
     for (iCol = 0; iCol < obj->nCols; iCol++) {
-      char bufferPrint[2000];
-      sprintf(bufferPrint, "%+1.5f ", obj->array[iRow * obj->nCols + iCol]);
-      Serial.print(bufferPrint); //printf("%+1.5f ", obj->array[iRow * obj->nCols + iCol]);
+      String value = String(obj->array[iRow * obj->nCols + iCol]);
+      Serial.print(value.c_str()); //printf("%+1.5f ", obj->array[iRow * obj->nCols + iCol]);
+      Serial.print(" ");
     }
     Serial.println(); //printf("\n");
   }

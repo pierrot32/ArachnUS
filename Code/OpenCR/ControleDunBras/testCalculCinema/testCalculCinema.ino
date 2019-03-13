@@ -18,9 +18,8 @@ void setup() {
 void loop() {
   matrix_printf(matriceTest1);
   Serial.println();
-  delay(500);
-
   index += 0.1;
-  matriceTest1->array[1][1] = index;
-
+  matriceTest1->array[1] = index;
+  
+  delay(500);
 }

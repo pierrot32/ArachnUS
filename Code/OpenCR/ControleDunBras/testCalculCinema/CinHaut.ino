@@ -9,20 +9,29 @@ float qb = 0.0;
 float qbx = 3.1416/2.0;
 float qv = 3.1416/10.0;
 
-float q[3] = {qv, qbx, 0};
+matrix_obj *q;
+q = matrix_construct_zero(3, 1);
+q->array[0] = qv;
+q->array[1] = qbx;
 
-float Tw0[4][4] =  {{cos(20)       sin(20)       0       0},
-                    {-sin(20)      cos(20)       0       0},
-                    {   0           0            1       0},
-                    {   0           0            0       1}
-                   };
-        
+matrix_obj *Tw0;
+Tw0 = matrix_construct_zero(4, 4);
+Tw0->array[0] = cos(20);
+Tw0->array[1] = sin(20);
+Tw0->array[4] = -sin(20);
+Tw0->array[5] = cos(20);
+Tw0->array[10] = 1;
+Tw0->array[15] = 1;     
 
 // Recherce de la cinématique directe
-float TwF[16][4]; //À valider...
+matrix_obj *TwF;
+TwF = matrix_construct_zero(4, 12);
 TwF = transMat_w2f(q, Tw0);
-float Tw1[4][4] = TwF(1:4,1:4);
 
+matrix_obj *Tw1;
+Tw1 = matrix_construct_zero(4, 4);
+
+float Tw1[4][4] = TwF(1:4,1:4);
 float Tw2[4][4] = TwF(1:4, 5:8);
 float Tw3[4][4] = TwF(1:4, 9:12);
 A = findpoint(Tw3);
