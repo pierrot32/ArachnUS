@@ -1,6 +1,10 @@
 
 #define NBR_DE_SERVO 8
+#include <IMU.h>
+
 // variables globales
+
+cIMU    IMU;
 
 int initDone = 0;
 
@@ -18,9 +22,7 @@ typedef struct envoi{
   long hauteur;
   long angx;
   long angy;
-  long angz;
 };
-
 envoi msg_Envoi;
 
 int height[NBR_DE_SERVO];
@@ -28,9 +30,25 @@ int state[NBR_DE_SERVO];
 byte buff[10*sizeof(long)];
 int valeurs_Angles_moteurs[NBR_DE_SERVO];
 
+// variables accél
+typedef struct angleRobot{
+  float angleX = 0.0;
+  float angleY = 0.0;
+};
+
+angleRobot aRobot;
+
+uint8_t   led_tog = 0;
+uint8_t   led_pin = 13;
+
+static uint32_t tTime[3];
+static uint32_t imu_time = 0;
+
 void setup() {
-Serial.begin(115200);
-initFctServo(valeurs_Angles_moteurs);
+  Serial.begin(115200);
+  IMU.begin();
+  pinMode( led_pin, OUTPUT );
+  initFctServo(valeurs_Angles_moteurs);
 }
 
 void loop() {
@@ -40,7 +58,7 @@ void loop() {
     copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
   }
 
-  switch(state[0]){
+  switch(3/*state[0]*/){
     case 0:
       initDone = 0;
       //etat arret fait rien
@@ -63,20 +81,18 @@ void loop() {
         break;        
 //        }
 
-/*    case 3:
-      //etat à venir
+    case 3:
+      //etat stabilisation appel des fonctions de calcul d'angle du robot
+      msg_Envoi.etat = 3;
+      aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
 
       break;
     case 4:
-      //etat à venir
+      //etat modulation de la hauteur
 
       break;
-    case 5:
-      //etat à venir
-
-      break;*/
   }
-  envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+  //envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
 
   delay(100);
 }
