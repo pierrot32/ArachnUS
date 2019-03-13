@@ -46,11 +46,11 @@ void loop()
 
     Serial.print(imu_time);
     Serial.print(" \t");
-    Serial.print(IMU.gyroRaw[0]);    // GYRO X
+    Serial.print((float)(IMU.gyroRaw[0])/16.4);    // GYRO X
     Serial.print(" \t");
-    Serial.print(IMU.gyroRaw[1]);    // GYRO Y
+    Serial.print((float)(IMU.gyroRaw[1])/16.4);    // GYRO Y
     Serial.print(" \t");
-    Serial.print(IMU.gyroRaw[2]);    // GYRO Z
+    Serial.print((float)(IMU.gyroRaw[2])/16.4);    // GYRO Z
     Serial.println(" ");
   }
 }
