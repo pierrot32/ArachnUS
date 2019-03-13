@@ -12,7 +12,7 @@ def Increment(numMoteur):
     # Incrément +5 degrés
     #print(com.moteur[numMoteur])
     #com.moteur[numMoteur] = com.moteur[numMoteur] + 5
-    eM1.insert()
+    #eM1.insert()
     print("Moteur #", numMoteur,"\t\t\tValeur:", com.moteur[numMoteur])
 
 
@@ -20,8 +20,8 @@ def Increment(numMoteur):
 def Decrement(numMoteur):
     # Décrément -5 degrés
     #print(com.moteur[numMoteur])
-    com.moteur[numMoteur] = com.moteur[numMoteur] - 5
-    #print("Moteur #", numMoteur, "\t\t\tValeur:", com.moteur[numMoteur])
+    #com.moteur[numMoteur] = com.moteur[numMoteur] - 5
+    print("Moteur #", numMoteur, "\t\t\tValeur:", com.moteur[numMoteur])
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -211,7 +211,6 @@ class application(threading.Thread):
         self.fenetre.mainloop() # Start monitoring and updating the GUI
 # -------------------------------------------------------------------------------------------------------------------- #
 
-app = application()
 
 
 
