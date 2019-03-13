@@ -28,7 +28,7 @@ end
 %% Creation of the transformation matrices between frames
     if strcmp(convention,'Modified')
         %Transformation matrix ^{n-1}T^{n}
-        for i=1:6
+        for i=1:DOF
             T(:,:,i)=[cos(q(i)) -sin(q(i)) 0 a(i);...
                 sin(q(i))*cos(alpha(i)) cos(alpha(i))*cos(q(i)) -sin(alpha(i)) -d(i)*sin(alpha(i)); ...
                 sin(q(i))*sin(alpha(i)) cos(q(i))*sin(alpha(i)) cos(alpha(i)) d(i)*cos(alpha(i));...
@@ -88,12 +88,12 @@ end
         end 
         
         % Correcting the orientation of rotation. Varies due to DH frames
-        J(:,1) = J(:,1);
-        J(:,2) = J(:,2);
-        J(:,3) = J(:,3);
-        J(:,4) = J(:,4);
-        J(:,5) = J(:,5);
-        J(:,6) = -J(:,6);
+%         J(:,1) = J(:,1);
+%         J(:,2) = J(:,2);
+%         J(:,3) = J(:,3);
+%         J(:,4) = J(:,4);
+%         J(:,5) = J(:,5);
+%         J(:,6) = -J(:,6);
     else
         'Choose a convention between Classic and Modified'
     end

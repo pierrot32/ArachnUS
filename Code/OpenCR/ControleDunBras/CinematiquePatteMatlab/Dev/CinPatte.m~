@@ -5,10 +5,10 @@
 
 clear all;
 % ======== Constantes ========
-lv = 2;
-lbx = 1;
-qv = -pi/10;
-qbx = -pi/5;
+lv = 72.5;      % mm
+lbx = 116.1;    % mm
+qv = 0;
+qbx = 0;
 
 DOF = 3;
 graphlim = lv+lbx;
@@ -72,7 +72,7 @@ end
 Jacobien = Jacobian_complete('Modified', DOF, dh, TW0, q, 'Radians')
 
 % ======= Cinématique inverse ========
-Pgoal = [coord(:,3);0;0;0]
+Pgoal = [coord(:,3);MatRotationToEuler(T0(1:3, 1:3, 3))];
 IK = InverseKinematics_complete('Modified', DOF, dh, TW0, Pgoal, transpose(q), 'Radians')
 
 

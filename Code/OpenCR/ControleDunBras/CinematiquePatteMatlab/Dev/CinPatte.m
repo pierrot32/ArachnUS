@@ -1,14 +1,14 @@
 % Cinématique de patte
 % ArachnUS - Projet S4 - GRO
 % Création : 7 Mars 2019 - 21h30
-% Dernière Modification : 10 Mars 2019 - 13h30
+% Dernière Modification : 8 Mars 2019 - 9h30
 
 clear all;
 % ======== Constantes ========
-lv = 2;
-lbx = 1;
-qv = pi;
-qbx = pi/2;
+lv = 72.5;      % mm
+lbx = 116.1;    % mm
+qv = 0;
+qbx = 0;
 
 DOF = 3;
 graphlim = lv+lbx;
@@ -72,8 +72,8 @@ end
 Jacobien = Jacobian_complete('Modified', DOF, dh, TW0, q, 'Radians')
 
 % ======= Cinématique inverse ========
-Pgoal = [coord(:,3);0;0;0]
-IK = InverseKinematics_complete('Modified', DOF, dh, TW0, Pgoal, transpose(q+1), 'Radians')
+Pgoal = [coord(:,3);MatRotationToEuler(T0(1:3, 1:3, 3))];
+IK = InverseKinematics_complete('Modified', DOF, dh, TW0, Pgoal, transpose(q), 'Radians')
 
 
 % ======= Graphique de la patte ========
@@ -82,6 +82,7 @@ plot(coord(1,:), coord(2,:))
 xlim([-graphlim graphlim])
 ylim([-graphlim graphlim])
 hold on
+grid on
 
 plot(0, 0, '-r*')
 
