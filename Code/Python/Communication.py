@@ -83,7 +83,7 @@ class communicationOpenCr(object):
     def read_one_value(self):
             data = self.port.read(self.SIZE_STRUCT)
             print(data)
-            new_values = struct.unpack('iiiiiiiiiiiii', data)
+            new_values = struct.unpack('iiiiiiiiiiii', data)
             print(new_values);
 
     def envoieVersArduino(self, port, moteur):

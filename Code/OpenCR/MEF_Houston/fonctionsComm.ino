@@ -1,3 +1,8 @@
+
+/*************************************************** 
+  Fonctions de communication entre OpenCR et Python(PC)
+ ****************************************************/
+
 //fonction de lecture des données envoyées du PC à la carte (stocke toutes les données dans un buffer)
 bool lecture(byte *buf){
   return(Serial.readBytes((char*)buf, 10*sizeof(long))== 10*sizeof(long)); 
@@ -26,5 +31,7 @@ void envoi_serie(envoi MSG, int valeurs_moteurs[NBR_DE_SERVO]){
   MSG.moteur5 = valeurs_moteurs[5];
   MSG.moteur6 = valeurs_moteurs[6];
   MSG.moteur7 = valeurs_moteurs[7];
+  MSG.angx = long(aRobot.angleX);
+  MSG.angy = long(aRobot.angleY);
   Serial.write((uint8_t*)&MSG, sizeof(MSG));
 }
