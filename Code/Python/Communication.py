@@ -11,11 +11,11 @@ import numpy as np
 
 moteur = [45,45,45,45,45,45,45,45,0]
 buf_moteur = moteur.copy()
-<<<<<<< HEAD
+
 etat = [0,1,2]
-=======
-etat = 3
->>>>>>> 1031648fa6bd7efb40fa08eda5f8a385d9bcd472
+
+#etat = 3
+
 hauteur = 0
 debutStructure = 0
 angle = [100, 250]
