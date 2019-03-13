@@ -8,8 +8,8 @@ float anglePatteArriereGauche = 0;
 float anglePatteArriereDroite = 0;
 
 float angleAxeXPatte1 = 0;
-float angleAxeXPatte2 = 45;
-float angleAxeXPatte3 = -45;
+float angleAxeXPatte2 = -45;
+float angleAxeXPatte3 = 45;
 
 
 deltaAngleMoteurHauteur stabilisationRobot(angleRobot aRobot2){
@@ -26,10 +26,10 @@ deltaAngleMoteurHauteur stabilisationRobot(angleRobot aRobot2){
 
 //Calculs des delta hauteur pour la stabilisation en Y du robot
     float distanceEnYPatte1 = (distanceMilieuRobotAxeRotPatte+distanceSupportPatte);
-    float distanceEnYPatte2 = -cos(angleAxeXPatte2*3.14/180.0)*(distanceMilieuRobotAxeRotPatte+distanceSupportPatte);
-    float distanceEnYPatte3 = -cos(angleAxeXPatte3*3.14/180.0)*(distanceMilieuRobotAxeRotPatte+distanceSupportPatte);
+    float distanceEnYPatte2 = cos(angleAxeXPatte2*3.14/180.0)*(distanceMilieuRobotAxeRotPatte+distanceSupportPatte);
+    float distanceEnYPatte3 = cos(angleAxeXPatte3*3.14/180.0)*(distanceMilieuRobotAxeRotPatte+distanceSupportPatte);
     
-    float deltaHauteurYPatte1 = sin(aRobot2.angleY*3.14/180)*(distanceEnYPatte1);
+    float deltaHauteurYPatte1 = -sin(aRobot2.angleY*3.14/180)*(distanceEnYPatte1);
     float deltaHauteurYPatte2 = sin(aRobot2.angleY*3.14/180)*(distanceEnYPatte2);
     float deltaHauteurYPatte3 = sin(aRobot2.angleY*3.14/180)*(distanceEnYPatte3);
 
