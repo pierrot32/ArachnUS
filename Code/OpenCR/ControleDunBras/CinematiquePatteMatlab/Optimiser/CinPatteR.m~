@@ -7,11 +7,11 @@ clear all; close all;
 lv = 72.5;      % mm
 lbx = 116.1;    % mm
 
-qb = 130;                 % Angle entre le support et bleu1
+qb = 85;                 % Angle entre le support et bleu1
 
 qbx = -1.0914*qb + 27.979 % Angle de bleu1 à partir de vert1
 qbx = qbx*2*pi/360;
-qv = -35*2*pi/360;             % Angle entre le support et vert1
+qv = 0;             % Angle entre le support et vert1
 
 q = [qv; qbx;0];
 
@@ -19,8 +19,7 @@ q = [qv; qbx;0];
 % Matrice de rotation entre le world frame et le frame 0
 Tw0 = [1    0   0   0;
         0   1   0   0;
-        0   0   1   0;
-        0   0   0   1];
+        
 % Tw0 =  [cosd(20)       sind(20)       0       0;
 %         -sind(20)      cosd(20)       0       0;
 %         0       0       1       0;
@@ -47,7 +46,7 @@ J = Jacobien(q, Tw0, Tw1, Tw2, Tw3);
 % Définition de la position à atteindre et recherche des angles pour
 % atteindre cette position cartésienne
 Pgoal = [A;MatRotationToEuler(Tw3(1:3,1:3))];
-Ik = invCinPatte(Pgoal,q+0.2,Tw0)
+Ik = invCinPatte(Pgoal,q+0.6,Tw0)
 
 %% Affichage graphique de la patte
 coord = [   Tw1(1,4), Tw2(1,4), Tw3(1,4); 
