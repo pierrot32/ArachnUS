@@ -9,9 +9,9 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 
 //À valider:
-#define SERVOMINg  250 // this is the 'minimum' pulse length count (out of 4096)
+#define SERVOMINg  300 // this is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAXg  450 // this is the 'maximum' pulse length count (out of 4096)
-#define SERVOMINd  250
+#define SERVOMINd  300
 #define SERVOMAXd  450
 
 // Compteur de servo
@@ -55,6 +55,7 @@ void loop() {
   while(Serial.available() > 0){
     commande = Serial.readStringUntil(',');
     valeurAngle = Serial.parseInt();
+    Serial.read();
   }
   
   if(commande == "g"){
@@ -81,6 +82,8 @@ void loop() {
   }
   
   delay(500);
+  //Serial.println(commande);
+  //Serial.println(valeurAngle);
   Serial.print("Gauche: ");
   Serial.print(valeurAngleG);
   Serial.print("  ///  Droite: ");

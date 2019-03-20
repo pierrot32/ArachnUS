@@ -1,9 +1,13 @@
-# Python Interface v.0.13
+# Python Interface v.0.14
 
 
 from tkinter import *
 import threading
 import Communication as com
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -154,7 +158,7 @@ class application(threading.Thread):
 
         # Frame Mode Stabilisation
         frameStable = Frame(self.fenetre)
-        frameStable.grid(sticky="N", row=0, column=2, padx=10, pady=10)
+        frameStable.grid(sticky="NW", row=0, column=2, padx=10, pady=10)
         frameStable.config(bg="gray55")
         Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
         BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp, width=9)
@@ -170,7 +174,7 @@ class application(threading.Thread):
 
         # Frame Angle robot
         frameAngleTitre = Frame(self.fenetre)
-        frameAngleTitre.grid(sticky="N", row=0, column=1, padx=10, pady=10)
+        frameAngleTitre.grid(sticky="NS", row=0, column=1, padx=10, pady=10)
         frameAngleTitre.config(bg="gray55")
         Label(frameAngleTitre, text = "Angle du robot:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
 
@@ -210,7 +214,23 @@ class application(threading.Thread):
         BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=self.exxit)#com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
 
+        # -------------------------------------------------------------------------------------------------------------------- #
 
+        # Frame Plan / Orientation
+        # Utiliser Surf, produit vectorielle de la normal pour générer le plan?
+        frameGraph = Frame(self.fenetre)
+        frameGraph.grid(sticky="SW", row=0, column=2, padx=10, pady=10, columnspan=2)
+        frameGraph.config(bg="gray55")
+        Label(frameGraph, text="Orientation du plan:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+
+        w = Canvas(frameGraph, width=350, height=115)
+        w.grid(row=1, column=0, padx=10, pady=2)
+
+        # xx, yy = np.meshgrid(range(2), range(2))
+        # zz = xx * 0
+        #
+        # ax = plt.subplot(projection='3d')
+        # ax.plot_surface(xx, yy, zz)
 
 
 
