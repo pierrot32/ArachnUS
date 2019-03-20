@@ -22,7 +22,7 @@ void copie_array_struc(byte *buf, int valeurs_angles[], int state[], int hauteur
 //fontion d'envoi des données de la carte openCR au PC
 void envoi_serie(envoi MSG, int valeurs_moteurs[NBR_DE_SERVO]){
   MSG.etat = state[0];
-  MSG.hauteur = height[0];
+  MSG.hauteur = hauteur_actuelle;
   MSG.moteur0 = valeurs_moteurs[0];
   MSG.moteur1 = valeurs_moteurs[1];
   MSG.moteur2 = valeurs_moteurs[2];

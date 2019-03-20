@@ -1,9 +1,9 @@
 
-#define trigPin 12 // define TrigPin 
-#define echoPin 11 // define EchoPin. 
 #define MAX_DISTANCE 200 // Maximum sensor distance is rated at 400-500cm. 
 // define the timeOut according to the maximum range. timeOut= 2*MAX_DISTANCE /100 /340 *1000000 = MAX_DISTANCE*58.8
- 
+
+uint8_t   trigPin = 12;
+uint8_t   echoPin = 11;
 float timeOut = MAX_DISTANCE * 60;  
 
 int soundVelocity = 340; // define sound speed=340m/s 
@@ -23,10 +23,17 @@ void loop() {
  
 float getSonar() {   
   unsigned long pingTime;   
-  float distance;   
+  float distance;
+  digitalWrite(trigPin, LOW);    // Set the trigger pin to low for 2uS
+  delayMicroseconds(2);   
   digitalWrite(trigPin, HIGH); // make trigPin output high level lasting for 10μs to triger HC_SR04,   
   delayMicroseconds(10);   
   digitalWrite(trigPin, LOW);   
   pingTime = pulseIn(echoPin, HIGH, timeOut); // Wait HC-SR04 returning to the high level and measure out this waitting time   
-  distance = (float)pingTime * soundVelocity / 2 / 10000; // calculate the distance according to the time   return distance; // return the distance value 
+//  Serial.print("Pingtime: ");
+//  Serial.println(pingTime);
+  distance = pingTime * soundVelocity / 2 / 10000; // calculate the distance according to the time
+//  Serial.print("Distance: ");
+//  Serial.println(distance);
+  return distance; 
 } 

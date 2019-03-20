@@ -1,7 +1,5 @@
 
 #define NBR_DE_SERVO 8
-#define trigPin 12 // define TrigPin 
-#define echoPin 11 // define EchoPin.
 #include <IMU.h>
 
 // variables globales
@@ -27,8 +25,10 @@ typedef struct envoi{
 };
 envoi msg_Envoi;
 
-int height[NBR_DE_SERVO];
-int state[NBR_DE_SERVO];
+int delta_hauteur;
+int height[1];
+int hauteur_actuelle;
+int state[1];
 byte buff[10*sizeof(long)];
 int valeurs_Angles_moteurs[NBR_DE_SERVO];
 
@@ -42,6 +42,8 @@ angleRobot aRobot;
 
 uint8_t   led_tog = 0;
 uint8_t   led_pin = 13;
+uint8_t   trigPin = 12;
+uint8_t   echoPin = 11;
 
 static uint32_t tTime[3];
 static uint32_t imu_time = 0;
@@ -63,11 +65,11 @@ void setup() {
 }
 
 void loop() {
-  while(Serial.available() > 0){
-    bool x;
-    x = lecture(buff);
-    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
-  }
+//  while(Serial.available() > 0){
+//    bool x;
+//    x = lecture(buff);
+//    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
+//  }
 
   switch(state[0]){
     case 0:
@@ -117,9 +119,15 @@ void loop() {
       break;
     case 4:
       //etat modulation de la hauteur
-      height[0] = int(getSonar());
+      hauteur_actuelle = int(getSonar());
+//      Serial.print("Hauteur :\t"); //écriture dans le port série pour la vérification du fonctionnement du capteur
+//      Serial.println(hauteur_actuelle);
+      delta_hauteur = height[0] - hauteur_actuelle; //Permet de déterminer la différence de hauteur (positive ou négative) entre la hauteur demandée et la hauteur actuelle
+      //valeurs_Angles_moteurs = cinematique(deltax = 0, delta_hauteur, valeurs_Angles_moteurs);// Passer le delta_hauteur en paramètres à la fonction de traduction en commandes moteur 
+      updateServos(valeurs_Angles_moteurs);// Envoi des commandes à la fonction d'ajustement de la position des servos
       break;
   }
+  hauteur_actuelle = int(getSonar());
   envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
 
   delay(100);
