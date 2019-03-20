@@ -1,4 +1,4 @@
-# Python Interface v.0.12
+# Python Interface v.0.13
 
 
 from tkinter import *
@@ -38,15 +38,18 @@ class application(threading.Thread):
         threading.Thread.__init__(self)
         self.start()
 
-    def exit(self):
+    def exxit(self):
         self.isrunning = False
+        #self.fenetre.destroy()
+        exit()
+
 
 
     def run(self):
         self.fenetre = Tk() # Créé la fenêtre
         self.fenetre.wm_title("Interface ArachnUS") # Titre de la fenêtre
         self.fenetre.config(bg = "gray35")
-        self.fenetre.protocol("WM_DELETE_WINDOW", exit)
+        self.fenetre.protocol("WM_DELETE_WINDOW", self.exxit)
 
         # Frame Moteur
         frameMoteur = Frame(self.fenetre)
@@ -204,7 +207,7 @@ class application(threading.Thread):
         frameQuit = Frame(self.fenetre)
         frameQuit.grid(sticky="N", row=0, column=3, padx=10, pady=10)
         frameQuit.config(bg="gray35")
-        BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=exit)#com.btnQuit)
+        BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=self.exxit)#com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
 
 
@@ -272,9 +275,6 @@ class application(threading.Thread):
 
             self.fenetre.after(250, Refresher)
 
-
-
-
         Refresher()
 
         while self.isrunning:
@@ -282,5 +282,5 @@ class application(threading.Thread):
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
-
+#app = application()
 
