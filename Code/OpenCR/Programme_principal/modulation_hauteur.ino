@@ -1,10 +1,10 @@
-#define H_Max 20;
+/*#define H_Max 20;
 #define H_Min 5;
 #define A_Min 0;
 #define A_Max 90;
 
 int trouverDelta(h_demandée, h_actuelle){
-  if (h_demandée<H_Min){
+ if (h_demandée<H_Min){
     h_demandée = H_Min;
     else
     if (h(demandée>H_Max){
@@ -16,4 +16,4 @@ int trouverDelta(h_demandée, h_actuelle){
     else
     return h_demandée-h_actuelle;
   }
-}
+}*/

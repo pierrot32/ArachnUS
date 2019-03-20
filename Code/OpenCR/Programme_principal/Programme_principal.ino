@@ -46,7 +46,7 @@ uint8_t   trigPin = 12;
 uint8_t   echoPin = 11;
 
 
-static uint32_t timePidMoteur = 50; //ms
+static uint32_t timePidMoteur = 15; //ms
 static uint32_t timeMoteur[3];
 
 
