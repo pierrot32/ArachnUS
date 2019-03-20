@@ -121,13 +121,10 @@ void matrix_mul(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * sr
   unsigned int iElement;
 
   for (iRow = 0; iRow < src1->nRows; iRow++) {
-
     for (iCol = 0; iCol < src2->nCols; iCol++) {
-
       obj->array[iRow * obj->nCols + iCol] = 0.0f;
 
       for (iElement = 0; iElement < src1->nCols; iElement++) {
-
         obj->array[iRow * obj->nCols + iCol] += (src1->array[iRow * src1->nCols + iElement] * src2->array[iElement * src2->nCols + iCol]);
 
       }
@@ -137,6 +134,12 @@ void matrix_mul(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * sr
 
 void matrix_inv(matrix_obj * obj, const matrix_obj * src) {
   float a00, a01, a02, a10, a11, a12, a20, a21, a22;
+  float b00, b01, b02, b03, b04, b05, 
+        b10, b11, b12, b13, b14, b15, 
+        b20, b21, b22, b23, b24, b25,
+        b30, b31, b32, b33, b34, b35,
+        b40, b41, b42, b43, b44, b45,
+        b50, b51, b52, b53, b54, b55;
   float det;
 
   if ((src->nRows == 2) && (src->nCols == 2)) {
@@ -240,3 +243,23 @@ void matrix_printf(const matrix_obj * obj) {
     Serial.println(); //printf("\n");
   }
 }
+
+void matrix_copie_part(matrix_obj * obj, const matrix_obj * src1, unsigned int RowMin, unsigned int ColMin, unsigned int RowMax, unsigned int ColMax) {
+  unsigned int iRow;
+  unsigned int iCol;
+
+  for (iRow = 0; iRow < obj->nRows; iRow++) {
+    for (iCol = 0; iCol < obj->nCols; iCol++) {
+      obj->array[iRow * obj->nCols + iCol] = src1->array[(iRow+(RowMin-1)) * src1->nCols + (iCol+(ColMin-1))];
+    }
+  }
+}
+
+void matrix_cross(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * src2) {
+  
+  obj->array[0] = src1->array[1]*src2->array[2] - src1->array[2]*src2->array[1];
+  obj->array[1] = src1->array[2]*src2->array[0] - src1->array[0]*src2->array[2];
+  obj->array[2] = src1->array[0]*src2->array[1] - src1->array[1]*src2->array[0];
+
+}
+

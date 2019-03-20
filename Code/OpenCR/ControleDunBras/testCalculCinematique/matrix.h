@@ -122,4 +122,16 @@
     */
     void matrix_printf(const matrix_obj * obj);
 
+    /** Copy part of the content of a matrix in another one.
+        \param      obj         Object to copie.
+        \param      src1        Matrix in witch the copie is done.
+        \param      RowMax      High limit of row to copie.
+        \param      ColMax      High limit of col to copie.
+        \param      RowMax      Low limit of row to copie.
+        \param      ColMax      Low limit of col to copie.
+    */
+    void matrix_copie_part(matrix_obj * obj, const matrix_obj * src1, unsigned int RowMax, unsigned int ColMax, unsigned int RowMin, unsigned int ColMin);
+
+    void matrix_cross(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * src2);
+
 #endif
