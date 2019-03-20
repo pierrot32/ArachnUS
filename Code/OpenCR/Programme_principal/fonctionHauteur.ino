@@ -15,5 +15,6 @@ float getSonar() {
   delayMicroseconds(10);   
   digitalWrite(trigPin, LOW);   
   pingTime = pulseIn(echoPin, HIGH, timeOut); // Wait HC-SR04 returning to the high level and measure out this waitting time   
-  distance = (float)pingTime * soundVelocity / 2 / 10000; // calculate the distance according to the time   return distance; // return the distance value 
+  distance = (float)pingTime * soundVelocity / 2 /1000; // calculate the distance according to the time   
+  return distance; // return the distance value 
 } 

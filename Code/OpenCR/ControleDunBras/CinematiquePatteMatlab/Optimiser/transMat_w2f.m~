@@ -10,8 +10,6 @@ function TwFi = transMat_w2f(q, Tw0)
     lbx = 116.1;    % mm
     F = 3;
     
-    qv = q(1);
-    qbx = q(2);
     % ======== Matrice de transformation ========
     % Matrice de transformation entres 0 et frame i
     T0Fi(:,:,1) = [cos(qv)  -sin(qv)    0   0;
@@ -24,15 +22,16 @@ function TwFi = transMat_w2f(q, Tw0)
                     0       0           0   1];
                 
     T0Fi(:,:,3) = [cos(qbx)  -sin(qbx)  0   lv*cos(qv)+lbx*cos(qbx);
-                    sin(qbx) cos(qbx)   0   lv*sin(qv)+lbx*sin(qbx);
+                    sin(qbx) cos(qbx)   0   lv*sin(qv)+lbx*cos(qbx);
                     0       0           1   0;
                     0       0           0   1];
 
     % Matrices de transformations entre joint et world frame
-    for ind = 1:3
-        T0(:,:,ind) = Tw0*T0Fi(:,:,ind);
-    end 
-    
+    T0(:,:,1) = Tw0*T0Fi(:,:,1);
+    for index = 2: F
+        T0(:,:,index) = T0(:,:,index-1)*Ti_im1(:,:,index);
+    end
+ 
     TwFi = [T0(:,:,1) T0(:,:,2) T0(:,:,3)];
 
 end

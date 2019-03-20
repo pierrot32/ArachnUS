@@ -1,3 +1,12 @@
+% EulerXYZtoRot - ArachnUS - Cinématique de Patte
+% Fonction qui retourne la matrice de rotation à partir d'un set d'angles
+% d'Euler XYZ
+% Arguments : Euler est le vecteur contenant les trois angles d'Euler
+% Sortie : Q est la matrice de rotation provenant des angles d'Euler
+
+% Création : 13 Mars 2019 - 10h
+% Dernière Modification : 13 Mars 2019 - 10h
+
 function  Q  = EulerXYZtoRot(Euler)
     c1 = cos(Euler(1));
     s1 = sin(Euler(1));

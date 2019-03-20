@@ -1,5 +1,8 @@
 % findpoint - ArachnUS - Cinématique de Patte
 % Fonction qui trouve la position décrite par la matrice de transformation
+% Arguments : T est la matrice de transformation
+% Sortie : A est la position décrite par la matrice de transformation
+
 % Création : 13 Mars 2019 - 10h
 % Dernière Modification : 13 Mars 2019 - 10h
 
