@@ -106,7 +106,7 @@ class communicationOpenCr(object):
     def envoieVersArduino(self, port, moteur):
         #print("Envoie des donnees")
         print("etat=", etat)
-        value = struct.pack('iiiiiiiiii', etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
+        value = struct.pack('iiiiiiiiii', 3, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
         print(value)
         self.port.write(value)
 

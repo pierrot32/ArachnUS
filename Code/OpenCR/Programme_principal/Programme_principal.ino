@@ -45,6 +45,11 @@ uint8_t   led_pin = 13;
 uint8_t   trigPin = 12;
 uint8_t   echoPin = 11;
 
+
+static uint32_t timePidMoteur = 50; //ms
+static uint32_t timeMoteur[3];
+
+
 static uint32_t tTime[3];
 static uint32_t imu_time = 0;
 
@@ -65,11 +70,11 @@ void setup() {
 }
 
 void loop() {
-//  while(Serial.available() > 0){
-//    bool x;
-//    x = lecture(buff);
-//    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
-//  }
+  while(Serial.available() > 0){
+    bool x;
+    x = lecture(buff);
+    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
+  }
 
   switch(state[0]){
     case 0:
@@ -97,24 +102,39 @@ void loop() {
     case 3:
       //etat stabilisation appel des fonctions de calcul d'angle du robot
       msg_Envoi.etat = 3;
-      if( (millis()-tTime[1]) >= 10 ){
-        tTime[1] = millis();
+     // if( (millis()-tTime[1]) >= 10 ){
+      //  tTime[1] = millis();
 
         aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
         dMAngle = stabilisationRobot(aRobot);
-        if( valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1>=0 && valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1<= 90){
-          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1;
+        if( valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1>=0 && valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1<= 90 && millis() - timeMoteur[0] >= timePidMoteur){
+          if(dMAngle.deltaAngleMoteur1>0){
+          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + 1;
+          } else{
+            valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] - 1;
+          }
+          timeMoteur[0] = millis();
         }
-        if( valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2>=0 && valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2<= 90){
-          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + dMAngle.deltaAngleMoteur2;
+        if( valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2>=0 && valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2<= 90 && millis() - timeMoteur[1] >= timePidMoteur){
+          if(dMAngle.deltaAngleMoteur2>0){
+          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + 1;
+          } else{
+            valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] - 1;
+          }
+          timeMoteur[1] = millis();
         }
-        if( valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3>=0 && valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3<= 90){
-          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + dMAngle.deltaAngleMoteur3;
+        if( valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3>=0 && valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3<= 90 && millis() - timeMoteur[2] >= timePidMoteur){
+          if(dMAngle.deltaAngleMoteur3>0){
+          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + 1;
+          } else{
+            valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] - 1;
+          }
+          timeMoteur[2] = millis();
         }
 
         updateServos(valeurs_Angles_moteurs);
         
-  }
+  //}
 
       break;
     case 4:
@@ -130,5 +150,7 @@ void loop() {
   hauteur_actuelle = int(getSonar());
   envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
 
-  delay(100);
+  //delay(100);
 }
+
+
