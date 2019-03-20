@@ -26,9 +26,9 @@ typedef struct envoi{
 envoi msg_Envoi;
 
 int delta_hauteur;
-int height[1];
+int height[NBR_DE_SERVO];
 int hauteur_actuelle;
-int state[1];
+int state[NBR_DE_SERVO];
 byte buff[10*sizeof(long)];
 int valeurs_Angles_moteurs[NBR_DE_SERVO];
 
@@ -147,10 +147,13 @@ void loop() {
       updateServos(valeurs_Angles_moteurs);// Envoi des commandes à la fonction d'ajustement de la position des servos
       break;
   }
-  hauteur_actuelle = int(getSonar());
-  envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+  //hauteur_actuelle = int(getSonar());
+  if( (millis()-tTime[1]) >= 100 ){
+    tTime[1] = millis();
+    envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+  }
 
-  //delay(100);
+  delay(5);
 }
 
 
