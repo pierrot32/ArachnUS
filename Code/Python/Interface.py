@@ -35,12 +35,12 @@ class application(threading.Thread):
 
 
     def __init__(self):
+        self.isrunning = True
         threading.Thread.__init__(self)
         self.start()
 
     def exxit(self):
         self.isrunning = False
-        #self.fenetre.destroy()
         exit()
 
 
@@ -277,8 +277,8 @@ class application(threading.Thread):
 
         Refresher()
 
-        while self.isrunning:
-            self.fenetre.mainloop() # Start monitoring and updating the GUI
+
+        self.fenetre.mainloop() # Start monitoring and updating the GUI
 
 
 # -------------------------------------------------------------------------------------------------------------------- #

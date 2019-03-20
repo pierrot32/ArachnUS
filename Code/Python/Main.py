@@ -10,7 +10,7 @@ app = interface.application()
 
 
 
-while(True):
+while(app.isrunning):
     if com.portArduino.readable():
         com.Arduino.read_one_value()
     time.sleep(0.05)
