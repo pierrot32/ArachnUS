@@ -1,5 +1,6 @@
 
 #include "Cinematique.h"
+#include "gaussjordan.h"
 
 matrix_obj *q;
 matrix_obj *Tw0;  
