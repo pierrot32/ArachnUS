@@ -102,22 +102,12 @@ void loop() {
   matrix_inv(matriceTestInv, matriceTest1);
   matrix_printf(matriceTestInv);
   Serial.println();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-  Serial.println("-----------------------------------------------------------------");
+  Serial.print("-----------------------------------------------------------------");
   Serial.println("Test 9: positionCartesiennePatte");
   matrix_printf(Pgoal);
   Serial.println();
 
-
-=======
->>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
-=======
->>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
-=======
->>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
   
   delay(10000);
 }
