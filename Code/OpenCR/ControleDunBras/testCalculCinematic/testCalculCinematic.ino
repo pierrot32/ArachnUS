@@ -64,7 +64,9 @@ void loop() {
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 2: Copie d'une partie de matrice dans une plus petite");
-  matrix_printf(TwF);
+  //matrix_printf(TwF);
+  //Serial.println();
+  matrix_printf(Tw0);
   Serial.println();
   matrix_printf(Tw1);
   Serial.println();
@@ -98,10 +100,22 @@ void loop() {
   Serial.println();
 
   Serial.println("-----------------------------------------------------------------");
-  Serial.println("Test 6: Inversion 6x6 avec GaussJordan");
-  matrix_inv(matriceTestInv, matriceTest1);
-  matrix_printf(matriceTestInv);
+  Serial.println("Test 6: Jacobien");
+  matrix_printf(J);
   Serial.println();
+
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 7: fk_4_ik");
+  matrix_printf(Pcurr);
+  Serial.println();
+  matrix_printf(Rw3);
+  Serial.println();
+
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 8: cinInverse");
+  matrix_printf(q);
+  Serial.println();
+
   
   delay(10000);
 }
