@@ -14,6 +14,10 @@ matrix_obj *vecTest1;
 matrix_obj *vecTest2;
 matrix_obj *vecTest12;
 
+//Variable d'entree
+float qb = 100.0;
+float qv = -25.0;
+
 
 void setup() {
   matriceTest1 = matrix_construct_zero(3, 3);
@@ -31,7 +35,7 @@ void setup() {
   vecTest12 = matrix_construct_zero(1, 3);
   Serial.begin(9600);
 
-  cinematiqueBegin();
+  cinematiqueBegin(qv, qb);
 }
 
 void loop() {
@@ -60,7 +64,9 @@ void loop() {
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 2: Copie d'une partie de matrice dans une plus petite");
-  matrix_printf(TwF);
+  //matrix_printf(TwF);
+  //Serial.println();
+  matrix_printf(Tw0);
   Serial.println();
   matrix_printf(Tw1);
   Serial.println();
@@ -73,7 +79,7 @@ void loop() {
   Serial.println("Test 3: Multiplication 4x4");
   //Serial.println(Tw3->nRows);
   //Serial.println(Tw3->nCols);
-  matrix_mul(matriceTestMult, Tw3, Tw2);
+  matrix_mul(matriceTestMult, Tw0, Tw3);
   matrix_printf(matriceTestMult);
   Serial.println();
 
@@ -94,10 +100,22 @@ void loop() {
   Serial.println();
 
   Serial.println("-----------------------------------------------------------------");
-  Serial.println("Test 6: Inversion 6x6 avec GaussJordan");
-  matrix_inv(matriceTestInv, matriceTest1);
-  matrix_printf(matriceTestInv);
+  Serial.println("Test 6: Jacobien");
+  matrix_printf(J);
   Serial.println();
+
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 7: fk_4_ik");
+  matrix_printf(Pcurr);
+  Serial.println();
+  matrix_printf(Rw3);
+  Serial.println();
+
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 8: cinInverse");
+  matrix_printf(q);
+  Serial.println();
+
   
   delay(10000);
 }

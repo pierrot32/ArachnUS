@@ -49,8 +49,12 @@ void initFctServo(int valeursAngle[]) {
 
   int valeurMoy = ((SERVOMAX-SERVOMIN)/2)+SERVOMIN;
 
+
   for (int i=0; i<NBR_DE_SERVO; i++){
     valeursAngle[i] = pulseAAngle(valeurMoy); 
   }
+  valeursAngle[0] = 80;
+  valeursAngle[2] = 80;
+  valeursAngle[6] = 80;
   updateServos(valeursAngle);
 }

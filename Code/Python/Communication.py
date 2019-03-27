@@ -9,16 +9,18 @@ import numpy as np
 
 
 
-moteur = [45,45,45,45,45,45,45,45,0]
+moteur = [80,45,80,45,45,45,80,45,0]
 buf_moteur = moteur.copy()
 
-etat = [0,1,2]
-
-#etat = 3
+etat = 0
 
 hauteur = 0
 debutStructure = 0
 angle = [100, 250]
+
+def Change_etat(numero):
+    global etat
+    etat = numero
 
 
 def manuel(moteur1, moteur2):
@@ -106,7 +108,7 @@ class communicationOpenCr(object):
     def envoieVersArduino(self, port, moteur):
         #print("Envoie des donnees")
         print("etat=", etat)
-        value = struct.pack('iiiiiiiiii', 3, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
+        value = struct.pack('iiiiiiiiii',etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
         print(value)
         self.port.write(value)
 

@@ -134,4 +134,6 @@
 
     void matrix_cross(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * src2);
 
+    float max_matrix_abs(matrix_obj * obj);
+
 #endif
