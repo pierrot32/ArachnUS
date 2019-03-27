@@ -41,7 +41,7 @@ P = pointfinal(A, 1);
 P2 = CartesienPatte(qv,qb);
 
 %% Calcul du Jacobien
-J = Jacobien(q, Tw0, Tw1, Tw2, Tw3);
+J = Jacobien(Tw0, Tw1, Tw2, Tw3);
 
 %% Recherche de la cinématique inverse
 % Définition de la position à atteindre et recherche des angles pour
@@ -62,6 +62,8 @@ IK = invCinPatte(Pgoal,q+0.5,Tw0)
 % Q2 = Q2*360/(2*pi);
 % P2 = CartesienPatte(Q2(1), Q2(2))
 
+% g = fk_4_ik(q, Tw0)
+% fkr = MatRotationToEuler(Tw3(1:3,1:3))
 %% Affichage graphique de la patte
 coord = [   Tw1(1,4), Tw2(1,4), Tw3(1,4); 
             Tw1(2,4), Tw2(2,4), Tw3(2,4);
