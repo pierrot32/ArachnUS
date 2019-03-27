@@ -2,7 +2,7 @@
 % Fonction qui retourne la cinématique directe de la patte
 % Création : 20 Mars 2019 - 10h
 % Dernière Modification : 13 Mars 2019 - 10h
-function P = CartesienPatte(qb, qv)
+function P = CartesienPatte(qv, qb)
 %% Constantes et paramètres
 lv = 72.5;      % mm
 lbx = 116.1;    % mm
