@@ -65,6 +65,7 @@ void findPoint(matrix_obj * A, matrix_obj * T) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void EulerXYZtoRot(matrix_obj * Q, matrix_obj * Euler) {
   float c1 = cos(Euler->array[0]);
   float s1 = sin(Euler->array[0]);
@@ -218,6 +219,8 @@ void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1
 
 =======
 >>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
+=======
+>>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 void cinematiqueBegin(float qv, float qb) {
   q = matrix_construct_zero(3, 1);
   bonAngle(q, qv, qb);
@@ -252,6 +255,7 @@ void cinematiqueBegin(float qv, float qb) {
     matrix_copie_part(Tw2, TwF, 1, 5, 4, 8);
     matrix_copie_part(Tw3, TwF, 1, 9, 4, 12);*/
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   /*J = matrix_construct_zero(6, 3);
   Jacobien(J, Tw0, Tw1, Tw2, Tw3);
@@ -280,6 +284,8 @@ void cinematiqueBegin(float qv, float qb) {
   positionCartesiennePatte(q, Tw0, Tw1, Tw2, Tw3, qv, qb);
 
 
+=======
+>>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 =======
 >>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 }

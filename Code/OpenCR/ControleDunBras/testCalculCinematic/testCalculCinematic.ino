@@ -103,6 +103,7 @@ void loop() {
   matrix_printf(matriceTestInv);
   Serial.println();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 9: positionCartesiennePatte");
@@ -110,6 +111,8 @@ void loop() {
   Serial.println();
 
 
+=======
+>>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 =======
 >>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
   
