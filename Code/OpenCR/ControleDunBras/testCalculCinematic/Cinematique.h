@@ -30,6 +30,7 @@ void findPoint(matrix_obj * A, matrix_obj * T);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 void EulerXYZtoRot(matrix_obj * Q, matrix_obj * Euler);
 
 void Jacobien(matrix_obj * J, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3);
@@ -42,6 +43,8 @@ void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_ob
 
 void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, float qv, float qb);
 =======
+=======
+>>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 =======
 >>>>>>> parent of 6e9be56... Cinématique sur arduino 80%
 
