@@ -23,16 +23,16 @@ Tw0 = [1    0   0   0;
 % frame i. 
 TwF = transMat_w2f(qi, Tw0);
 Tw3 = TwF(1:4, 9:12);
-A = findpoint(Tw3);
+A = findpoint(Tw3)
 
 % Ajustement du point du bout de la patte au lieu du point du bout du corps
 % bleu3
 P = pointfinal(A, 1);
 
 %% Recherche de la cinématique inverse
-Ag = A + [px; py; 0];
+Ag = A + [dx; dy; 0]
 % Définition de la position à atteindre et recherche des angles pour
 % atteindre cette position cartésienne
 Pgoal = [Ag;MatRotationToEuler(Tw3(1:3,1:3))];
-Ik = invCinPatte(Pgoal,qi,Tw0)
-Q = IK;
+Ik = invCinPatte(Pgoal,qi,Tw0);
+Q = Ik;

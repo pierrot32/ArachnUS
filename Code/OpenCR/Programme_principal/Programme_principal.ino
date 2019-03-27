@@ -127,6 +127,15 @@ void loop() {
         filtreMot1[indexCirculaire] = dMAngle.deltaAngleMoteur1; //Ajout de la nouvelle valeur au filtre
         filtreMot2[indexCirculaire] = dMAngle.deltaAngleMoteur2;
         filtreMot3[indexCirculaire] = dMAngle.deltaAngleMoteur3;
+
+        
+        //if(valeurs_Angles_moteurs[1]>5 && valeurs_Angles_moteurs[3]>5 && valeurs_Angles_moteurs[7]>5 && valeurs_Angles_moteurs[1]<85 && valeurs_Angles_moteurs[3]<85 && valeurs_Angles_moteurs[7]<85){
+          filtreMot1[indexCirculaire] = filtreMot1[indexCirculaire] + height[0];
+          filtreMot2[indexCirculaire] = filtreMot2[indexCirculaire] + height[0];
+          filtreMot3[indexCirculaire] = filtreMot3[indexCirculaire] + height[0];
+
+        //}
+        
         if (indexCirculaire>=coeffFiltre){
           indexCirculaire++;
         } else {
@@ -147,6 +156,9 @@ void loop() {
         if( valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3>=0 && valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3<= 90){
           valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + moyenneFiltreMoteur3;
         }
+
+
+        
 
         updateServos(valeurs_Angles_moteurs);
         
@@ -169,7 +181,7 @@ void loop() {
     envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
   }
 
-  delay(25);
+  delay(20);
 }
 
 
