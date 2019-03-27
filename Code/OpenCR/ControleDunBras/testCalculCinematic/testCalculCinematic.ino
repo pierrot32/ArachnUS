@@ -14,6 +14,10 @@ matrix_obj *vecTest1;
 matrix_obj *vecTest2;
 matrix_obj *vecTest12;
 
+//Variable d'entree
+float qb = 100.0;
+float qv = -25.0;
+
 
 void setup() {
   matriceTest1 = matrix_construct_zero(3, 3);
@@ -31,7 +35,7 @@ void setup() {
   vecTest12 = matrix_construct_zero(1, 3);
   Serial.begin(9600);
 
-  cinematiqueBegin();
+  cinematiqueBegin(qv, qb);
 }
 
 void loop() {
@@ -73,7 +77,7 @@ void loop() {
   Serial.println("Test 3: Multiplication 4x4");
   //Serial.println(Tw3->nRows);
   //Serial.println(Tw3->nCols);
-  matrix_mul(matriceTestMult, Tw3, Tw2);
+  matrix_mul(matriceTestMult, Tw0, Tw3);
   matrix_printf(matriceTestMult);
   Serial.println();
 
