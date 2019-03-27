@@ -136,5 +136,4 @@
 
     float max_matrix_abs(matrix_obj * obj);
 
-
 #endif

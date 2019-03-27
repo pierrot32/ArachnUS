@@ -9,6 +9,26 @@ matrix_obj *Tw2;
 matrix_obj *Tw3;
 matrix_obj *TwF;  //Pour des tests
 
+matrix_obj *J;
+matrix_obj *fkc;
+matrix_obj *fkr;
+matrix_obj *Rw3;
+matrix_obj *Pcurr;
+
+matrix_obj *Rgoal;
+matrix_obj *Pgoal;
+matrix_obj *Ppartie;
+matrix_obj *Err;
+matrix_obj *Pcurr_old;
+matrix_obj *Rcurr;
+matrix_obj *delta_R;
+matrix_obj *Omega;
+matrix_obj *dX;
+matrix_obj *Rpartie;
+matrix_obj *A;
+matrix_obj *Jtranspose;
+matrix_obj *dTheta;
+
 void transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
   Tw1->array[0] = cos(q->array[0]);
   Tw1->array[1] = -sin(q->array[0]);
@@ -40,22 +60,22 @@ void bonAngle(matrix_obj * q, float qv, float qb) {
   float qbx = -1.0914 * qb + 27.979;       // Angle de bleu1 à partir de vert1
 
   if (qb <= 137.25 && qb > 122.5) {
-    qbx = qbx - ( (4*pow(10, -7)) * pow(qv, 4) + (3*pow(10, -5)) * pow(qv, 3) + 0.0003 * pow(qv, 2) + 0.0665 * qv - 0.7918);
+    qbx = qbx - ( (4 * pow(10, -7)) * pow(qv, 4) + (3 * pow(10, -5)) * pow(qv, 3) + 0.0003 * pow(qv, 2) + 0.0665 * qv - 0.7918);
   } else if (qb <= 122.5 && qb > 107.5) {
-    qbx = qbx - ((-7*pow(10, -9)) * pow(qv, 5) - (3*pow(10, -7)) * pow(qv, 4) + (2*pow(10, -5)) * pow(qv, 3) + 0.0001 * pow(qv, 2) + 0.07 * qv - 0.5725);
+    qbx = qbx - ((-7 * pow(10, -9)) * pow(qv, 5) - (3 * pow(10, -7)) * pow(qv, 4) + (2 * pow(10, -5)) * pow(qv, 3) + 0.0001 * pow(qv, 2) + 0.07 * qv - 0.5725);
   } else if (qb <= 107.5 && qb > 90) {
-    qbx = qbx - ( (1*pow(10, -5)) * pow(qv, 3) - 0.0005 * pow(qv, 2) + 0.0783 * qv - 0.7722);
+    qbx = qbx - ( (1 * pow(10, -5)) * pow(qv, 3) - 0.0005 * pow(qv, 2) + 0.0783 * qv - 0.7722);
   } else if (qb <= 90 && qb > 70) {
-    qbx = qbx - ( (2*pow(10, -5)) * pow(qv, 3) - 0.0015 * pow(qv, 2) + 0.1111 * qv - 0.8019 );
+    qbx = qbx - ( (2 * pow(10, -5)) * pow(qv, 3) - 0.0015 * pow(qv, 2) + 0.1111 * qv - 0.8019 );
   } else if (qb <= 152.5 && qb > 137.5) {
-    qbx = qbx - ( (6*pow(10, -8)) * pow(qv, 5) + (5*pow(10, -6)) * pow(qv, 4) + 0.0001 * pow(qv, 3) + 0.0005 * pow(qv, 2) + 0.0793 * qv - 0.7672);
+    qbx = qbx - ( (6 * pow(10, -8)) * pow(qv, 5) + (5 * pow(10, -6)) * pow(qv, 4) + 0.0001 * pow(qv, 3) + 0.0005 * pow(qv, 2) + 0.0793 * qv - 0.7672);
   }
-  q->array[0] = qv*(2*3.1416/360);
-  q->array[1] = qbx*(2*3.1416/360);
+  q->array[0] = qv * (2 * 3.1416 / 360);
+  q->array[1] = qbx * (2 * 3.1416 / 360);
 }
 
 void pointFinal(matrix_obj * T3x1, int op) {
-  T3x1->array[1] = T3x1->array[1] + op*12; // op = 1 ou -1
+  T3x1->array[1] = T3x1->array[1] + op * 12; // op = 1 ou -1
 }
 
 void findPoint(matrix_obj * A, matrix_obj * T) {
@@ -204,27 +224,14 @@ void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_ob
     }     
 }
 
-void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, float qv, float qb) {
-  bonAngle(q, qv, qb);
-  
-  transMat_w2f(q, Tw0, Tw1, Tw2, Tw3);
-
-  findPoint(Ppartie, Tw3);
-
-  pointFinal(Pgoal, -1);
-   
-}
-
 void cinematiqueBegin(float qv, float qb) {
   q = matrix_construct_zero(3, 1);
   bonAngle(q, qv, qb);
 
-  // Matrice identité...
+  // Matrice identité
   Tw0 = matrix_construct_zero(4, 4);
-  Tw0->array[0] = cos(20);
-  Tw0->array[1] = sin(20);
-  Tw0->array[4] = -sin(20);
-  Tw0->array[5] = cos(20);
+  Tw0->array[0] = 1;
+  Tw0->array[5] = 1;
   Tw0->array[10] = 1;
   Tw0->array[15] = 1;
 
@@ -251,7 +258,6 @@ void cinematiqueBegin(float qv, float qb) {
 
   /*J = matrix_construct_zero(6, 3);
   Jacobien(J, Tw0, Tw1, Tw2, Tw3);
-
   fk = matrix_construct_zero(6, 1);
   fkc = matrix_construct_zero(3, 1);
   fkr = matrix_construct_zero(3, 1);
@@ -273,9 +279,6 @@ void cinematiqueBegin(float qv, float qb) {
   dTheta = matrix_construct_zero(3, 1);
 
   invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
-  positionCartesiennePatte(q, Tw0, Tw1, Tw2, Tw3, qv, qb);
+
 
 }
-
-
-
