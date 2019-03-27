@@ -92,6 +92,12 @@ void loop() {
   Serial.println();
   matrix_printf(vecTest12);
   Serial.println();
+
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 6: Inversion 6x6 avec GaussJordan");
+  matrix_inv(matriceTestInv, matriceTest1);
+  matrix_printf(matriceTestInv);
+  Serial.println();
   
-  delay(5000);
+  delay(10000);
 }
