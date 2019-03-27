@@ -1,12 +1,13 @@
-# Python Interface v.0.15
+# Python Interface v.0.16
 
 
 from tkinter import *
 import threading
 import Communication as com
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 
@@ -57,13 +58,13 @@ class application(threading.Thread):
 
         # Frame Moteur
         frameMoteur = Frame(self.fenetre)
-        frameMoteur.grid(sticky="N", row=0, column=0, padx=10, pady=10)
+        frameMoteur.grid(sticky="NS", row=0, column=0, padx=10, pady=10)
         Label(frameMoteur, text = "Mode manuel moteurs:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
         frameMoteur.config(bg="gray55")
 
         # Patte 1
         framePatte = Frame(frameMoteur)
-        framePatte.grid(row=1, column=0, padx=10, pady=2)
+        framePatte.grid(sticky="WE", row=1, column=0, padx=10, pady=2)
         framePatte.config(bg="gray75")
         Label(framePatte, text="Patte 1", bg="gray75", font=("Helvetica", 11, "bold")).grid(sticky=N, row=1, column=0, padx=10, pady=2, rowspan=2)
         Label(framePatte, text="Moteur 1").grid(row=1, column=1, padx=10, pady=2)
@@ -153,25 +154,9 @@ class application(threading.Thread):
 
         BoutonUpdate = Button(frameMoteur, text="Update", font=("Helvetica", 12, "bold"), fg="blue", bg="gray75", command=com.btnUpdate)
         BoutonUpdate.grid(row=0, column=2, padx=10, pady=2)
-        # -------------------------------------------------------------------------------------------------------------------- #
 
 
-        # Frame Mode Stabilisation
-        frameStable = Frame(self.fenetre)
-        frameStable.grid(sticky="NW", row=0, column=2, padx=10, pady=10)
-        frameStable.config(bg="gray55")
-        Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
-        BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp, width=9)
-        BoutonHauteurUp.grid(sticky="W", row=2, column=0, padx=10, pady=2)
-        BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=com.btnHauteurDown, width=9)
-        BoutonHauteurDown.grid(sticky="W", row=3, column=0, padx=10, pady=2, )
-
-        #Label(frameStable, text="Hauteur actuelle:", bg="DarkSeaGreen1").grid(row=1, column=0,padx=10, pady=2)
-        self.CurrentHauteur = Label(frameStable, text=com.hauteur, bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
-        self.CurrentHauteur.grid(row=1, column=0, padx=10, pady=2)
-
-        # -------------------------------------------------------------------------------------------------------------------- #
-
+        # ---------------------------------------------------------
         # Frame Angle robot
         frameAngleTitre = Frame(self.fenetre)
         frameAngleTitre.grid(sticky="NS", row=0, column=1, padx=10, pady=10)
@@ -195,7 +180,6 @@ class application(threading.Thread):
         self.CurrentEtat = Label(frameOpen, bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
         self.CurrentEtat.grid(row=1, column=0, padx=10, pady=2)
 
-
         switch_variable = StringVar(value="Off")
 
         BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(1), width=9, value="Init") #INIT
@@ -206,10 +190,23 @@ class application(threading.Thread):
         BoutonStable.grid(row=4, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
+        # Frame Mode Stabilisation
+        frameStable = Frame(frameAngleTitre)
+        frameStable.grid(sticky="NW", row=3, column=0, padx=10, pady=10)
+        frameStable.config(bg="gray55")
+        Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp, width=9)
+        BoutonHauteurUp.grid(row=2, column=0, padx=10, pady=2)
+        BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=com.btnHauteurDown, width=9)
+        BoutonHauteurDown.grid(row=3, column=0, padx=10, pady=2, )
+
+        self.CurrentHauteur = Label(frameStable, text=com.hauteur, bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
+        self.CurrentHauteur.grid(row=1, column=0, padx=10, pady=2)
+        # -------------------------------------------------------------------------------------------------------------------- #
 
          # Frame Quit
         frameQuit = Frame(self.fenetre)
-        frameQuit.grid(sticky="N", row=0, column=3, padx=10, pady=10)
+        frameQuit.grid(sticky="NE", row=0, column=3, padx=10, pady=10)
         frameQuit.config(bg="gray35")
         BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=self.exxit)#com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
@@ -223,20 +220,21 @@ class application(threading.Thread):
         frameGraph.config(bg="gray55")
         Label(frameGraph, text="Orientation du plan:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
 
-        w = Canvas(frameGraph, width=350, height=115)
-        w.grid(row=1, column=0, padx=10, pady=2)
+        fig = plt.figure(figsize=(3.5, 2.9))
+        ax = fig.add_subplot(111, projection='3d')
+        x = np.linspace(-1, 1, 5)
+        y = np.linspace(-1, 1, 5)
+        x, y = np.meshgrid(x, y)
+        z = x * 0 + com.hauteur
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
 
-        # # create x,y
-        # xx, yy = np.meshgrid(range(10), range(10))
-        #
-        # # calculate corresponding z
-        # z = xx * 0
-        #
-        # # plot the surface
-        # plt3d = plt.figure().gca(projection='3d')
-        # plt3d.plot_surface(xx*com.angle[0], yy*com.angle[1], z, alpha=0.85)
-        #
-        # plt.show()
+        # plot figure
+        ax.plot_surface(x, y, z, linewidth=0, antialiased=False, shade=True, alpha=0.85)
+
+        w = FigureCanvasTkAgg(fig, frameGraph)
+        w.get_tk_widget().grid(row=1, column=0, padx=10, pady=2)
 
 
 
@@ -308,5 +306,5 @@ class application(threading.Thread):
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
-#app = application()
+# app = application()
 
