@@ -263,23 +263,3 @@ void matrix_cross(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * 
 
 }
 
-float max_matrix_abs(matrix_obj * obj) {
-  unsigned int iRow;
-  unsigned int iCol;
-  float valMax = 0;
-
-  for (iRow = 0; iRow < obj->nRows; iRow++) {
-    for (iCol = 0; iCol < obj->nCols; iCol++) {
-      
-      if (obj->array[iRow * obj->nCols + iCol] < 0) {
-        obj->array[iRow * obj->nCols + iCol] = obj->array[iRow * obj->nCols + iCol] * -1; //ATTENTION!!!!!!!!!!!!
-      }
-      if (obj->array[iRow * obj->nCols + iCol] > valMax){
-        valMax = obj->array[iRow * obj->nCols + iCol];
-      }
-      
-    }
-  }
-  return valMax;
-}
-
