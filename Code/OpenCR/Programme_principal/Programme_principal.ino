@@ -1,5 +1,6 @@
 
 #define NBR_DE_SERVO 8
+#define coeffFiltre 4
 #include <IMU.h>
 
 // variables globales
@@ -7,6 +8,14 @@
 cIMU    IMU;
 
 int initDone = 0;
+
+float filtreMot1[coeffFiltre];
+float filtreMot2[coeffFiltre];
+float filtreMot3[coeffFiltre];
+int moyenneFiltreMoteur1 = 0;
+int moyenneFiltreMoteur2 = 0;
+int moyenneFiltreMoteur3 = 0;
+int indexCirculaire = 0;
 
 typedef struct envoi{
 //  long debut_struct;
@@ -46,7 +55,7 @@ uint8_t   trigPin = 12;
 uint8_t   echoPin = 11;
 
 
-static uint32_t timePidMoteur = 15; //ms
+static uint32_t timePidMoteur = 100; //ms
 static uint32_t timeMoteur[3];
 
 
@@ -67,6 +76,12 @@ void setup() {
   pinMode(trigPin,OUTPUT);// set trigPin to output mode   
   pinMode(echoPin,INPUT); // set echoPin to input mode
   initFctServo(valeurs_Angles_moteurs);
+  for (int i=0;i<coeffFiltre;i++){
+    filtreMot1[i] = 0;
+    filtreMot2[i] = 0;
+    filtreMot3[i] = 0;
+  }
+  
 }
 
 void loop() {
@@ -107,29 +122,30 @@ void loop() {
 
         aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
         dMAngle = stabilisationRobot(aRobot);
-        if( valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1>=0 && valeurs_Angles_moteurs[7] + dMAngle.deltaAngleMoteur1<= 90 && millis() - timeMoteur[0] >= timePidMoteur){
-          if(dMAngle.deltaAngleMoteur1>0){
-          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + 1;
-          } else{
-            valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] - 1;
-          }
-          timeMoteur[0] = millis();
+
+
+        filtreMot1[indexCirculaire] = dMAngle.deltaAngleMoteur1; //Ajout de la nouvelle valeur au filtre
+        filtreMot2[indexCirculaire] = dMAngle.deltaAngleMoteur2;
+        filtreMot3[indexCirculaire] = dMAngle.deltaAngleMoteur3;
+        if (indexCirculaire>=coeffFiltre){
+          indexCirculaire++;
+        } else {
+          indexCirculaire = 0;
         }
-        if( valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2>=0 && valeurs_Angles_moteurs[3]+ dMAngle.deltaAngleMoteur2<= 90 && millis() - timeMoteur[1] >= timePidMoteur){
-          if(dMAngle.deltaAngleMoteur2>0){
-          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + 1;
-          } else{
-            valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] - 1;
-          }
-          timeMoteur[1] = millis();
+        
+        moyenneFiltreMoteur1 = filtreMoyenneMobile(filtreMot1, coeffFiltre);
+        moyenneFiltreMoteur2 = filtreMoyenneMobile(filtreMot2, coeffFiltre);
+        moyenneFiltreMoteur3 = filtreMoyenneMobile(filtreMot3, coeffFiltre);
+        
+        
+        if( valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1>=0 && valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1<= 90){
+          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1;
         }
-        if( valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3>=0 && valeurs_Angles_moteurs[1]+ dMAngle.deltaAngleMoteur3<= 90 && millis() - timeMoteur[2] >= timePidMoteur){
-          if(dMAngle.deltaAngleMoteur3>0){
-          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + 1;
-          } else{
-            valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] - 1;
-          }
-          timeMoteur[2] = millis();
+        if( valeurs_Angles_moteurs[3]+ moyenneFiltreMoteur2>=0 && valeurs_Angles_moteurs[3]+ moyenneFiltreMoteur2<= 90){
+          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + moyenneFiltreMoteur2;
+        }
+        if( valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3>=0 && valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3<= 90){
+          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + moyenneFiltreMoteur3;
         }
 
         updateServos(valeurs_Angles_moteurs);
@@ -153,7 +169,7 @@ void loop() {
     envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
   }
 
-  delay(5);
+  delay(25);
 }
 
 
