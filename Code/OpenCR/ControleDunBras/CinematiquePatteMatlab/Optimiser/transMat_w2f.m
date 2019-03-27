@@ -2,7 +2,7 @@
 % Fonction qui retourne la matrice de transformation du world frame au
 % référentiel F avec les paramètres DH de la patte, les angles des moteurs
 % Création : 13 Mars 2019 - 10h
-% Dernière Modification : 13 Mars 2019 - 10h
+% Dernière Modification : 20 Mars 2019 - 9h
 
 function TwFi = transMat_w2f(q, Tw0)
     % ======== Constantes =========
