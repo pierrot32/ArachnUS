@@ -1,4 +1,4 @@
-# Python Interface v.0.14
+# Python Interface v.0.15
 
 
 from tkinter import *
@@ -198,11 +198,11 @@ class application(threading.Thread):
 
         switch_variable = StringVar(value="Off")
 
-        BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.initalisation, width=9, value="Init") #INIT
+        BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(1), width=9, value="Init") #INIT
         BoutonInit.grid(row=2, column=0, padx=10, pady=2)
-        BoutonManuel = Radiobutton(frameOpen, text="(2) Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.initalisation, width=9, value="Manuel") #Manuel
+        BoutonManuel = Radiobutton(frameOpen, text="(2) Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(2), width=9, value="Manuel") #Manuel
         BoutonManuel.grid(row=3, column=0, padx=10, pady=2)
-        BoutonStable = Radiobutton(frameOpen, text="(3) Stable", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=com.initalisation, width=9, value="Stabiliser") #Stabiliser
+        BoutonStable = Radiobutton(frameOpen, text="(3) Stable", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(3), width=9, value="Stabiliser") #Stabiliser
         BoutonStable.grid(row=4, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
@@ -226,11 +226,17 @@ class application(threading.Thread):
         w = Canvas(frameGraph, width=350, height=115)
         w.grid(row=1, column=0, padx=10, pady=2)
 
-        # xx, yy = np.meshgrid(range(2), range(2))
-        # zz = xx * 0
+        # # create x,y
+        # xx, yy = np.meshgrid(range(10), range(10))
         #
-        # ax = plt.subplot(projection='3d')
-        # ax.plot_surface(xx, yy, zz)
+        # # calculate corresponding z
+        # z = xx * 0
+        #
+        # # plot the surface
+        # plt3d = plt.figure().gca(projection='3d')
+        # plt3d.plot_surface(xx*com.angle[0], yy*com.angle[1], z, alpha=0.85)
+        #
+        # plt.show()
 
 
 
