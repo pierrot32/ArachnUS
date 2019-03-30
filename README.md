@@ -19,7 +19,9 @@ Pour utiliser la carte OpenCR dans notre appliquation, il faut:
 
 *NOTE*: Toujours brancher l'alimentation externe avant de brancher le cable USB
 
-## Python:
+## Utilisation de l'interface:
+Voir le dossier Code/python pour la procédure d'installation et d'utilisation de l'interface pour le contrôle du robot.
+
 Pour utiliser la communication entre l'interface et l'openCR, il faut
 1.  Télécharger python 3.7
 2.  Télécharger Pycharm
