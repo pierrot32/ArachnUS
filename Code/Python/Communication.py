@@ -6,92 +6,43 @@ import time
 import numpy as np
 
 
+# Variables globales
+moteur = [80,45,80,45,45,45,80,45,0]    #Commande moteur
+buf_moteur = moteur.copy()              #Buffer de la commande moteur
+etat = 0                                #Etat du robot
+hauteur = 0                             #Hauteur du robot
+angle = [100, 250]                      #Angle du robot
 
 
-
-moteur = [80,45,80,45,45,45,80,45,0]
-buf_moteur = moteur.copy()
-
-etat = 0
-
-hauteur = 0
-debutStructure = 0
-angle = [100, 250]
-
+# Fonction pour changer l'état du robot
 def Change_etat(numero):
     global etat
     etat = numero
 
-
-def manuel(moteur1, moteur2):
-    print("manuel")
-    print(moteur1,moteur2)
-    #arduino.write(b'manuel')
-    #arduino.write(moteur1)
-    #arduino.write(moteur2)
-
-def stop():
-    print("stop")
-    #arduino.write(b'stop')
-
-def initalisation():
-    print("init")
-    #arduino.write(b'init')
-
-def lectureArduino():
-    print("lA")
-    #entete = arduino.readline()
-    #if entete==
-
-    #confirmationEtat = arduino.readline()
-    #commandeMoteur0 = arduino.readline()
-
-
-#-----------------------------------------------------------------------------------------
-
-
+# Fonction pour augmenter la hauteur du robot lorsque celui-ci est en mode stabilisation
 def btnHauteurUp():
-    # Update les commandes lorsque bouton clické
     global hauteur
-    #com.manuel(90,90)
     hauteur += 1
-    print("Hauteur augmente...\t", hauteur)
 
-
-
+# Fonction pour diminuer la hauteur du robot lorsque celui-ci est en mode stabilisation
 def btnHauteurDown():
-    ## Update les commandes lorsque bouton clické
     global hauteur
-    ##com.manuel(90,90)
     hauteur -= 1
-    print("Hauteur descent...\t", hauteur)
 
-
+# Fonction pour fermer l'application
 def btnQuit():
-    ## Pour quitter l'application
     exit()
 
-def btnMoteur():
-   ## Pour entrer des commandes moteurs
-    print("...")
-
+# Fonction pour update les moteurs en mode manuel
 def btnUpdate():
-    ## Update les commandes lorsque bouton clické
-    ##com.manuel(90,90)
     global moteur
-    print("Update des commandes...")
-
     moteur = buf_moteur.copy()
-    Arduino.envoieVersArduino(portArduino, moteur)
-    print(moteur)
+    Arduino.envoieVersArduino(moteur)
 
-
-
+# Classe pour la communication Serial avec la carte openCR
 class communicationOpenCr(object):
-    """A class to read the serial messages from Arduino. The code running on Arduino
-    can for example be the ArduinoSide_LSM9DS0 sketch."""
-
-    def __init__(self, port, SIZE_STRUCT=48, verbose=0):
+    # Definition de la fonction d'initialisation de la carte openCr
+    def __init__(self, port, SIZE_STRUCT=48, verbose=0): #SIZE_STRUCT =  12(int) * 4 bit (pour la grosseur de la structure reçu
         self.port = port
         self.SIZE_STRUCT = SIZE_STRUCT
         self.verbose = verbose
@@ -99,24 +50,26 @@ class communicationOpenCr(object):
         self.t = 0
         self.port.flushInput()
 
+    # Fefinition de la fonction pour lire la structure reçu de la carte openCR
     def read_one_value(self):
             data = self.port.read(self.SIZE_STRUCT)
-            #print(data)
             new_values = struct.unpack('iiiiiiiiiiii', data)
-            print(new_values)
 
-    def envoieVersArduino(self, port, moteur):
-        #print("Envoie des donnees")
-        print("etat=", etat)
+    def envoieVersArduino(self, moteur):
+        # Création de la structure pour l'envois des données vers la carte openCR
         value = struct.pack('iiiiiiiiii',etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
-        print(value)
         self.port.write(value)
 
 
 
 
-
+# Création du port sérial pour la communication avec la carte openCr
 portArduino = serial.Serial('COM3', 115200)
+
+# Création de l'objet pour la communication serial avec la carte openCR
 Arduino = communicationOpenCr(portArduino)
+
+
+
 
 
