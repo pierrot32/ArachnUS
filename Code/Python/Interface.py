@@ -1,6 +1,6 @@
-# Python Interface v.0.16
+# Python Interface v.0.17
 
-
+# Listes des importations
 from tkinter import *
 import threading
 import Communication as com
@@ -44,19 +44,20 @@ class application(threading.Thread):
         threading.Thread.__init__(self)
         self.start()
 
+    # Fonction pour quitter le programme et arrêter le thread du Main.py
     def exxit(self):
         self.isrunning = False
         exit()
 
 
-
+    # Fonction principale du UI
     def run(self):
         self.fenetre = Tk() # Créé la fenêtre
         self.fenetre.wm_title("Interface ArachnUS") # Titre de la fenêtre
         self.fenetre.config(bg = "gray35")
-        self.fenetre.protocol("WM_DELETE_WINDOW", self.exxit)
+        self.fenetre.protocol("WM_DELETE_WINDOW", self.exxit)   # Le bouton X de la fenêtre appelle la fonction exxit()
 
-        # Frame Moteur
+        # Frame Moteur // Permet de segmenter le frame fenetre avec d'aautres sous frames (colonne = 0)
         frameMoteur = Frame(self.fenetre)
         frameMoteur.grid(sticky="NS", row=0, column=0, padx=10, pady=10)
         Label(frameMoteur, text = "Mode manuel moteurs:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
@@ -71,6 +72,7 @@ class application(threading.Thread):
         Label(framePatte, text="Moteur 2").grid(row=2, column=1, padx=10, pady=2)
         Label(framePatte, text="Moteur 3").grid(row=3, column=1, padx=10, pady=2)
 
+        # Ajoute un label à l'écran avec la valeur du moteur. Le label est updaté périodiquement dans Refresher()
         self.CurrentValue1 = Label(framePatte, text=com.buf_moteur[0], font=("Helvetica", 10, "bold"), bg="DarkSeaGreen1")
         self.CurrentValue1.grid(row=1, column=5, padx=10, pady=2)
 
@@ -80,6 +82,7 @@ class application(threading.Thread):
         self.CurrentValue3 = Label(framePatte, text=com.buf_moteur[2], font=("Helvetica", 10, "bold"), bg="DarkSeaGreen1")
         self.CurrentValue3.grid(row=3, column=5, padx=10, pady=2)
 
+        # Créer une boîte pour entrer la valeur du moteur souhaité //La valeur par défault est déjà écrite dans la boîte
         self.eM1 = Entry(framePatte, width=4)
         self.eM1.grid(row=1, column=4)
         self.eM1.insert(3, com.buf_moteur[0])
@@ -151,37 +154,42 @@ class application(threading.Thread):
         self.CurrentValue9 = Label(framePatte, text=com.buf_moteur[8], font=("Helvetica", 10, "bold"), bg="DarkSeaGreen1")
         self.CurrentValue9.grid(row=9, column=5, padx=10, pady=2)
 
-
+        # Bouton qui appel la fonction btnUpdate dans Communication.py
         BoutonUpdate = Button(frameMoteur, text="Update", font=("Helvetica", 12, "bold"), fg="blue", bg="gray75", command=com.btnUpdate)
         BoutonUpdate.grid(row=0, column=2, padx=10, pady=2)
 
 
         # ---------------------------------------------------------
-        # Frame Angle robot
+        # Frame Angle robot // Placer à droite du frameMoteur (colonne = 1)
         frameAngleTitre = Frame(self.fenetre)
         frameAngleTitre.grid(sticky="NS", row=0, column=1, padx=10, pady=10)
         frameAngleTitre.config(bg="gray55")
         Label(frameAngleTitre, text = "Angle du robot:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
 
+        # Frame pour afficher les valeur d'angle du robot
         frameAngle = Frame(frameAngleTitre, width=100, height=150)
         frameAngle.grid(row=1, column=0, padx=10, pady=2)
         frameAngle.config(bg="gray55")
-        self.CurrentAngleX = Label(frameAngle, text=com.buf_moteur[0], bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
+        # Ajoute 2 label à l'écran avec la valeur d'angle moteur. Le label est updaté périodiquement dans Refresher()
+        self.CurrentAngleX = Label(frameAngle, text=com.angle[0], bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
         self.CurrentAngleX.grid(row=0, column=0, padx=10, pady=2)
-        self.CurrentAngleY = Label(frameAngle, text=com.buf_moteur[0], bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
+        self.CurrentAngleY = Label(frameAngle, text=com.angle[0], bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
         self.CurrentAngleY.grid(row=1, column=0, padx=10, pady=2)
         # -------------------------------------------------------------------------------------------------------------------- #
 
-        # Frame OpenCR
+        # Frame OpenCR // Pour afficher et choisir l'état de la carte OpenCR
         frameOpen = Frame(frameAngleTitre)
         frameOpen.grid(row=2, column=0, padx=10, pady=2)
         frameOpen.config(bg="gray55")
         Label(frameOpen, text="État du OpenCR:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        # Ajoute 1 label pour afficher l'état de la carte. Updaté dans Refresher()
         self.CurrentEtat = Label(frameOpen, bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
         self.CurrentEtat.grid(row=1, column=0, padx=10, pady=2)
 
+        # Valeur initiale de l'état
         switch_variable = StringVar(value="Off")
 
+        # Ajoute 3 btn pour changer l'état de OpenCR avec com.Change_etat. Radiobutton pour un seul bnt actif à la fois
         BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(1), width=9, value="Init") #INIT
         BoutonInit.grid(row=2, column=0, padx=10, pady=2)
         BoutonManuel = Radiobutton(frameOpen, text="(2) Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(2), width=9, value="Manuel") #Manuel
@@ -190,30 +198,33 @@ class application(threading.Thread):
         BoutonStable.grid(row=4, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
-        # Frame Mode Stabilisation
+        # Frame Mode Stabilisation // Afficher la hauteur du robot
         frameStable = Frame(frameAngleTitre)
         frameStable.grid(sticky="NW", row=3, column=0, padx=10, pady=10)
         frameStable.config(bg="gray55")
         Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        # Ajoute 2 boutons pour varier la hauteur du robot
         BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp, width=9)
         BoutonHauteurUp.grid(row=2, column=0, padx=10, pady=2)
         BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=com.btnHauteurDown, width=9)
         BoutonHauteurDown.grid(row=3, column=0, padx=10, pady=2, )
 
+        # Label de la hauteur updaté par Refresher()
         self.CurrentHauteur = Label(frameStable, text=com.hauteur, bg="DarkSeaGreen1", font=("Helvetica", 10, "bold"))
         self.CurrentHauteur.grid(row=1, column=0, padx=10, pady=2)
         # -------------------------------------------------------------------------------------------------------------------- #
 
-         # Frame Quit
+         # Frame Quit // Ajoute un frame pour mettre un bouton d'arrêt (colonne = 3
         frameQuit = Frame(self.fenetre)
         frameQuit.grid(sticky="NE", row=0, column=3, padx=10, pady=10)
         frameQuit.config(bg="gray35")
+        # Ajoute bouton d'arrêt de l'application. Exécute la fonction exxit()
         BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=self.exxit)#com.btnQuit)
         BoutonQuit.grid(row=0, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
 
-        # Frame Plan / Orientation
+        # Frame Plan / Orientation // Ajoute frame pour l'orientation (colonne = 2 + 3 grâce à "colunmspan"
         # Utiliser Surf, produit vectorielle de la normal pour générer le plan?
         frameGraph = Frame(self.fenetre)
         frameGraph.grid(sticky="SW", row=0, column=2, padx=10, pady=10, columnspan=2)
@@ -239,9 +250,11 @@ class application(threading.Thread):
 
 
         # -------------------------------------------------------------------------------------------------------------------- #
+        # fonction pour refresh certaines valeurs cruciales à l'écran
         def Refresher():
 
-
+            # Le try/except permet d'éviter d'avoir d'autres caractères autres que des int dans les boîte Entry
+            # Si caractère invalide, on écrit 0 dans le moteur
             try:
                 com.buf_moteur[0] = int(self.eM1.get())
             except:
@@ -279,7 +292,7 @@ class application(threading.Thread):
             except:
                 com.buf_moteur[8] = 0
 
-
+            # Affiche la valeur ACTUELLE du moteur.
             self.CurrentValue1.configure(text=com.moteur[0])
             self.CurrentValue2.configure(text=com.moteur[1])
             self.CurrentValue3.configure(text=com.moteur[2])
@@ -290,13 +303,17 @@ class application(threading.Thread):
             self.CurrentValue8.configure(text=com.moteur[7])
             self.CurrentValue9.configure(text=com.moteur[8])
 
+            # Affiche la valeur actuelle des angles.
             self.CurrentAngleX.configure(text="x: " + str(com.angle[0]))
             self.CurrentAngleY.configure(text="y: " + str(com.angle[1]))
 
+            # Affiche l'état actuelle de la carte OpenCR
             self.CurrentEtat.configure(text="Mode " + switch_variable.get())
 
+            # Affiche la hauteur actuelle du robot
             self.CurrentHauteur.configure(text="Hauteur actuelle: " + str(com.hauteur))
 
+            # loop la fonction à chaque 250 ms
             self.fenetre.after(250, Refresher)
 
         Refresher()
