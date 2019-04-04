@@ -38,17 +38,11 @@ extern matrix_obj *A;
 extern matrix_obj *Jtranspose;
 extern matrix_obj *dTheta;
 
-extern matrix_obj *fk;
-extern matrix_obj *Euler;
-extern matrix_obj * qret;
-
-void cinematiqueBegin(float qv, float qb, float dx, float dy);
+void cinematiqueBegin(float qv, float qb);
 
 void transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3);
 
 void bonAngle(matrix_obj * q, float qv, float qb);
-
-void bonAngleInv(matrix_obj * qret, matrix_obj * q);
 
 void pointFinal(matrix_obj * T3x1, int op);
 
@@ -64,9 +58,6 @@ void fk_4_ik(matrix_obj * fk, matrix_obj * fkc, matrix_obj * fkr, matrix_obj * R
 
 void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3);
 
-void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * Pgoal, matrix_obj * Ppartie, float qv, float qb);
-
-void positionAngulairePatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3, float qv, float qb, float dx, float dy);
-
+void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, float qv, float qb);
 
 #endif

@@ -1,4 +1,4 @@
-/***************************************************
+/*************************************************** 
   Tests pour valider les fonctionnalitées du notre code pour la cinématique des pattes
  ****************************************************/
 
@@ -17,8 +17,6 @@ matrix_obj *vecTest12;
 //Variable d'entree
 float qb = 100.0;
 float qv = -25.0;
-float dx = 0.5;
-float dy = 0.5;
 
 
 void setup() {
@@ -27,17 +25,17 @@ void setup() {
   matriceTestInv = matrix_construct_zero(3, 3);
 
   vecTest1 = matrix_construct_zero(1, 3);
-  vecTest1->array[0] = 1;
-  vecTest1->array[1] = 2;
-  vecTest1->array[2] = 1;
+    vecTest1->array[0] = 1;
+    vecTest1->array[1] = 2;
+    vecTest1->array[2] = 1;
   vecTest2 = matrix_construct_zero(1, 3);
-  vecTest2->array[0] = 1;
-  vecTest2->array[1] = 1;
-  vecTest2->array[2] = 1;
+    vecTest2->array[0] = 1;
+    vecTest2->array[1] = 1;
+    vecTest2->array[2] = 1;
   vecTest12 = matrix_construct_zero(1, 3);
   Serial.begin(9600);
 
-  cinematiqueBegin(qv, qb, dx, dy);
+  cinematiqueBegin(qv, qb);
 }
 
 void loop() {
@@ -45,11 +43,11 @@ void loop() {
   Serial.println("_________________________________________________________________");
   Serial.println("-----------------------------------------------------------------");
   Serial.print("Loop de test no ");
-  Serial.println(index * 10);
+  Serial.println(index*10);
   Serial.println("-----------------------------------------------------------------");
   Serial.println("_________________________________________________________________");
-
-
+  
+  
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 1: Creation et affichage");
   matriceTest1->array[0] = 0;
@@ -62,7 +60,7 @@ void loop() {
   matriceTest1->array[7] = 1;
   matriceTest1->array[8] = 2;
   matrix_printf(matriceTest1);
-  Serial.println();
+  Serial.println();  
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 2: Copie d'une partie de matrice dans une plus petite");
@@ -106,12 +104,12 @@ void loop() {
   matrix_printf(J);
   Serial.println();
 
-//  Serial.println("-----------------------------------------------------------------");
-//  Serial.println("Test 7: fk_4_ik");
-//  matrix_printf(Pcurr);
-//  Serial.println();
-//  matrix_printf(Rw3);
-//  Serial.println();
+  Serial.println("-----------------------------------------------------------------");
+  Serial.println("Test 7: fk_4_ik");
+  matrix_printf(Pcurr);
+  Serial.println();
+  matrix_printf(Rw3);
+  Serial.println();
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 8: cinInverse");
@@ -119,17 +117,11 @@ void loop() {
   Serial.println();
 
   Serial.println("-----------------------------------------------------------------");
-  Serial.println("Test 9: cartesienPatte");
-  Serial.println();
+  Serial.println("Test 9: positionCartesiennePatte");
   matrix_printf(Pgoal);
   Serial.println();
 
-  Serial.println("-----------------------------------------------------------------");
-  Serial.println("Test 10: angulairePatte");
-  Serial.println();
-  matrix_printf(q);
-  Serial.println();
 
-
+  
   delay(10000);
 }

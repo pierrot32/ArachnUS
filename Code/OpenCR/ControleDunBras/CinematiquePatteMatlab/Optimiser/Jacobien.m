@@ -4,7 +4,7 @@
 % Création : 13 Mars 2019 - 11h
 % Dernière Modification : 13 Mars 2019 - 11h
 
-function J = Jacobien(q, Tw0, Tw1, Tw2, Tw3)
+function J = Jacobien(Tw0, Tw1, Tw2, Tw3)
 
     % Génération des colonnes du Jacobien avec l'équation d'une colone
     Jacobcol1=[cross([Tw0(1,3); Tw0(2,3); Tw0(3,3)], [Tw3(1,4); Tw3(2,4); Tw3(3,4)]); Tw0(1,3); Tw0(2,3); Tw0(3,3)];

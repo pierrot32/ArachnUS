@@ -29,10 +29,6 @@ matrix_obj *A;
 matrix_obj *Jtranspose;
 matrix_obj *dTheta;
 
-matrix_obj *fk;
-matrix_obj *Euler;
-matrix_obj * qret;
-
 void transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
   Tw1->array[0] = cos(q->array[0]);
   Tw1->array[1] = -sin(q->array[0]);
@@ -77,14 +73,6 @@ void bonAngle(matrix_obj * q, float qv, float qb) {
   q->array[0] = qv * (2 * 3.1416 / 360);
   q->array[1] = qbx * (2 * 3.1416 / 360);
 }
-
-void bonAngleInv(matrix_obj * qret, matrix_obj * q) {
-  float qb = -0.0002*q->array[1]*q->array[1] - 0.9651*q->array[1] + 23.43;       // Angle de bleu1 à partir de vert1
-
-  qret->array[0] = q->array[0] * (360 / (2*3.1416));
-  qret->array[1] = qb * (360 / (2*3.1416));
-}
-
 
 void pointFinal(matrix_obj * T3x1, int op) {
   T3x1->array[1] = T3x1->array[1] + op * 12; // op = 1 ou -1
@@ -203,7 +191,7 @@ void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_ob
   matrix_sub(Err, Pgoal, Pcurr);        //Error between Pgoal and Pcurr
     
     while (max_matrix_abs(Err) > 0.001){  //Beginning of the iterative method
-//      Serial.println("yo");
+      
       matrix_copy_matrix(Pcurr_old, Pcurr);
       matrix_copie_part(Ppartie, Pcurr, 4, 1, 6, 1);   
       EulerXYZtoRot(Rcurr, Ppartie);      //Current rotational matrix from Euler angles
@@ -232,38 +220,22 @@ void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_ob
       matrix_add(q, q, dTheta);       //Finding new angles
                    
       fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3); //Determining new Pcurr from new q
-      matrix_sub(Err, Pcurr_old, Pcurr);  //Determining Err from new Pcurr 
-
-      matrix_printf(Err);        
+      matrix_sub(Err, Pcurr_old, Pcurr);  //Determining Err from new Pcurr         
     }     
 }
 
-void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * Pgoal, float qv, float qb) {
+void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, float qv, float qb) {
   bonAngle(q, qv, qb);
   
   transMat_w2f(q, Tw0, Tw1, Tw2, Tw3);
 
-  findPoint(Pgoal, Tw3);
-  
+  findPoint(Ppartie, Tw3);
+
   pointFinal(Pgoal, -1);
    
 }
 
-void positionAngulairePatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3, float qv, float qb, float dx, float dy) {
-  bonAngle(q, qv, qb);
-  
-  fk_4_ik(Pgoal, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
-  Serial.println();
-  Pgoal->array[0] += dx;
-  Pgoal->array[1] += dy;
-
-  invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
-//  matrix_printf(q);
-  bonAngleInv(qret, q);
-   
-}
-
-void cinematiqueBegin(float qv, float qb, float dx, float dy) {
+void cinematiqueBegin(float qv, float qb) {
   q = matrix_construct_zero(3, 1);
   bonAngle(q, qv, qb);
 
@@ -295,13 +267,14 @@ void cinematiqueBegin(float qv, float qb, float dx, float dy) {
     matrix_copie_part(Tw2, TwF, 1, 5, 4, 8);
     matrix_copie_part(Tw3, TwF, 1, 9, 4, 12);*/
 
-  J = matrix_construct_zero(6, 3);
+  /*J = matrix_construct_zero(6, 3);
   Jacobien(J, Tw0, Tw1, Tw2, Tw3);
+
   fk = matrix_construct_zero(6, 1);
   fkc = matrix_construct_zero(3, 1);
   fkr = matrix_construct_zero(3, 1);
   Rw3 = matrix_construct_zero(3, 3);
-  fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
+  fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);*/
 
   Rgoal = matrix_construct_zero(3, 3);
   Pgoal = matrix_construct_zero(6, 1);
@@ -316,15 +289,12 @@ void cinematiqueBegin(float qv, float qb, float dx, float dy) {
   A = matrix_construct_zero(3, 3);
   Jtranspose = matrix_construct_zero(3, 6);
   dTheta = matrix_construct_zero(3, 1);
-  Euler = matrix_construct_zero(3,1);
-  qret = matrix_construct_zero(3,1);
-  
 
-//  invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
-//  Serial.println();
-//positionCartesiennePatte(q, Tw0, Tw1, Tw2, Tw3, Pgoal, qv, qb);
-  Serial.println();
+  invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
+  positionCartesiennePatte(q, Tw0, Tw1, Tw2, Tw3, qv, qb);
 
-positionAngulairePatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3, qv, qb, dx, dy);
 
 }
+
+
+
