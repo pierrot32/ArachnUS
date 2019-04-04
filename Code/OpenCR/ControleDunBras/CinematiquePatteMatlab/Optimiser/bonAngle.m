@@ -20,6 +20,7 @@ end
     
 
 q = [qv; qbx;0];
+% q = q*2*pi/360;
 
 
 end 

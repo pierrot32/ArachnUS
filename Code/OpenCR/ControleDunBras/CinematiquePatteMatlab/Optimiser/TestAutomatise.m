@@ -135,6 +135,11 @@ for indice = 1:4*12
     end
 end
 
+%%
+bb = bonAngle(-25,100);
+% qq = trans_mat(bb
+test1 = CartesienPatte(-25, 100);
+
 %% Vérification globale
 Verif(:,:,1) = [1,1,1,1,1,0];
 Test_bonAngle = 'Échoué';

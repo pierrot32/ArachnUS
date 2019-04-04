@@ -50,9 +50,9 @@ Pgoal = [A;MatRotationToEuler(Tw3(1:3,1:3))];
 IK = invCinPatte(Pgoal,q+0.5,Tw0)
 
 %% Appel des fonctions et vérification
-% Q1 = IK*360/(2*pi);
-% Q2 = AngulairePatte(0.5, 0.5, qv, qb);
-% q = [Q2(1), Q2(2)];
+Q1 = IK*360/(2*pi);
+Q2 = AngulairePatte(0.5, 0.5, qv, qb);
+q = [Q2(1), Q2(2)];
 % TwF = transMat_w2f(q, Tw0);
 % Tw1 = TwF(1:4,1:4);
 % Tw2 = TwF(1:4, 5:8);
