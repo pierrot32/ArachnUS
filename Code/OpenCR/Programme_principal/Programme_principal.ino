@@ -9,13 +9,23 @@ cIMU    IMU;
 
 int initDone = 0;
 
+float filtriMot0[coeffFiltre];
 float filtreMot1[coeffFiltre];
 float filtreMot2[coeffFiltre];
 float filtreMot3[coeffFiltre];
-int moyenneFiltreMoteur1 = 0;
-int moyenneFiltreMoteur2 = 0;
-int moyenneFiltreMoteur3 = 0;
+float filtreMot6[coeffFiltre];
+float filtreMot7[coeffFiltre];
+
+int moteur0 = 0;
+int moteur1 = 0;
+int moteur2 = 0;
+int moteur3 = 0;
+int moteur6 = 0;
+int moteur7 = 0;
+
 int indexCirculaire = 0;
+
+int hauteurInitial = 50; //hauteurs initials du robot en mm
 
 typedef struct envoi{
 //  long debut_struct;
@@ -36,7 +46,7 @@ envoi msg_Envoi;
 
 int delta_hauteur;
 int height[NBR_DE_SERVO];
-int hauteur_actuelle;
+int hauteurActuelle;
 int state[NBR_DE_SERVO];
 byte buff[10*sizeof(long)];
 int valeurs_Angles_moteurs[NBR_DE_SERVO];
@@ -62,12 +72,13 @@ static uint32_t timeMoteur[3];
 static uint32_t tTime[3];
 static uint32_t imu_time = 0;
 
-typedef struct deltaAngleMoteurHauteur{
-  float deltaAngleMoteur1 = 0;
-  float deltaAngleMoteur2 = 0;
-  float deltaAngleMoteur3 = 0; 
+typedef struct deltaPosPattes{
+  float deltaPosPatte1 = 0;
+  float deltaPosPatte2 = 0;
+  float deltaPosPatte3 = 0; 
 };
-deltaAngleMoteurHauteur dMAngle;
+
+deltaPosPattes dMPos;
 
 void setup() {
   Serial.begin(115200);
@@ -117,62 +128,100 @@ void loop() {
     case 3:
       //etat stabilisation appel des fonctions de calcul d'angle du robot
       msg_Envoi.etat = 3;
-     // if( (millis()-tTime[1]) >= 10 ){
-      //  tTime[1] = millis();
+      // aRobot est les angles en x et en y du robot
+      aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
+      
+      // dmPos est le delta position de chaque moteur pour stabiliser le robot
+      dMPos = stabilisationRobot(aRobot);
+      
+      
+      // Calcul de la hauteur actuelle
+      hauteurActuelle = int(getSonar());
+      
+      // deltaHauteur est la différence entre la hauteur présente et la haute voulue
+      // Calcul du deltaHauteur
+      deltaHauteur = height[0] - hauteurActuelle;
+      
+      // On ajoute la variation de hauteur
+      dMPos.deltaPosPatte1 += deltaHauteur;
+      dMPos.deltaPosPatte2 += deltaHauteur;
+      dMPos.deltaPosPatte3 += deltaHauteur;
+      
+      // On calcule la nouvelle position 
+      [moteur0, moteur1] = CALCUL CINÉMATIQUE(posMoteur0Voulue, posMoteur1Voulue];
+      [moteur2, moteur3] = CALCUL CINÉMATIQUE(posMoteur2Voulue, posMoteur3Voulue];
+      [moteur6, moteur7] = CALCUL CINÉMATIQUE(posMoteur6Voulue, posMoteur7Voulue];
+      
+      // On s'assure que les limites d'angle envoyé aux moteurs sont respecté
+      if( moteur0<0 ){
+        moteur0 = 0;
+      }else if( moteur0>90){
+        moteur0 = 90
+      }
+      if( moteur1<0 ){
+        moteur1 = 0;
+      }else if( moteur1>90){
+        moteur1 = 90
+      }
+      if( moteur2<0 ){
+        moteur2 = 0;
+      }else if( moteur2>90){
+        moteur2 = 90
+      }
+      if( moteur3<0 ){
+        moteur3 = 0;
+      }else if( moteur3>90){
+        moteur3 = 90
+      }
+      if( moteur6<0 ){
+        moteur6 = 0;
+      }else if( moteur6>90){
+        moteur6 = 90
+      }
+      if( moteur7<0 ){
+        moteur7 = 0;
+      }else if( moteur7>90){
+        moteur7 = 90
+      }
+      
+      if (indexCirculaire>=coeffFiltre){
+        indexCirculaire++;
+      } else {
+        indexCirculaire = 0;
+      }
+      
+      // On entre les nouvelles valeurs de moteur dans le tableau du filtre
+      filtreMot0[indexCirculaire] = moteur0;
+      filtreMot1[indexCirculaire] = moteur1;
+      filtreMot2[indexCirculaire] = moteur2;
+      filtreMot3[indexCirculaire] = moteur3;
+      filtreMot6[indexCirculaire] = moteur6;
+      filtreMot7[indexCirculaire] = moteur7;
+      
+      // Calcul des filtres pour avoir la bonne sortie pour envoyer la commande au moteur
+      valeurs_Angles_moteurs[0] = filtreMoyenneMobile(filtreMot0, coeffFiltre);
+      valeurs_Angles_moteurs[1] = filtreMoyenneMobile(filtreMot1, coeffFiltre);
+      valeurs_Angles_moteurs[2] = filtreMoyenneMobile(filtreMot2, coeffFiltre);
+      valeurs_Angles_moteurs[3] = filtreMoyenneMobile(filtreMot3, coeffFiltre);
+      valeurs_Angles_moteurs[6] = filtreMoyenneMobile(filtreMot6, coeffFiltre);
+      valeurs_Angles_moteurs[7] = filtreMoyenneMobile(filtreMot7, coeffFiltre);
+      
+      // Envois de la commande aux moteurs
+      updateServos(valeurs_Angles_moteurs);
 
-        aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
-        dMAngle = stabilisationRobot(aRobot);
-
-
-        filtreMot1[indexCirculaire] = dMAngle.deltaAngleMoteur1; //Ajout de la nouvelle valeur au filtre
-        filtreMot2[indexCirculaire] = dMAngle.deltaAngleMoteur2;
-        filtreMot3[indexCirculaire] = dMAngle.deltaAngleMoteur3;
-
-        
-        //if(valeurs_Angles_moteurs[1]>5 && valeurs_Angles_moteurs[3]>5 && valeurs_Angles_moteurs[7]>5 && valeurs_Angles_moteurs[1]<85 && valeurs_Angles_moteurs[3]<85 && valeurs_Angles_moteurs[7]<85){
-          filtreMot1[indexCirculaire] = filtreMot1[indexCirculaire] + height[0];
-          filtreMot2[indexCirculaire] = filtreMot2[indexCirculaire] + height[0];
-          filtreMot3[indexCirculaire] = filtreMot3[indexCirculaire] + height[0];
-
-        //}
-        
-        if (indexCirculaire>=coeffFiltre){
-          indexCirculaire++;
-        } else {
-          indexCirculaire = 0;
-        }
-        
-        moyenneFiltreMoteur1 = filtreMoyenneMobile(filtreMot1, coeffFiltre);
-        moyenneFiltreMoteur2 = filtreMoyenneMobile(filtreMot2, coeffFiltre);
-        moyenneFiltreMoteur3 = filtreMoyenneMobile(filtreMot3, coeffFiltre);
-        
-        
-        if( valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1>=0 && valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1<= 90){
-          valeurs_Angles_moteurs[7] = valeurs_Angles_moteurs[7] + moyenneFiltreMoteur1;
-        }
-        if( valeurs_Angles_moteurs[3]+ moyenneFiltreMoteur2>=0 && valeurs_Angles_moteurs[3]+ moyenneFiltreMoteur2<= 90){
-          valeurs_Angles_moteurs[3] = valeurs_Angles_moteurs[3] + moyenneFiltreMoteur2;
-        }
-        if( valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3>=0 && valeurs_Angles_moteurs[1]+ moyenneFiltreMoteur3<= 90){
-          valeurs_Angles_moteurs[1] = valeurs_Angles_moteurs[1] + moyenneFiltreMoteur3;
-        }
-
-
-        
-
-        updateServos(valeurs_Angles_moteurs);
         
   //}
 
       break;
     case 4:
-      //etat modulation de la hauteur
-      hauteur_actuelle = int(getSonar());
+    // LE CASE 4 NE SERT À RIEN
+//      //etat modulation de la hauteur
+//      hauteur_actuelle = int(getSonar());
 //      Serial.print("Hauteur :\t"); //écriture dans le port série pour la vérification du fonctionnement du capteur
 //      Serial.println(hauteur_actuelle);
-      delta_hauteur = height[0] - hauteur_actuelle; //Permet de déterminer la différence de hauteur (positive ou négative) entre la hauteur demandée et la hauteur actuelle
-      //valeurs_Angles_moteurs = cinematique(deltax = 0, delta_hauteur, valeurs_Angles_moteurs);// Passer le delta_hauteur en paramètres à la fonction de traduction en commandes moteur 
-      updateServos(valeurs_Angles_moteurs);// Envoi des commandes à la fonction d'ajustement de la position des servos
+//      delta_hauteur = height[0] - hauteur_actuelle; //Permet de déterminer la différence de hauteur (positive ou négative) entre la hauteur demandée et la hauteur actuelle
+//      //valeurs_Angles_moteurs = cinematique(deltax = 0, delta_hauteur, valeurs_Angles_moteurs);// Passer le delta_hauteur en paramètres à la fonction de traduction en commandes moteur 
+//      updateServos(valeurs_Angles_moteurs);// Envoi des commandes à la fonction d'ajustement de la position des servos
       break;
   }
   //hauteur_actuelle = int(getSonar());

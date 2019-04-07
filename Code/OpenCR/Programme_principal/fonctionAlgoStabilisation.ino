@@ -39,9 +39,9 @@ deltaAngleMoteurHauteur stabilisationRobot(angleRobot aRobot2){
     float deltaHauteurPatte2 = deltaHauteurXPatte2 + deltaHauteurYPatte2;
     float deltaHauteurPatte3 = deltaHauteurXPatte3 + deltaHauteurYPatte3;
 
-    dMAngle2.deltaAngleMoteur1 = (int)(deltaHauteurPatte1/2);
-    dMAngle2.deltaAngleMoteur2 = (int)(deltaHauteurPatte2/2);
-    dMAngle2.deltaAngleMoteur3 = (int)(deltaHauteurPatte3/2);
+    dMAngle2.deltaAngleMoteur1 = (int)(deltaHauteurPatte1);
+    dMAngle2.deltaAngleMoteur2 = (int)(deltaHauteurPatte2);
+    dMAngle2.deltaAngleMoteur3 = (int)(deltaHauteurPatte3);
 
     return dMAngle2; 
 }
