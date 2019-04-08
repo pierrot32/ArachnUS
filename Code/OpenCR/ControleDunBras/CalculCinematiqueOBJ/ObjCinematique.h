@@ -1,8 +1,13 @@
 /***************************************************
   Classe à utiliser pour la cinématique des pattes
  ****************************************************/
+#ifndef OBJ_CINEMATIQUE
+#define OBJ_CINEMATIQUE
 
-class Cinematique{
+
+#include "matrix.h"
+
+class ObjCinematique{
   
 private:
   //Création des constantes utilisées pour l'ensemble des calculs
@@ -39,11 +44,11 @@ private:
   
   matrix_obj *fk;
   matrix_obj *Euler;
-  matrix_obj * qret;
+  matrix_obj *qret;
 
 public:
   //Constructeur
-  Cinematique::Cinematique(float qv, float qb, float dx, float dy) {
+  ObjCinematique::ObjCinematique(float qv, float qb, float dx, float dy) {
     // Matrice identité
     Tw0 = matrix_construct_zero(4, 4);
     Tw0->array[0] = 1;
@@ -86,16 +91,23 @@ public:
     positionAngulairePatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3, qv, qb, dx, dy);
   }
   
-  void Cinematique::printTest(){
+  void ObjCinematique::printTest(){
     Serial.println("-----------------------------------------------------------------");
     Serial.println("Test OBJ:");
     matrix_printf(q);
     Serial.println();
   }
 
+  void ObjCinematique::runCinematique(float angleSortie[2], float qv, float qb, float dx, float dy){
+    positionAngulairePatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3, qv, qb, dx, dy);
+
+    angleSortie[0] = q->array[0];
+    angleSortie[1] = q->array[1];
+  }
+
 private:
   
-  void Cinematique::transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
+  void ObjCinematique::transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     Tw1->array[0] = cos(q->array[0]);
     Tw1->array[1] = -sin(q->array[0]);
     Tw1->array[4] = sin(q->array[0]);
@@ -122,7 +134,7 @@ private:
     Tw3->array[15] = 1;
   }
   
-  void Cinematique::bonAngle(matrix_obj * q, float qv, float qb) {
+  void ObjCinematique::bonAngle(matrix_obj * q, float qv, float qb) {
     float qbx = -1.0914 * qb + 27.979;       // Angle de bleu1 à partir de vert1
   
     if (qb <= 137.25 && qb > 122.5) {
@@ -140,7 +152,7 @@ private:
     q->array[1] = qbx * (2 * 3.1416 / 360);
   }
   
-  void Cinematique::bonAngleInv(matrix_obj * qret, matrix_obj * q) {
+  void ObjCinematique::bonAngleInv(matrix_obj * qret, matrix_obj * q) {
     float qb = -0.0002*q->array[1]*q->array[1] - 0.9651*q->array[1] + 23.43;       // Angle de bleu1 à partir de vert1
   
     qret->array[0] = q->array[0] * (360 / (2*3.1416));
@@ -148,17 +160,17 @@ private:
   }
   
   
-  void Cinematique::pointFinal(matrix_obj * T3x1, int op) {
+  void ObjCinematique::pointFinal(matrix_obj * T3x1, int op) {
     T3x1->array[1] = T3x1->array[1] + op * 12; // op = 1 ou -1
   }
   
-  void Cinematique::findPoint(matrix_obj * A, matrix_obj * T) {
+  void ObjCinematique::findPoint(matrix_obj * A, matrix_obj * T) {
     A->array[0] = T->array[3];
     A->array[1] = T->array[7];
     A->array[2] = T->array[11];
   }
   
-  void Cinematique::EulerXYZtoRot(matrix_obj * Q, matrix_obj * Euler) {
+  void ObjCinematique::EulerXYZtoRot(matrix_obj * Q, matrix_obj * Euler) {
     float c1 = cos(Euler->array[0]);
     float s1 = sin(Euler->array[0]);
     float c2 = cos(Euler->array[1]);
@@ -177,7 +189,7 @@ private:
     Q->array[8] = c1 * c2;
   }
   
-  void Cinematique::Jacobien(matrix_obj * J, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
+  void ObjCinematique::Jacobien(matrix_obj * J, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     //Jacobcol1
     J->array[0] = Tw0->array[6] * Tw3->array[11] - Tw0->array[10] * Tw3->array[7]; //obj->array[0] = src1->array[1]*src2->array[2] - src1->array[2]*src2->array[1];
     J->array[3] = Tw0->array[10] * Tw3->array[3] - Tw0->array[2] * Tw3->array[11]; //obj->array[1] = src1->array[2]*src2->array[0] - src1->array[0]*src2->array[2];
@@ -203,7 +215,7 @@ private:
     J->array[17] = Tw3->array[10];
   }
   
-  void Cinematique::MatRotationToEuler(matrix_obj * Euler, matrix_obj * Mat) {
+  void ObjCinematique::MatRotationToEuler(matrix_obj * Euler, matrix_obj * Mat) {
     float nx = Mat->array[0];
     float ny = Mat->array[3];
     float nz = Mat->array[6];
@@ -242,7 +254,7 @@ private:
   
   }
   
-  void Cinematique::fk_4_ik(matrix_obj * fk, matrix_obj * fkc, matrix_obj * fkr, matrix_obj * Rw3, matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
+  void ObjCinematique::fk_4_ik(matrix_obj * fk, matrix_obj * fkc, matrix_obj * fkr, matrix_obj * Rw3, matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     transMat_w2f(q, Tw0, Tw1, Tw2, Tw3);
     findPoint(fkc, Tw3);
   
@@ -257,7 +269,7 @@ private:
     fk->array[5] = fkr->array[2];
   }
   
-  void Cinematique::invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3) {
+  void ObjCinematique::invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3) {
     fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
   
     matrix_copie_part(Ppartie, Pgoal, 4, 1, 6, 1);
@@ -299,7 +311,7 @@ private:
       }     
   }
   
-  void Cinematique::positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * Pgoal, float qv, float qb) {
+  void ObjCinematique::positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * Pgoal, float qv, float qb) {
     bonAngle(q, qv, qb);
     
     transMat_w2f(q, Tw0, Tw1, Tw2, Tw3);
@@ -310,7 +322,7 @@ private:
      
   }
 
-  void Cinematique::positionAngulairePatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3, float qv, float qb, float dx, float dy) {
+  void ObjCinematique::positionAngulairePatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3, float qv, float qb, float dx, float dy) {
     bonAngle(q, qv, qb);
     
     fk_4_ik(Pgoal, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
@@ -322,3 +334,5 @@ private:
        
   }
 };
+
+#endif
