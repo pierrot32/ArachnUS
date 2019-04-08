@@ -21,7 +21,7 @@ float qv = -25.0;
 float dx = 0.5;
 float dy = 0.5;
 
-Cinematique calculorCin(qv, qb, dx, dy);
+ObjCinematique calculorCin(qv, qb, dx, dy);
 
 void setup() {
   matriceTest1 = matrix_construct_zero(3, 3);
@@ -120,6 +120,8 @@ void loop() {
   matrix_printf(q);
   Serial.println();
 
+  //calculorCin.runCinematique(tableauDesAnglesRetournes, qv, qb, dx, dy);
+  
   calculorCin.printTest();
 
 
