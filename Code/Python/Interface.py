@@ -1,4 +1,4 @@
-# Python Interface v.0.17
+# Python Interface v.0.18
 
 # Listes des importations
 from tkinter import *
@@ -43,6 +43,23 @@ class application(threading.Thread):
         self.isrunning = True
         threading.Thread.__init__(self)
         self.start()
+
+    # Fonction pour changer l'état du robot
+    def Change_etat(self, numero):
+        com.etat = numero
+
+    # Fonction pour augmenter la hauteur du robot lorsque celui-ci est en mode stabilisation
+    def btnHauteurUp(self):
+        com.hauteur += 1
+
+    # Fonction pour diminuer la hauteur du robot lorsque celui-ci est en mode stabilisation
+    def btnHauteurDown(self):
+        com.hauteur -= 1
+
+    # Fonction pour update les moteurs en mode manuel
+    def btnUpdate(self):
+        com.moteur = com.buf_moteur.copy()
+        # com.Arduino.envoieVersArduino(com.moteur)
 
     # Fonction pour quitter le programme et arrêter le thread du Main.py
     def exxit(self):
@@ -155,7 +172,7 @@ class application(threading.Thread):
         self.CurrentValue9.grid(row=9, column=5, padx=10, pady=2)
 
         # Bouton qui appel la fonction btnUpdate dans Communication.py
-        BoutonUpdate = Button(frameMoteur, text="Update", font=("Helvetica", 12, "bold"), fg="blue", bg="gray75", command=com.btnUpdate)
+        BoutonUpdate = Button(frameMoteur, text="Update", font=("Helvetica", 12, "bold"), fg="blue", bg="gray75", command=self.btnUpdate)
         BoutonUpdate.grid(row=0, column=2, padx=10, pady=2)
 
 
@@ -190,11 +207,11 @@ class application(threading.Thread):
         switch_variable = StringVar(value="Off")
 
         # Ajoute 3 btn pour changer l'état de OpenCR avec com.Change_etat. Radiobutton pour un seul bnt actif à la fois
-        BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(1), width=9, value="Init") #INIT
+        BoutonInit = Radiobutton(frameOpen, text="(1) Init", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: self.Change_etat(1), width=9, value="Init") #INIT
         BoutonInit.grid(row=2, column=0, padx=10, pady=2)
-        BoutonManuel = Radiobutton(frameOpen, text="(2) Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(2), width=9, value="Manuel") #Manuel
+        BoutonManuel = Radiobutton(frameOpen, text="(2) Manuel", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: self.Change_etat(2), width=9, value="Manuel") #Manuel
         BoutonManuel.grid(row=3, column=0, padx=10, pady=2)
-        BoutonStable = Radiobutton(frameOpen, text="(3) Stable", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: com.Change_etat(3), width=9, value="Stabiliser") #Stabiliser
+        BoutonStable = Radiobutton(frameOpen, text="(3) Stable", bg="gray75", font=("Helvetica", 10, "bold"), variable=switch_variable, indicatoron=False, command=lambda: self.Change_etat(3), width=9, value="Stabiliser") #Stabiliser
         BoutonStable.grid(row=4, column=0, padx=10, pady=2)
 
         # -------------------------------------------------------------------------------------------------------------------- #
@@ -204,9 +221,9 @@ class application(threading.Thread):
         frameStable.config(bg="gray55")
         Label(frameStable, text = "Élévation:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
         # Ajoute 2 boutons pour varier la hauteur du robot
-        BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=com.btnHauteurUp, width=9)
+        BoutonHauteurUp = Button(frameStable, text="Hauteur +", bg="gray75", command=self.btnHauteurUp, width=9)
         BoutonHauteurUp.grid(row=2, column=0, padx=10, pady=2)
-        BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=com.btnHauteurDown, width=9)
+        BoutonHauteurDown = Button(frameStable, text="Hauteur -", bg="gray75", command=self.btnHauteurDown, width=9)
         BoutonHauteurDown.grid(row=3, column=0, padx=10, pady=2, )
 
         # Label de la hauteur updaté par Refresher()
@@ -255,6 +272,7 @@ class application(threading.Thread):
 
             # Le try/except permet d'éviter d'avoir d'autres caractères autres que des int dans les boîte Entry
             # Si caractère invalide, on écrit 0 dans le moteur
+            # La méthode get() permet de lire la valeur entrée
             try:
                 com.buf_moteur[0] = int(self.eM1.get())
             except:
@@ -316,12 +334,8 @@ class application(threading.Thread):
             # loop la fonction à chaque 250 ms
             self.fenetre.after(250, Refresher)
 
-        Refresher()
+        Refresher()     # Refresh certaines valeurs continuellement
 
 
-        self.fenetre.mainloop() # Start monitoring and updating the GUI
-
-
-# -------------------------------------------------------------------------------------------------------------------- #
-# app = application()
+        self.fenetre.mainloop() # Mainloop du GUI
 

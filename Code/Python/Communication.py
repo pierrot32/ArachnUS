@@ -14,31 +14,6 @@ hauteur = 0                             #Hauteur du robot
 angle = [100, 250]                      #Angle du robot
 
 
-# Fonction pour changer l'état du robot
-def Change_etat(numero):
-    global etat
-    etat = numero
-
-# Fonction pour augmenter la hauteur du robot lorsque celui-ci est en mode stabilisation
-def btnHauteurUp():
-    global hauteur
-    hauteur += 1
-
-# Fonction pour diminuer la hauteur du robot lorsque celui-ci est en mode stabilisation
-def btnHauteurDown():
-    global hauteur
-    hauteur -= 1
-
-# Fonction pour fermer l'application
-def btnQuit():
-    exit()
-
-# Fonction pour update les moteurs en mode manuel
-def btnUpdate():
-    global moteur
-    moteur = buf_moteur.copy()
-    Arduino.envoieVersArduino(moteur)
-
 # Classe pour la communication Serial avec la carte openCR
 class communicationOpenCr(object):
     # Definition de la fonction d'initialisation de la carte openCr
@@ -59,8 +34,6 @@ class communicationOpenCr(object):
         # Création de la structure pour l'envois des données vers la carte openCR
         value = struct.pack('iiiiiiiiii',etat, moteur[0], moteur[1],moteur[2],moteur[3],moteur[4],moteur[5],moteur[6],moteur[7],hauteur)
         self.port.write(value)
-
-
 
 
 # Création du port sérial pour la communication avec la carte openCr
