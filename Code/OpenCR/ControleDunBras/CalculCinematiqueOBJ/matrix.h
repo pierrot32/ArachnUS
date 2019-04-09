@@ -132,8 +132,16 @@
     */
     void matrix_copie_part(matrix_obj * obj, const matrix_obj * src1, unsigned int RowMax, unsigned int ColMax, unsigned int RowMin, unsigned int ColMin);
 
+    /** Solve de cross product of 2 vectors.
+        \param      obj         Object in whitch the cross product is returned.
+        \param      src1        Vector #1.
+        \param      src2        Vector #2.        
+    */
     void matrix_cross(matrix_obj * obj, const matrix_obj * src1, const matrix_obj * src2);
 
+    /** Apply an absolute value on each of the value of the matrix and return the maximum value in thus matrix
+        \param      obj         Object to be used.
+    */
     float max_matrix_abs(matrix_obj * obj);
 
 #endif
