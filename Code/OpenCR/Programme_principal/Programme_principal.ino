@@ -194,7 +194,7 @@ void loop() {
   }
 
   // Délais de 20 ms entre chaque loop
-  delay(20);
+  delay(50);
 }
 
 

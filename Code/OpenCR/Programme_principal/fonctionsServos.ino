@@ -22,7 +22,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 #define ANGlEMAX  90
 #define NBR_DE_SERVO 8
 
-int tabServoMin[NBR_DE_SERVO] = {300,200,320,200,300,300,300,200};
+int tabServoMin[NBR_DE_SERVO] = {300,200,320,150,300,300,300,200};
 int tabServoMax[NBR_DE_SERVO] = {450,500,450,450,450,450,450,500};
 int tabAngleMin[NBR_DE_SERVO] = {0,0,0,0,0,0,0,0};
 int tabAngleMax[NBR_DE_SERVO] = {90,90,90,90,90,90,90,90};
