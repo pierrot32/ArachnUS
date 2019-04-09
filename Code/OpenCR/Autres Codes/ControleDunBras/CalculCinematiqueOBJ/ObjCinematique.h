@@ -29,7 +29,6 @@ private:
   
   matrix_obj *fkc;
   matrix_obj *fkr;
-  matrix_obj *fk;
 
   matrix_obj *Pgoal;
   matrix_obj *Rgoal;
@@ -73,13 +72,12 @@ public:
       
     fkc =       matrix_construct_zero(3, 1);    //Position cartésienne du poignet de la patte
     fkr =       matrix_construct_zero(3, 1);    //Position angulaire du poignet de la patte avec EulerXYZ
-    fk =        matrix_construct_zero(6, 1);    //fkc + fkr
      
     Pgoal =     matrix_construct_zero(6, 1);    //Position cartésienne voulue du bout/poignet de la patte
     Rgoal =     matrix_construct_zero(3, 3);    //Position angulaire voulue du bout/poignet de la patte avec EulerXYZ 
     Pcurr =     matrix_construct_zero(6, 1);    //Position cartésienne courante du poignet de la patte
     Pcurr_old = matrix_construct_zero(6, 1);    //Position cartésienne précédente du poignet de la patte
-    Rcurr =     matrix_construct_zero(6, 1);    //Position angulaire courante du bout de la patte avec EulerXYZ
+    Rcurr =     matrix_construct_zero(3, 3);    //Position angulaire courante du bout de la patte avec EulerXYZ
     Err =       matrix_construct_zero(6, 1);    //Différence entre la position cartésienne à atteindre et la position cartésienne courante
     delta_R =   matrix_construct_zero(3, 3);    //Différence entre la position angulaire à atteindre et la position angulaire courante
     
@@ -202,10 +200,10 @@ private:
   }
 
   //Fonction qui sort la position d'une matrice de transformation
-  void findPoint(matrix_obj * A, matrix_obj * T) {
-    A->array[0] = T->array[3];
-    A->array[1] = T->array[7];
-    A->array[2] = T->array[11];
+  void findPoint(matrix_obj * At, matrix_obj * T) {
+    At->array[0] = T->array[3];
+    At->array[1] = T->array[7];
+    At->array[2] = T->array[11];
   }
 
   //Fonction qui retourne la matrice de rotation à partir d'un set d'angles d'Euler XYZ
@@ -216,15 +214,15 @@ private:
     float s2 = sin(Euler->array[1]);
     float c3 = cos(Euler->array[2]);
     float s3 = sin(Euler->array[2]);
-  
+    
     Q->array[0] = c2 * c3;
-    Q->array[1] = c1 * s3 + c3 * s1 * s2;
-    Q->array[2] = s1 * s3 - c1 * c3 * s2;
-    Q->array[3] = -c2 * s3;
+    Q->array[3] = c1 * s3 + c3 * s1 * s2;
+    Q->array[6] = s1 * s3 - c1 * c3 * s2;
+    Q->array[1] = -c2 * s3;
     Q->array[4] = c1 * c3 - s1 * s2 * s3;
-    Q->array[5] = c3 * s1 + c1 * s2 * s3;
-    Q->array[6] = s2;
-    Q->array[7] = -c2 * s1;
+    Q->array[7] = c3 * s1 + c1 * s2 * s3;
+    Q->array[2] = s2;
+    Q->array[5] = -c2 * s1;
     Q->array[8] = c1 * c2;
   }
 
@@ -314,12 +312,12 @@ private:
   //Calcule de la cinématique inverse
   void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3) {
     fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
-  
+      
     matrix_copie_part(Ppartie, Pgoal, 4, 1, 6, 1);
     EulerXYZtoRot(Rgoal, Ppartie);        //Goal rotation matrix
     matrix_sub(Err, Pgoal, Pcurr);        //Error between Pgoal and Pcurr
-      
-      while (max_matrix_abs(Err) > 0.001){  //Beginning of the iterative method
+    int iterCount = 0;
+      while ((max_matrix_abs(Err) > 0.001) && (iterCount++ < 100)){  //Beginning of the iterative method
   
         matrix_copy_matrix(Pcurr_old, Pcurr);
         matrix_copie_part(Ppartie, Pcurr, 4, 1, 6, 1);   
@@ -373,9 +371,8 @@ private:
     fk_4_ik(Pgoal, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
     Pgoal->array[0] = dx;
     Pgoal->array[1] = dy;
-
-    pointFinal(Pgoal, 1);
     
+    pointFinal(Pgoal, 1);
   
     invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
     bonAngleInv(qret, q);
