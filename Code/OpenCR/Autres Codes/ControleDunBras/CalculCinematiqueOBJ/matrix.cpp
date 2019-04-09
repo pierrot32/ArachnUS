@@ -20,6 +20,7 @@
 ******************************************************************************/
 
 #include "matrix.h"
+#include "assert.h"
 
 matrix_obj * matrix_construct_zero(const unsigned int nRows, const unsigned int nCols) {
   matrix_obj * obj;
@@ -27,10 +28,18 @@ matrix_obj * matrix_construct_zero(const unsigned int nRows, const unsigned int 
   unsigned int iCol;
 
   obj = (matrix_obj *) malloc(sizeof(matrix_obj));
+  //Pour debug
+  if(obj == NULL){
+    Serial.println("*****null_pointer_obj*****"); 
+  }
 
   obj->nRows = nRows;
   obj->nCols = nCols;
   obj->array = (float *) malloc(sizeof(float) * nRows * nCols);
+  //Pour debug
+  if(obj->array == NULL){
+    Serial.println("*****null_pointer_matrix*****"); 
+  }
 
   memset(obj->array, 0x00, sizeof(float) * nRows * nCols);
 
@@ -268,7 +277,7 @@ float max_matrix_abs(matrix_obj * obj) {
     for (iCol = 0; iCol < obj->nCols; iCol++) {
       
       if (obj->array[iRow * obj->nCols + iCol] < 0) {
-        obj->array[iRow * obj->nCols + iCol] = obj->array[iRow * obj->nCols + iCol] * -1; //ATTENTION!!!!!!!!!!!!
+        obj->array[iRow * obj->nCols + iCol] = obj->array[iRow * obj->nCols + iCol] * -1; //Mise en absolue de la matrice!
       }
       if (obj->array[iRow * obj->nCols + iCol] > valMax){
         valMax = obj->array[iRow * obj->nCols + iCol];

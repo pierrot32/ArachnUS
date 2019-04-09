@@ -10,7 +10,7 @@ import numpy as np
 moteur = [80,45,80,45,45,45,80,45,0]    #Commande moteur
 buf_moteur = moteur.copy()              #Buffer de la commande moteur
 etat = 0                                #Etat du robot
-hauteur = 0                             #Hauteur du robot
+hauteur = 100                             #Hauteur du robot
 angle = [100, 250]                      #Angle du robot
 
 
@@ -29,6 +29,7 @@ class communicationOpenCr(object):
     def read_one_value(self):
             data = self.port.read(self.SIZE_STRUCT)
             new_values = struct.unpack('iiiiiiiiiiii', data)
+            print(new_values)
 
     def envoieVersArduino(self, moteur):
         # Création de la structure pour l'envois des données vers la carte openCR
