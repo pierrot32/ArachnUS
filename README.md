@@ -10,10 +10,10 @@ Plus d'informations sont données dans le fichier.
 Voir le dossier Code/OpenCr pour la procédure d'installation et d'utilisation de code du robot
 
 ## Autres Cartes 
-# Utilisation de la carte PCA9685 (branchements sur la carte openCr)
+### Utilisation de la carte PCA9685 (branchements sur la carte openCr)
 Voir le dossier Documentation électronique
 
-# Uilisation du capteur de distance
+### Uilisation du capteur de distance
 Voir le dossier Documentation électronique
 
 ## Interface:
