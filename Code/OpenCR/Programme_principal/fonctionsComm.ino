@@ -22,7 +22,7 @@ void copie_array_struc(byte *buf, int valeurs_angles[], int state[], int hauteur
 //fontion d'envoi des données de la carte openCR au PC
 void envoi_serie(envoi MSG, int valeurs_moteurs[NBR_DE_SERVO]){
   MSG.etat = state[0];
-  MSG.hauteur = hauteur_actuelle;
+  MSG.hauteur = hauteurActuelle;
   MSG.moteur0 = valeurs_moteurs[0];
   MSG.moteur1 = valeurs_moteurs[1];
   MSG.moteur2 = valeurs_moteurs[2];
@@ -31,7 +31,7 @@ void envoi_serie(envoi MSG, int valeurs_moteurs[NBR_DE_SERVO]){
   MSG.moteur5 = valeurs_moteurs[5];
   MSG.moteur6 = valeurs_moteurs[6];
   MSG.moteur7 = valeurs_moteurs[7];
-  MSG.angx = long(aRobot.angleX);
+  MSG.angx = long(moteursPatte1[1]);//aRobot.angleX);
   MSG.angy = long(aRobot.angleY);
   Serial.write((uint8_t*)&MSG, sizeof(MSG));
 }

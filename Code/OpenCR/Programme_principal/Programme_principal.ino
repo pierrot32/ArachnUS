@@ -2,6 +2,7 @@
 #define NBR_DE_SERVO 8
 #define coeffFiltre 4
 #include <IMU.h>
+#include "ObjCinematique.h"
 
 // variables globales
 
@@ -9,7 +10,7 @@ cIMU    IMU;
 
 int initDone = 0;
 
-float filtriMot0[coeffFiltre];
+float filtreMot0[coeffFiltre];
 float filtreMot1[coeffFiltre];
 float filtreMot2[coeffFiltre];
 float filtreMot3[coeffFiltre];
@@ -23,8 +24,24 @@ int moteur3 = 0;
 int moteur6 = 0;
 int moteur7 = 0;
 
+float moteursPatte1[2] = {0,80};
+float moteursPatte2[2] = {0,80};
+float moteursPatte3[2] = {0,80};
+
+float moteursPatte1Pos[2] = {0,0};
+float moteursPatte2Pos[2] = {0,0};
+float moteursPatte3Pos[2] = {0,0};
+
+float posPatte1Y = 50;
+float posPatte1X = 50;
+float posPatte2Y = 50;
+float posPatte2X = 50;
+float posPatte3Y = 50;
+float posPatte3X = 50;
+
 int indexCirculaire = 0;
 
+int deltaHauteur = 0;
 int hauteurInitial = 50; //hauteurs initials du robot en mm
 
 typedef struct envoi{
@@ -80,27 +97,54 @@ typedef struct deltaPosPattes{
 
 deltaPosPattes dMPos;
 
+ObjCinematique CinematiquePatte1;
+ObjCinematique CinematiquePatte2;
+ObjCinematique CinematiquePatte3;
+
 void setup() {
   Serial.begin(115200);
   IMU.begin();
   pinMode( led_pin, OUTPUT );
   pinMode(trigPin,OUTPUT);// set trigPin to output mode   
   pinMode(echoPin,INPUT); // set echoPin to input mode
-  initFctServo(valeurs_Angles_moteurs);
+  
+  
   for (int i=0;i<coeffFiltre;i++){
     filtreMot1[i] = 0;
     filtreMot2[i] = 0;
     filtreMot3[i] = 0;
   }
-  
+
+  CinematiquePatte1.runANGtoDIST(moteursPatte1Pos, 0, 80);
+  CinematiquePatte2.runANGtoDIST(moteursPatte2Pos, 0, 80);
+  CinematiquePatte3.runANGtoDIST(moteursPatte3Pos, 0, 80);
+
+  valeurs_Angles_moteurs[0] = 80;
+  valeurs_Angles_moteurs[1] = 0;
+  valeurs_Angles_moteurs[2] = 80;
+  valeurs_Angles_moteurs[3] = 0;
+  valeurs_Angles_moteurs[4] = 0;
+  valeurs_Angles_moteurs[5] = 0;
+  valeurs_Angles_moteurs[6] = 80;
+  valeurs_Angles_moteurs[7] = 0;
+
+  moteur0 = 80;
+  moteur1 = 0;
+  moteur2 = 80;
+  moteur3 = 0;
+  moteur6 = 80;
+  moteur7 = 0;
+
+  state[0] = 3; //******
+  initFctServo(valeurs_Angles_moteurs);
 }
 
 void loop() {
-  while(Serial.available() > 0){
-    bool x;
-    x = lecture(buff);
-    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
-  }
+//  while(Serial.available() > 0){
+//    bool x;
+//    x = lecture(buff);
+//    copie_array_struc(buff,valeurs_Angles_moteurs, state, height);
+//  }
 
   switch(state[0]){
     case 0:
@@ -129,67 +173,81 @@ void loop() {
       //etat stabilisation appel des fonctions de calcul d'angle du robot
       msg_Envoi.etat = 3;
       // aRobot est les angles en x et en y du robot
-      aRobot = calculAngle(IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
+      aRobot = calculAngle(0,0,16384);//IMU.accRaw[0],IMU.accRaw[1], IMU.accRaw[2]);
       
       // dmPos est le delta position de chaque moteur pour stabiliser le robot
       dMPos = stabilisationRobot(aRobot);
       
       
       // Calcul de la hauteur actuelle
-      hauteurActuelle = int(getSonar());
+     // hauteurActuelle = int(getSonar());
       
       // deltaHauteur est la différence entre la hauteur présente et la haute voulue
       // Calcul du deltaHauteur
-      deltaHauteur = height[0] - hauteurActuelle;
+      //deltaHauteur = height[0] - hauteurActuelle;
       
       // On ajoute la variation de hauteur
-      dMPos.deltaPosPatte1 += deltaHauteur;
-      dMPos.deltaPosPatte2 += deltaHauteur;
-      dMPos.deltaPosPatte3 += deltaHauteur;
+      //dMPos.deltaPosPatte1 += deltaHauteur;
+      //dMPos.deltaPosPatte2 += deltaHauteur;
+      //dMPos.deltaPosPatte3 += deltaHauteur;
+
+      //posPatte1Y = posPatte1Y; + dMPos.deltaPosPatte1;
+      //posPatte1X = posPatte1X;                          //Ne change pas pour la stabilisation
+      //posPatte2Y = posPatte2Y + dMPos.deltaPosPatte2;
+      //posPatte2X = posPatte2X;                          //Ne change pas pour la stabilisation
+      //posPatte3Y = posPatte3Y + dMPos.deltaPosPatte3;
+      //posPatte3X = posPatte3X;                          //Ne change pas pour la stabilisation
       
       // On calcule la nouvelle position 
-      [moteur0, moteur1] = CALCUL CINÉMATIQUE(posMoteur0Voulue, posMoteur1Voulue];
-      [moteur2, moteur3] = CALCUL CINÉMATIQUE(posMoteur2Voulue, posMoteur3Voulue];
-      [moteur6, moteur7] = CALCUL CINÉMATIQUE(posMoteur6Voulue, posMoteur7Voulue];
+      //CinematiquePatte1.runDISTtoANG(moteursPatte1, moteursPatte1[0], moteursPatte1[1], moteursPatte1Pos[0], moteursPatte1Pos[1]);
+      //CinematiquePatte2.runDISTtoANG(moteursPatte2, (float)(moteur3), (float)(moteur2), moteursPatte2Pos[0], moteursPatte2Pos[1]);
+      //CinematiquePatte3.runDISTtoANG(moteursPatte3, (float)(moteur7), (float)(moteur6), moteursPatte3Pos[0], moteursPatte3Pos[1]);
+
+      moteur0 = (int)(moteursPatte1[1]);
+      moteur1 = (int)(moteursPatte1[0]);
+      moteur2 = (int)(moteursPatte2[1]);
+      moteur3 = (int)(moteursPatte2[0]);
+      moteur6 = (int)(moteursPatte3[1]);
+      moteur7 = (int)(moteursPatte3[0]);
       
-      // On s'assure que les limites d'angle envoyé aux moteurs sont respecté
+/*      // On s'assure que les limites d'angle envoyé aux moteurs sont respecté
       if( moteur0<0 ){
         moteur0 = 0;
       }else if( moteur0>90){
-        moteur0 = 90
+        moteur0 = 90;
       }
       if( moteur1<0 ){
         moteur1 = 0;
       }else if( moteur1>90){
-        moteur1 = 90
+        moteur1 = 90;
       }
       if( moteur2<0 ){
         moteur2 = 0;
       }else if( moteur2>90){
-        moteur2 = 90
+        moteur2 = 90;
       }
       if( moteur3<0 ){
         moteur3 = 0;
       }else if( moteur3>90){
-        moteur3 = 90
+        moteur3 = 90;
       }
       if( moteur6<0 ){
         moteur6 = 0;
       }else if( moteur6>90){
-        moteur6 = 90
+        moteur6 = 90;
       }
       if( moteur7<0 ){
         moteur7 = 0;
       }else if( moteur7>90){
-        moteur7 = 90
+        moteur7 = 90;
       }
       
       if (indexCirculaire>=coeffFiltre){
         indexCirculaire++;
       } else {
         indexCirculaire = 0;
-      }
-      
+      }*/
+      /*
       // On entre les nouvelles valeurs de moteur dans le tableau du filtre
       filtreMot0[indexCirculaire] = moteur0;
       filtreMot1[indexCirculaire] = moteur1;
@@ -209,7 +267,7 @@ void loop() {
       // Envois de la commande aux moteurs
       updateServos(valeurs_Angles_moteurs);
 
-        
+        */
   //}
 
       break;
@@ -227,7 +285,8 @@ void loop() {
   //hauteur_actuelle = int(getSonar());
   if( (millis()-tTime[1]) >= 100 ){
     tTime[1] = millis();
-    envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+    //envoi_serie(msg_Envoi,valeurs_Angles_moteurs);
+    Serial.println("allo");
   }
 
   delay(20);
