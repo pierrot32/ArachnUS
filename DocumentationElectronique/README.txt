@@ -9,6 +9,10 @@ Guide d'utilisateur de la carte OpenCR:
 http://emanual.robotis.com/docs/en/parts/controller/opencr10/
 http://support.robotis.com/en/product/controller/opencr.htm?fbclid=IwAR3mdokLMNBJ61K55APRvNFKxcBc7fuHtkBBCOIlaJhQWwKeLr4MbHUsWKk
 
+Fiches techniques :
+Moteur MG996R : http://magicduino.com/Images/ItemsMedia/File/7203.pdf
+Capteur de hauteur HC-SR04 : 
+
 
 Pour l'installation de la carte OpenCR sur arduinoIDE (sur Windows): 
 1) Fichier -> préférence -> URL de gestionnaire des cartes suppl. -> https://raw.githubusercontent.com/ROBOTIS-GIT/OpenCR/master/arduino/opencr_release/package_opencr_index.json
