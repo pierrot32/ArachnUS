@@ -18,7 +18,7 @@ cIMU    IMU;                                        // Objet pour utilisation de
 int initDone = 0;                                   // Variable pour savoir si l'initialisation est fait
 
 //*****CONSTANTES ET VARIABLES POUR FILTRE DES MOTEURS*****//
-#define coeffFiltre 4                               // Nombre de coefficient utilisé pour le filtre FIR à moyenne mobile
+#define coeffFiltre 7                               // Nombre de coefficient utilisé pour le filtre FIR à moyenne mobile
 float filtreMot1[coeffFiltre];                      // Les entrée du filtre à moyenne mobile pour le moteur côté vert de la patte 1
 float filtreMot2[coeffFiltre];                      // Les entrée du filtre à moyenne mobile pour le moteur côté vert de la patte 2
 float filtreMot3[coeffFiltre];                      // Les entrée du filtre à moyenne mobile pour le moteur côté vert de la patte 3
