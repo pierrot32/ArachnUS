@@ -12,16 +12,16 @@ q1 = bonAngle(qv, qb)*2*pi/360;
 
 % % Test 2 : résultat qv = -35, qbx = -126.3
 qv = 30; qb = 120;
-q2 = bonAngle(qv,qb)*2*pi/360;
+q2 = bonAngle(qv,qb);
 
 %% bonAngleInv
 % Test 1 : résultat qv = -25, qbx = 100
 qv = -25; qbx = -78;
-q11 = bonAngleInv(qv, qb);
+q1 = bonAngleInv(qv, qb);
 
 % % Test 2 : résultat qv = -35, qbx = -126.3
 qv = 30; qb = -104;
-q22 = bonAngleInv(qv,qb);
+q2 = bonAngleInv(qv,qb);
 
 %% pointFinal
 t1 = pointfinal([0;0;0],-1);
@@ -54,31 +54,12 @@ P1 = CartesienPatte(-25, 100);
 P2 = CartesienPatte(30, 120);
 
 %% MatRotationToEuler.m
-R1 = T1(1:3,1:3);
-E1 = MatRotationToEuler(R1);
-R2 = T2(1:3,1:3);
-E2 = MatRotationToEuler(R2);
 
-%% EulerXYZtoRot.m
-Rv1 = EulerXYZtoRot(E1);
-Rv2 = EulerXYZtoRot(E2);
 
 %% fk_4_ik.m
 fk1 = fk_4_ik([-25*2*pi/360;-78*2*pi/360;0], Tw0);
 fk2 = fk_4_ik([30*2*pi/360;-104*2*pi/360;0], Tw0);
 
-%% Jacobien.m
-q = [-25*2*pi/360,-78*2*pi/360,0];
-Tj1 = transMat_w2f(q,Tw0);
-J1 = Jacobien(Tw0, Tj1(1:4,1:4), Tj1(1:4,5:8), Tj1(1:4,9:12));
 
-q = [30*2*pi/360,-104*2*pi/360,0];
-Tj2 = transMat_w2f(q,Tw0);
-J2 = Jacobien(Tw0, Tj2(1:4,1:4), Tj2(1:4,5:8), Tj2(1:4,9:12));
 
-%% invCinPatte.m
-A1 = invCinPatte(fk1, [-35*2*pi/360;-68*2*pi/360;0],Tw0);
-A2 = invCinPatte(fk2, [10*2*pi/360;-120*2*pi/360;0],Tw0);
-
-%% AngulairePatte.m
 

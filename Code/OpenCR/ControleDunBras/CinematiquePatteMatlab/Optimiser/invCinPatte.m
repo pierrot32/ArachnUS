@@ -22,6 +22,7 @@ function IK = invCinPatte(Pgoal, q, Tw0)
         dX(5,:)=(Omega(1,3)-Omega(3,1))/2;  %Finding wy from W
         dX(6,:)=(Omega(2,1)-Omega(1,2))/2;  %Finding wz from W
 
+        
         dX(1:3,:) = Pgoal(1:3)-Pcurr(1:3);  %positional displacement as seen in the class notes
         
         TwF = transMat_w2f(q, Tw0);
