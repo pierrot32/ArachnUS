@@ -12,6 +12,7 @@
 
 int indexF = 0;
 unsigned long delais = 0;
+int led = 13;
 
 //Variable d'entree
 float qv = 0.0;
@@ -19,16 +20,19 @@ float qb = 80.0;
 float dx = 0;
 float dy = 0;
 
-ObjCinematique * calculorCin;
+ObjCinematique calculorCin;
 
 void setup() {
 
-  Serial.begin(9600);
-  calculorCin = new ObjCinematique();
+  pinMode(led, OUTPUT);
+  
+  Serial.begin(115200);
+  delay(1000);
+  //calculorCin = new ObjCinematique();
 
   //avec ObjCinematique
   float distanceSortie[2];
-  calculorCin->runANGtoDIST(distanceSortie, qv, qb);
+  calculorCin.runANGtoDIST(distanceSortie, qv, qb);
   dx = distanceSortie[0];
   dy = distanceSortie[1];
 
@@ -52,12 +56,12 @@ void loop() {
   float tableauDesAnglesRetournes[2];
   
   delais = millis();
-  //calculorCin->runDISTtoANG(tableauDesAnglesRetournes, qv+40, qb+40, dx, dy);
+  calculorCin.runDISTtoANG(tableauDesAnglesRetournes, qv, qb, dx, dy);
   qv = int(tableauDesAnglesRetournes[0]);
   qb = int(tableauDesAnglesRetournes[1]);
   delais = millis() - delais;
   
-  calculorCin->printTest();
+  calculorCin.printTest();
 
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test OBJ: valeurOUT");
@@ -69,6 +73,10 @@ void loop() {
   Serial.print("Temps de boucle: ");
   Serial.println(delais);
   Serial.println();
+
+  digitalWrite(led, HIGH);
+  delay(500);
+  digitalWrite(led, LOW);
+  delay(500);
   
-  delay(10000);
 }
