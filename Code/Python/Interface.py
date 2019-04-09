@@ -1,4 +1,4 @@
-# Python Interface v.0.18
+# Python Interface v.1.0
 
 # Listes des importations
 from tkinter import *
@@ -59,7 +59,7 @@ class application(threading.Thread):
     # Fonction pour update les moteurs en mode manuel
     def btnUpdate(self):
         com.moteur = com.buf_moteur.copy()
-        # com.Arduino.envoieVersArduino(com.moteur)
+        com.Arduino.envoieVersArduino(com.moteur)
 
     # Fonction pour quitter le programme et arrêter le thread du Main.py
     def exxit(self):
@@ -74,10 +74,10 @@ class application(threading.Thread):
         self.fenetre.config(bg = "gray35")
         self.fenetre.protocol("WM_DELETE_WINDOW", self.exxit)   # Le bouton X de la fenêtre appelle la fonction exxit()
 
-        # Frame Moteur // Permet de segmenter le frame fenetre avec d'aautres sous frames (colonne = 0)
+        # Frame Moteur // Permet de segmenter le frame fenetre avec d'autres sous frames (colonne = 0)
         frameMoteur = Frame(self.fenetre)
         frameMoteur.grid(sticky="NS", row=0, column=0, padx=10, pady=10)
-        Label(frameMoteur, text = "Mode manuel moteurs:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
+        Label(frameMoteur, text="Mode manuel moteurs:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
         frameMoteur.config(bg="gray55")
 
         # Patte 1
@@ -233,7 +233,7 @@ class application(threading.Thread):
 
          # Frame Quit // Ajoute un frame pour mettre un bouton d'arrêt (colonne = 3
         frameQuit = Frame(self.fenetre)
-        frameQuit.grid(sticky="NE", row=0, column=3, padx=10, pady=10)
+        frameQuit.grid(sticky="NE", row=0, column=2, padx=10, pady=10)
         frameQuit.config(bg="gray35")
         # Ajoute bouton d'arrêt de l'application. Exécute la fonction exxit()
         BoutonQuit = Button(frameQuit, text="Quitter l'application", fg="blue", bg="gray75", font=("Helvetica", 12, "bold"), command=self.exxit)#com.btnQuit)
@@ -244,7 +244,7 @@ class application(threading.Thread):
         # Frame Plan / Orientation // Ajoute frame pour l'orientation (colonne = 2 + 3 grâce à "colunmspan"
         # Utiliser Surf, produit vectorielle de la normal pour générer le plan?
         frameGraph = Frame(self.fenetre)
-        frameGraph.grid(sticky="SW", row=0, column=2, padx=10, pady=10, columnspan=2)
+        frameGraph.grid(sticky="SW", row=0, column=2, padx=10, pady=10, columnspan=1)
         frameGraph.config(bg="gray55")
         Label(frameGraph, text="Orientation du plan:", fg="lawn green", bg="gray55", font=("Helvetica", 12, "bold")).grid(row=0, column=0, padx=10, pady=2)
 
@@ -338,4 +338,3 @@ class application(threading.Thread):
 
 
         self.fenetre.mainloop() # Mainloop du GUI
-
