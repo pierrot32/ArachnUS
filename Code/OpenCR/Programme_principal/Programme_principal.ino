@@ -49,7 +49,6 @@ envoi msg_Envoi;                                    // Objet pour le message d'e
 
 //*****VARIABLES POUR LE CALCUL DE LA HAUTEURS DU ROBOT*****//
 int delta_hauteur;                                  // Le changement de hauteur du robot pour atteindre celle désirée
-int height[NBR_DE_SERVO];                           // Hauteur voulue (sélectionné par l'interface lors de la communication (doit être dans un tableau pour le bon fonctionnement par communication par structure)
 int hauteur_actuelle;                               // Hauteur actuelle trouvé avec le capteur de hauteur
 
 
@@ -83,11 +82,9 @@ typedef struct deltaAngleMoteurHauteur{
   float deltaAngleMoteur2 = 0;                      // Changment d'angle du moteur côté vert de la patte 2
   float deltaAngleMoteur3 = 0;                      // Changment d'angle du moteur côté vert de la patte 3 
 };
-deltaAngleMoteurHauteur dMAngle;                     / Objet pou rle calcul lors de la stabilisation
+deltaAngleMoteurHauteur dMAngle;                    // Objet pou rle calcul lors de la stabilisation
 
-
-
-
+void envoi_serie(envoi MSG, int valeurs_moteurs[NBR_DE_SERVO]);
 
 //*****SETUP DU RU PROGRAMME*****//
 void setup() {
