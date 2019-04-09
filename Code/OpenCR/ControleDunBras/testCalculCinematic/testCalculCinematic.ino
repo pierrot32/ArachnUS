@@ -127,7 +127,7 @@ void loop() {
   Serial.println("-----------------------------------------------------------------");
   Serial.println("Test 10: angulairePatte");
   Serial.println();
-  matrix_printf(q);
+  matrix_printf(qret);
   Serial.println();
 
 
