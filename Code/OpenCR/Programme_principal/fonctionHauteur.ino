@@ -1,3 +1,7 @@
+/*****************************************************************************
+  Le code ci-dessous a été modifier de l'original dans le cadre du projet ArachnUS (S4-GRO)
+******************************************************************************/
+
 /*************************************************** 
   Fonctions de mesure de la hauteur du robot à l'aide du capteur à ultrason HC-SR04
   Cette fonction a été prise sur le github de freenove: Freenove_Ultimate_Starter_kit_for_Arduino

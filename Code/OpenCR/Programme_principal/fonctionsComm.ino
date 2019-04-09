@@ -1,3 +1,9 @@
+/*
+ * Le programme ci-dessous à été réalisé par l'équipe d'ARACHNUS
+ * dans la cadre d'un cours de projet en génie robotique
+ * de l'université de Sherbrooke (S4-GRO).
+ */
+
 
 /*************************************************** 
   Fonctions de communication entre OpenCR et Python(PC)
