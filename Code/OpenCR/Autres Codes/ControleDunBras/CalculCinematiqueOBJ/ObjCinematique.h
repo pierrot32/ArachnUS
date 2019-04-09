@@ -1,9 +1,14 @@
+/*
+ * Le programme ci-dessous à été réalisé par l'équipe d'ARACHNUS
+ * dans la cadre d'un cours de projet en génie robotique
+ * de l'université de Sherbrooke (S4-GRO).
+ */
+
 /***************************************************
-  Classe à utiliser pour la cinématique des pattes
+  Classe utilisée pour calculer la cinématique des pattes
  ****************************************************/
 #ifndef OBJ_CINEMATIQUE
 #define OBJ_CINEMATIQUE
-
 
 #include "matrix.h"
 
@@ -11,8 +16,8 @@ class ObjCinematique{
   
 private:
   //Création des constantes utilisées pour l'ensemble des calculs
-  const float lv = 72.5; //mm
-  const float lbx = 116.1; //mm
+  const float lv = 72.5;    //Longueur du bout vert (mm)
+  const float lbx = 116.1;  //Longueur du bout bleu jusqu'au poignet (mm)
 
   //Création des matrices utilisées pour l'ensemble des calculs
   matrix_obj *q;
@@ -20,75 +25,78 @@ private:
   matrix_obj *Tw1;
   matrix_obj *Tw2;
   matrix_obj *Tw3;
+  matrix_obj *Rw3;
   
-  matrix_obj *J;
   matrix_obj *fkc;
   matrix_obj *fkr;
-  matrix_obj *Rw3;
-  matrix_obj *Pcurr;
-  
-  matrix_obj *Rgoal;
+
   matrix_obj *Pgoal;
-  matrix_obj *Ppartie;
-  matrix_obj *Err;
+  matrix_obj *Rgoal;
+  matrix_obj *Pcurr;
   matrix_obj *Pcurr_old;
   matrix_obj *Rcurr;
-  matrix_obj *delta_R;
+  matrix_obj *Err;
+  matrix_obj *delta_R; 
+
   matrix_obj *Omega;
   matrix_obj *dX;
+  matrix_obj *Ppartie;
   matrix_obj *Rpartie;
   matrix_obj *A;
+
+  matrix_obj *J;
   matrix_obj *Jtranspose;
   matrix_obj *pseudoJ;
   matrix_obj *dTheta;
-  
-  matrix_obj *fk;
+
   matrix_obj *Euler;
   matrix_obj *qret;
 
 public:
   //Constructeur
   ObjCinematique() {
-    // Matrice identité
-    Tw0 = matrix_construct_zero(4, 4);
-    Tw0->array[0] = 1;
-    Tw0->array[5] = 1;
-    Tw0->array[10] = 1;
-    Tw0->array[15] = 1;
-
     // Initialisation des matrices utilisées pour l'ensemble des calculs
-    q =   matrix_construct_zero(3, 1);
-    Tw1 = matrix_construct_zero(4, 4);
-    Tw2 = matrix_construct_zero(4, 4);
-    Tw3 = matrix_construct_zero(4, 4);
-      
-    J =   matrix_construct_zero(6, 3);
-    fk =  matrix_construct_zero(6, 1);
-    fkc = matrix_construct_zero(3, 1);
-    fkr = matrix_construct_zero(3, 1);
-    Rw3 = matrix_construct_zero(3, 3);
-      
-    Rgoal =   matrix_construct_zero(3, 3);
-    Pgoal =   matrix_construct_zero(6, 1);
-    Ppartie = matrix_construct_zero(3, 1);
-    Err =     matrix_construct_zero(6, 1);
 
-    Pcurr =     matrix_construct_zero(6, 1);
-    Pcurr_old = matrix_construct_zero(6, 1);
-    Rcurr =     matrix_construct_zero(6, 1);
-    delta_R =   matrix_construct_zero(3, 3);
-    Omega =     matrix_construct_zero(3, 3);
-    dX =        matrix_construct_zero(6, 1);
-    Rpartie =   matrix_construct_zero(3, 3);
-    A =         matrix_construct_zero(3, 3);
+    // Matrice identité
+      Tw0 = matrix_construct_zero(4, 4);
+      Tw0->array[0] = 1;
+      Tw0->array[5] = 1;
+      Tw0->array[10] = 1;
+      Tw0->array[15] = 1;
 
-    pseudoJ =     matrix_construct_zero(3, 6);
-    Jtranspose =  matrix_construct_zero(3, 6);
-    dTheta =      matrix_construct_zero(3, 1);
-    Euler =       matrix_construct_zero(3, 1);
-    qret =        matrix_construct_zero(3, 1);
+    q =         matrix_construct_zero(3, 1);    //qv, qbX, "rienDutile"
+    Tw1 =       matrix_construct_zero(4, 4);    //Matrice de transformation du frame 0 au frame 1
+    Tw2 =       matrix_construct_zero(4, 4);    //Matrice de transformation du frame 1 au frame 2
+    Tw3 =       matrix_construct_zero(4, 4);    //Matrice de transformation du frame 2 au frame 3
+    Rw3 =       matrix_construct_zero(3, 3);    //Matrice de de rotation de Tw3
+      
+    fkc =       matrix_construct_zero(3, 1);    //Position cartésienne du poignet de la patte
+    fkr =       matrix_construct_zero(3, 1);    //Position angulaire du poignet de la patte avec EulerXYZ
+     
+    Pgoal =     matrix_construct_zero(6, 1);    //Position cartésienne voulue du bout/poignet de la patte
+    Rgoal =     matrix_construct_zero(3, 3);    //Position angulaire voulue du bout/poignet de la patte avec EulerXYZ 
+    Pcurr =     matrix_construct_zero(6, 1);    //Position cartésienne courante du poignet de la patte
+    Pcurr_old = matrix_construct_zero(6, 1);    //Position cartésienne précédente du poignet de la patte
+    Rcurr =     matrix_construct_zero(3, 3);    //Position angulaire courante du bout de la patte avec EulerXYZ
+    Err =       matrix_construct_zero(6, 1);    //Différence entre la position cartésienne à atteindre et la position cartésienne courante
+    delta_R =   matrix_construct_zero(3, 3);    //Différence entre la position angulaire à atteindre et la position angulaire courante
+    
+    Omega =     matrix_construct_zero(3, 3);    //Matrice de rotation utilisé pour l'erreur en rotation
+    dX =        matrix_construct_zero(6, 1);    //Erreur à ajuster avec l'algorythme de cinématique inverse
+    Ppartie =   matrix_construct_zero(3, 1);    //Matrice "buffer" pour faire des calculs de cinématique inverse
+    Rpartie =   matrix_construct_zero(3, 3);    //Matrice "buffer" pour faire des calculs de cinématique inverse
+    A =         matrix_construct_zero(3, 3);    //Vecteur pour la pseudo inverse de la Jacobienne
+
+    J =         matrix_construct_zero(6, 3);    //Jacobienne
+    Jtranspose =matrix_construct_zero(3, 6);    //Transposé de la Jacobienne
+    pseudoJ =   matrix_construct_zero(3, 6);    //Pseudo inverse de la Jacobienne
+    dTheta =    matrix_construct_zero(3, 1);    //Réponse de la cinématique (angle à ajouter pour atteindre la commande)
+    
+    Euler =     matrix_construct_zero(3, 1);    //Réponse au passage d'une matrice de rotation aux angles d'EulerXYZ
+    qret =      matrix_construct_zero(3, 1);    //Pour transférer qb en qbX
   }
-  
+
+  //Print des variables sur le port serial (utile pour faciliter le debuggage)
   void printTest(){
     Serial.println("-----------------------------------------------------------------");
     Serial.println("Test OBJ: q");
@@ -101,6 +109,7 @@ public:
     Serial.println();
   }
 
+  //Calcule la position cartésienne du bout de la patte en fonction des angles des moteurs 
   void runDISTtoANG(float angleSortie[2], float qv, float qb, float dx, float dy){
     //angleSortie -> valeur de qv et qb retourne
     //qv -> valeur courante de l'angle vert
@@ -114,6 +123,7 @@ public:
     angleSortie[1] = qret->array[1]; //qbOUT
   }
 
+  //Calcule les angles aux moteurs en fonction de la position cartésienne du bout de la patte
   void runANGtoDIST(float distanceSortie[2], float qv, float qb){
     //distanceSortie -> valeur de x et y retourne
     //qv -> valeur voulue de l'angle vert
@@ -126,7 +136,8 @@ public:
   }
 
 private:
-  
+
+  //Fonction qui retourne la matrice de transformation du world frame au référentiel 3 selon les angles en radians entrée
   void transMat_w2f(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     Tw1->array[0] = cos(q->array[0]);
     Tw1->array[1] = -sin(q->array[0]);
@@ -153,7 +164,8 @@ private:
     Tw3->array[10] = 1;
     Tw3->array[15] = 1;
   }
-  
+
+  //Fonction qui convertie qb en qbX
   void bonAngle(matrix_obj * q, float qv, float qb) {
     float qbx = -1.0914 * qb + 27.979;       // Angle de bleu1 à partir de vert1
   
@@ -171,7 +183,8 @@ private:
     q->array[0] = qv * (2 * 3.1416 / 360);
     q->array[1] = qbx * (2 * 3.1416 / 360);
   }
-  
+
+  //Fonction qui convertie qbX en qb
   void bonAngleInv(matrix_obj * qret, matrix_obj * q) {
     qret->array[0] = q->array[0] * (360 / (2*3.1416));
     float qbX = q->array[1] * (360 / (2*3.1416));
@@ -181,17 +194,19 @@ private:
     qret->array[1] = qb;
   }
   
-  
+  //Fonction qui calcule la position du bout par rapport à la position du poignet
   void pointFinal(matrix_obj * T3x1, int op) {
     T3x1->array[1] = T3x1->array[1] + op * 12; // op = 1 ou -1
   }
-  
-  void findPoint(matrix_obj * A, matrix_obj * T) {
-    A->array[0] = T->array[3];
-    A->array[1] = T->array[7];
-    A->array[2] = T->array[11];
+
+  //Fonction qui sort la position d'une matrice de transformation
+  void findPoint(matrix_obj * At, matrix_obj * T) {
+    At->array[0] = T->array[3];
+    At->array[1] = T->array[7];
+    At->array[2] = T->array[11];
   }
-  
+
+  //Fonction qui retourne la matrice de rotation à partir d'un set d'angles d'Euler XYZ
   void EulerXYZtoRot(matrix_obj * Q, matrix_obj * Euler) {
     float c1 = cos(Euler->array[0]);
     float s1 = sin(Euler->array[0]);
@@ -199,18 +214,19 @@ private:
     float s2 = sin(Euler->array[1]);
     float c3 = cos(Euler->array[2]);
     float s3 = sin(Euler->array[2]);
-  
+    
     Q->array[0] = c2 * c3;
-    Q->array[1] = c1 * s3 + c3 * s1 * s2;
-    Q->array[2] = s1 * s3 - c1 * c3 * s2;
-    Q->array[3] = -c2 * s3;
+    Q->array[3] = c1 * s3 + c3 * s1 * s2;
+    Q->array[6] = s1 * s3 - c1 * c3 * s2;
+    Q->array[1] = -c2 * s3;
     Q->array[4] = c1 * c3 - s1 * s2 * s3;
-    Q->array[5] = c3 * s1 + c1 * s2 * s3;
-    Q->array[6] = s2;
-    Q->array[7] = -c2 * s1;
+    Q->array[7] = c3 * s1 + c1 * s2 * s3;
+    Q->array[2] = s2;
+    Q->array[5] = -c2 * s1;
     Q->array[8] = c1 * c2;
   }
-  
+
+  //Fonction qui calcul la matrice Jacobienne à partir des matrices de transformations et des angles des moteurs de la patte
   void Jacobien(matrix_obj * J, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     //Jacobcol1
     J->array[0] = Tw0->array[6] * Tw3->array[11] - Tw0->array[10] * Tw3->array[7]; //obj->array[0] = src1->array[1]*src2->array[2] - src1->array[2]*src2->array[1];
@@ -236,7 +252,8 @@ private:
     J->array[14] = Tw3->array[6];
     J->array[17] = Tw3->array[10];
   }
-  
+
+  //Fonction qui retourne les angles d'Euler à partir d'une matrice de rotation
   void MatRotationToEuler(matrix_obj * Euler, matrix_obj * Mat) {
     float nx = Mat->array[0];
     float ny = Mat->array[3];
@@ -275,7 +292,8 @@ private:
     Euler->array[2]  = C1f;
   
   }
-  
+
+  //Calcule de la cinématique directe
   void fk_4_ik(matrix_obj * fk, matrix_obj * fkc, matrix_obj * fkr, matrix_obj * Rw3, matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3) {
     transMat_w2f(q, Tw0, Tw1, Tw2, Tw3);
     findPoint(fkc, Tw3);
@@ -290,15 +308,16 @@ private:
     fk->array[4] = fkr->array[1];
     fk->array[5] = fkr->array[2];
   }
-  
+
+  //Calcule de la cinématique inverse
   void invCinPatte(matrix_obj * q, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3) {
     fk_4_ik(Pcurr, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
-  
+      
     matrix_copie_part(Ppartie, Pgoal, 4, 1, 6, 1);
     EulerXYZtoRot(Rgoal, Ppartie);        //Goal rotation matrix
     matrix_sub(Err, Pgoal, Pcurr);        //Error between Pgoal and Pcurr
-      
-      while (max_matrix_abs(Err) > 0.001){  //Beginning of the iterative method
+    int iterCount = 0;
+      while ((max_matrix_abs(Err) > 0.001) && (iterCount++ < 100)){  //Beginning of the iterative method
   
         matrix_copy_matrix(Pcurr_old, Pcurr);
         matrix_copie_part(Ppartie, Pcurr, 4, 1, 6, 1);   
@@ -332,7 +351,8 @@ private:
         
       }     
   }
-  
+
+  //Fonction qui effectue la cinématique direct du bout de la patte
   void positionCartesiennePatte(matrix_obj * q, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * Pgoal, float qv, float qb) {
     bonAngle(q, qv, qb);
     
@@ -344,15 +364,15 @@ private:
      
   }
 
+  //Fonction qui effectue la cinématique inverse du bout de la patte
   void positionAngulairePatte(matrix_obj * q, matrix_obj * qret, matrix_obj * Pgoal, matrix_obj * Err, matrix_obj * Pcurr_old, matrix_obj * Jtranspose, matrix_obj * Rcurr, matrix_obj * delta_R, matrix_obj * dTheta, matrix_obj * Omega, matrix_obj * dX, matrix_obj * Rgoal, matrix_obj * Ppartie, matrix_obj * A, matrix_obj * Rpartie, matrix_obj * Tw0, matrix_obj * Tw1, matrix_obj * Tw2, matrix_obj * Tw3, matrix_obj * J, matrix_obj * Pcurr, matrix_obj * fkr, matrix_obj * fkc, matrix_obj * Rw3, float qv, float qb, float dx, float dy) {
     bonAngle(q, qv, qb);
     
     fk_4_ik(Pgoal, fkc, fkr, Rw3, q, Tw0, Tw1, Tw2, Tw3);
     Pgoal->array[0] = dx;
     Pgoal->array[1] = dy;
-
-    pointFinal(Pgoal, 1);
     
+    pointFinal(Pgoal, 1);
   
     invCinPatte(q, Pgoal, Err, Pcurr_old, Jtranspose, Rcurr, delta_R, dTheta, Omega, dX, Rgoal, Ppartie, A, Rpartie, Tw0, Tw1, Tw2, Tw3, J, Pcurr, fkr, fkc, Rw3);
     bonAngleInv(qret, q);
